@@ -1,0 +1,43 @@
+* {
+    filter: contrast(1);
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid black;
+}
+
+video {
+    width: 100%;
+}
+
+#imagen-ev {
+    width: 10%;
+}
+
+.error{
+    color: red;
+    display: none;
+}
+
+input {
+    outline: none;
+    border-style: solid;
+    border-radius: 4px;
+}
+
+#passwordInput:invalid:not(:placeholder-shown) {
+    border-color: red;
+}
+#passwordInput:valid {
+    border-color: green;
+}
+
+#passwordInput {
+    border-color: #ccc;
+}

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Flota de Vehículos Eéctricos</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 
 </head>
 
@@ -15,15 +15,15 @@
         <ul style="display: flex; gap: 18px; list-style-type: none;">
             <li><a href="/" aria-label="Inicio">Inicio</a></li>
             <li><a href="#vehiculos" aria-label="Vehiculos">Vehículos</a></li>
-            <li><a href="#reservas" aria-label="Reservas" accesskey="r">Reservas</a></li>
-            <li><a href=" /contacto.html" aria-label="Contacto">Contacto</a></li>
-            <li>
+            <li><a href="reservas.html" aria-label="Reservas" accesskey="r">Reservas</a></li>
+            <li><a href="contacto.html" aria-label="Contacto">Contacto</a></li>
+            <!--<li>
                 <ul>
                     <li><a href="/index.html">Español</a></li>
                     <li><a href="/index_en.html">English</a></li>
                     <li><a href="/index_zh.html">中文</a></li>
                 </ul>
-            </li>
+            </li>-->
         </ul>
     </header>
 
@@ -32,19 +32,12 @@
         <h2>Plataforma de movilidad sostenible</h2>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod <strong>tempor</strong> incididunt
-            ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo
-            consequat. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu
-            fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-            est
-            laborum.
-            Praesent euismod, neque ut malesuada efficitur, <em>sapien justo fringilla lectus</em>, nec fermentum eros
-            magna
-            vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat libero nulla
-            in
-            nunc.
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu
+            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est laborum. Praesent euismod, neque ut malesuada efficitur, <em>sapien justo fringilla lectus</em>, nec fermentum eros
+            magna vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat libero nulla
+            in nunc.
         </p>
 
         <h3>Beneficios de los vehículos eléctricos: </h3>
@@ -123,56 +116,6 @@
                     </tr>
                 </tbody>
             </table>
-        </section>
-
-        <section id="reservas">
-            <h2>Reservas</h2>
-            <fieldset>
-                <legend>Formulario de las reservas</legend>
-                <form aria-label="Formulario de la reserva">
-                    <label for="nombre">Nombre: </label>
-                    <input type="text" id="nombre" name="nombre" required>
-
-                    <br>
-
-                    <label for="correo-electronico">Correo electrónico: </label>
-                    <input type="email" id="correo-electronico" name="correo-electronico" required>
-
-                    <br>
-
-                    <Label for="vehiculo-seleccionado">Vehículo: </Label>
-                    <select id="vehiculo-seleccionado" name="vehiculos" required>
-                        <option value="">12가 3456</option>
-                        <option value="vehiculo2">34나 7890</option>
-                        <option value="vehiculo3">56다 1122</option>
-                    </select>
-
-                    <br>
-
-                    <label for="fecha">Fecha: </label>
-                    <input type="date" id="fecha" name="fecha" required>
-                    <label for="hora-ini">Hora de inicio: </label>
-                    <input type="time" id="hora-ini" name="hora-ini" required>
-
-                    <label for="hora-fin">Hora fin: </label>
-                    <input type="time" id="hora-fin" name="hora-fin" required>
-
-                    <br>
-
-                    <input type="checkbox" name="condiciones" required> Acepta las condiciones
-
-                    <br>
-
-                    <label for="telefono">Teléfono: </label>
-                    <input type="tel" id="telefono" name="telefono"
-                        title="El número de teléfono debe tener 9 cifras numéricas" pattern="[0-9]{9}">
-
-                    <button type="submit" aria-label="Enviar">Enviar</button>
-                    <button type="reset" aria-label="Limpiar">Limpiar</button>
-
-                </form>
-            </fieldset>
-
         </section>
         <video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop></video>
     </main>
