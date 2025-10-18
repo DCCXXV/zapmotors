@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             progress[3] = false;
         } else {
             durationInput.style.borderColor = "green";
+            durationInputError.style.display = "none";
             progress[3] = true;
         }
         updateProgressBar();
