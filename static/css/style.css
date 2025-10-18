@@ -30,6 +30,10 @@
     background-color: rgb(232, 232, 232);
 }
 
+.bg-zapgrey {
+    background-color: rgb(232, 232, 232);
+}
+
 .nav-link {
     color: black !important;
 }
@@ -49,7 +53,7 @@ video {
 }
 
 #imagen-ev {
-    width: 10%;
+    width: 75%;
 }
 
 .error{
@@ -72,4 +76,8 @@ input {
 
 #passwordInput {
     border-color: #ccc;
+}
+
+th, td {
+    padding: 4px;
 }
