@@ -16,14 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const durationInputError = document.querySelector("#durationInputError");
 
     const progressBar = document.querySelector("#progressBar")
-    let progress = Array(9).fill(false);
-    let increment = 100 / 9;
+    let progress = Array(6).fill(false);
+
+    const fields = 6;
+    let increment = 100 / fields;
 
     function updateProgressBar() {
         let total = 0;
         for (let i = 0; i < progress.length; i++) {
             if (progress[i]) {
-                total += 100 / 9;
+                total += increment;
             }
         }
         progressBar.style.width = `${total}%`;
@@ -110,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateProgressBar();
     });
-
+    /*
     startTime.addEventListener("input", function () {
         if (startTime.value !== "") {
             progress[6] = true;
@@ -137,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateProgressBar();
     });
+    */
 
     submitBtn.addEventListener("click", function (event) {
         event.preventDefault();

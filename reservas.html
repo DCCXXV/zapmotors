@@ -28,57 +28,63 @@
                     <a class="nav-link px-4" href="#vehiculos" aria-label="Vehiculos">Vehículos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-4 active" href="reservas.html" aria-label="Reservas" accesskey="r">Reservas</a>
+                    <a class="nav-link px-4 active" href="reservas.html" aria-label="Reservas"
+                        accesskey="r">Reservas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-4" href="contacto.html" aria-label="Contacto">Contacto</a>
                 </li>
                 <li class="nav-item">
-                    <a  class="nav-link px-4" href="https://www.ucm.es/" aria-label="Enlace que te dirige a la pagina de la universidad complustense de madrid">Universidad Complutense de Madrid ↗</a>
+                    <a class="nav-link px-4" href="https://www.ucm.es/"
+                        aria-label="Enlace que te dirige a la pagina de la universidad complustense de madrid">Universidad
+                        Complutense de Madrid ↗</a>
                 </li>
             </ul>
         </nav>
     </header>
-    
+
     <section id="reservations" class="m-4">
-        <h2>Reservas</h2>
-        <fieldset class="w-50">
-            <legend>Formulario de las reservas</legend>
-            <div class="progress mb-2" style="height: 1.5rem;">
-                <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0"
-                    aria-valuemin="0" aria-valuemax="100">
-                </div>
-            </div>
-            <form aria-label="Formulario de la reserva" class="d-flex flex-column gap-3">
-                <div class="d-flex gap-2">
-                    <div class="d-flex flex-column w-50">
-                        <label for="fullName">Nombre y Apellidos: </label>
-                        <input type="text" id="fullName" name="fullName" required class="form-text">
-                        <span id="fullNameError" class="error" aria-live="polite"></span>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <h2>Reservas</h2>
+                <fieldset class="mx-auto">
+                    <legend>Formulario de las reservas</legend>
+                    <div class="progress mb-2" style="height: 1.5rem;">
+                        <div id="progressBar" class="progress-bar progress-bar-striped bg-dark" role="progressbar"
+                            style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        </div>
                     </div>
-                    <div class="d-flex flex-column w-50">
-                        <label for="email">Correo electrónico: </label>
-                        <input type="email" id="email" name="email" required class="form-text">
-                        <span id="emailError" class="error" aria-live="polite"></span>
-                    </div>
-                </div>
-                <div>
-                    <label for="selectedVehicle">Vehículo: </label>
-                    <select id="selectedVehicle" name="vehicles" required class="form-select border-dark border-2">
-                        <option value="" disabled selected hidden>Elige un tipo de vehículo</option>
-                        <option value="coche">Coche</option>
-                        <option value="moto">Moto</option>
-                        <option value="patinete">Patinete eléctrico</option>
-                    </select>
-                </div>
-                <div class="d-flex gap-2">
-                    <div class="d-flex flex-column w-50">
-                        <label for="dateInput">Fecha: </label>
-                        <input type="date" id="dateInput" name="dateInput" required>
-                        <span id="dateInputError" class="error" aria-live="polite"></span>
-                    </div>
-                    <div class="d-flex flex-column w-50">
-                        <!--
+                    <form aria-label="Formulario de la reserva" class="d-flex flex-column gap-3">
+                        <div class="d-flex gap-2">
+                            <div class="d-flex flex-column w-50">
+                                <label for="fullName">Nombre y Apellidos: </label>
+                                <input type="text" id="fullName" name="fullName" required class="form-text">
+                                <span id="fullNameError" class="error" aria-live="polite"></span>
+                            </div>
+                            <div class="d-flex flex-column w-50">
+                                <label for="email">Correo electrónico: </label>
+                                <input type="email" id="email" name="email" required class="form-text">
+                                <span id="emailError" class="error" aria-live="polite"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="selectedVehicle">Vehículo: </label>
+                            <select id="selectedVehicle" name="vehicles" required
+                                class="form-select border-dark border-2">
+                                <option value="" disabled selected hidden>Elige un tipo de vehículo</option>
+                                <option value="coche">Coche</option>
+                                <option value="moto">Moto</option>
+                                <option value="patinete">Patinete eléctrico</option>
+                            </select>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div class="d-flex flex-column w-50">
+                                <label for="dateInput">Fecha: </label>
+                                <input type="date" id="dateInput" name="dateInput" required>
+                                <span id="dateInputError" class="error" aria-live="polite"></span>
+                            </div>
+                            <div class="d-flex flex-column w-50">
+                                <!--
                         <div class="d-flex flex-column w-50">
                             <label for="startTime">Hora de inicio: </label>
                             <input type="time" id="startTime" name="startTime" required>
@@ -88,22 +94,27 @@
                             <input type="time" id="endTime" name="endTime" required>
                         </div>
                         -->
-                        <label for="durationInput">Duración de reserva (horas): </label>
-                        <input type="number" id="durationInput" name="durationInput" title="Solo acepta números positivos" class="form-number">
-                        <span id="durationInputError" class="error" aria-live="polite"></span>
-                    </div>
-                </div>
+                                <label for="durationInput">Duración de reserva (horas): </label>
+                                <input type="number" id="durationInput" name="durationInput"
+                                    title="Solo acepta números positivos" class="form-number">
+                                <span id="durationInputError" class="error" aria-live="polite"></span>
+                            </div>
+                        </div>
 
-                <div>
-                    <input id="checkboxInput" type="checkbox" name="conditions" required>
-                    <span>Acepta las condiciones</span>
-                </div>
-                <div>
-                    <button id="submitBtn" type="submit" aria-label="Enviar" class="btn btn-primary">Enviar</button>
-                    <button id="resetBtn" type="reset" aria-label="Borrar" class="btn btn-secondary">Borrar formulario</button>
-                </div>
-            </form>
-        </fieldset>
+                        <div>
+                            <input id="checkboxInput" type="checkbox" name="conditions" required>
+                            <span>Acepta las condiciones</span>
+                        </div>
+                        <div>
+                            <button id="submitBtn" type="submit" aria-label="Enviar"
+                                class="btn btn-primary">Enviar</button>
+                            <button id="resetBtn" type="reset" aria-label="Borrar" class="btn btn-secondary">Borrar
+                                formulario</button>
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
     </section>
 
     <script src="static/js/formularios.js"></script>
