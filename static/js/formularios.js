@@ -38,12 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (fullName.length < 3) {
             fullNameInputError.innerHTML = "El nombre y apellidos deben tener al menos 3 caracteres.";
             fullNameInputError.style.display = "block";
-            fullNameInput.style.borderColor = "red";
+            fullNameInput.classList.remove("border-dark");
+            fullNameInput.classList.add("border-danger");
             progress[0] = false;
         } else {
-            fullNameInput.style.borderColor = "green";
+            fullNameInput.classList.remove("border-danger");
+            fullNameInput.classList.remove("border-dark");
+            fullNameInput.classList.add("border-success");
             fullNameInputError.style.display = "none";
-            fullNameInput.dataset.valid = "false";
             progress[0] = true;
         }
         updateProgressBar();
@@ -55,10 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!emailRegex.test(email)) {
             emailInputError.innerHTML = "Por favor, introduce un correo electrónico válido.";
             emailInputError.style.display = "block";
-            emailInput.style.borderColor = "red";
+            emailInput.classList.remove("border-dark");
+            emailInput.classList.add("border-danger");
             progress[1] = false;
         } else {
-            emailInput.style.borderColor = "green";
+            emailInput.classList.remove("border-danger");
+            emailInput.classList.remove("border-dark");
+            emailInput.classList.add("border-success");
             emailInputError.style.display = "none";
             progress[1] = true;
         }
@@ -73,10 +78,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedDate < currentDate) {
             dateInputError.innerHTML = "Por favor, escoja una fecha posterior al actual.";
             dateInputError.style.display = "block";
-            dateInput.style.borderColor = "red";
+            dateInput.classList.remove("border-dark");
+            dateInput.classList.add("border-danger");
             progress[2] = false;
         } else {
-            dateInput.style.borderColor = "green";
+            dateInput.classList.remove("border-danger");
+            dateInput.classList.remove("border-dark");
+            dateInput.classList.add("border-success");
             dateInputError.style.display = "none";
             progress[2] = true;
         }
@@ -86,11 +94,14 @@ document.addEventListener("DOMContentLoaded", function () {
     durationInput.addEventListener("input", function () {
         if (durationInput.value < 0 || durationInput.value == "") {
             durationInputError.innerHTML = "Por favor, introduzca una duración postiva.";
-            durationInput.style.borderColor = "red";
             durationInputError.style.display = "block"
+            emailInput.classList.remove("border-dark");
+            emailInput.classList.add("border-danger");
             progress[3] = false;
         } else {
-            durationInput.style.borderColor = "green";
+            durationInput.classList.remove("border-danger");
+            durationInput.classList.remove("border-dark");
+            durationInput.classList.add("border-success");
             durationInputError.style.display = "none";
             progress[3] = true;
         }
