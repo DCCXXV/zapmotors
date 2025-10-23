@@ -1,13 +1,83 @@
+* {
+    filter: contrast(1);
+    padding: 0;
+    margin: 0;
+}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
+.bbh-sans-bartle-regular {
+    font-family: "BBH Sans Bartle", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
-h1 {
-    color: #2e7d32;
+
+.inter-regular {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
-a {
-    text-decoration: none;
-    color: #1b5e20;
+
+#nav-title {
+    -webkit-text-stroke: 1px black;
+}
+
+.nav-item a.active {
+    background-color: black;
+    color: white !important;
+}
+
+.nav-item:hover {
+    background-color: rgb(244, 244, 244);
+}
+
+.bg-zapgrey {
+    background-color: rgb(244, 244, 244);
+}
+
+.nav-link {
+    color: black !important;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid black;
+}
+
+video {
+    width: 100%;
+}
+
+#imagen-ev {
+    width: 75%;
+}
+
+.error {
+    display: none;
+}
+
+input {
+    outline: none;
+    border-style: solid;
+    border-radius: 4px;
+}
+
+#passwordInput:invalid:not(:placeholder-shown) {
+    border-color: red;
+}
+#passwordInput:valid {
+    border-color: green;
+}
+
+#passwordInput {
+    border-color: #ccc;
+}
+
+th,
+td {
+    padding: 4px;
 }
