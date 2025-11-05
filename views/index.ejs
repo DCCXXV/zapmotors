@@ -1,12 +1,100 @@
+<%- include('partials/header', { title: 'Inicio - Zap', activePage: 'inicio' }) %>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mi proyecto</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    
-</body>
-</html>
+<section class="border-bottom border-1 border-dark bg-zapgrey">
+    <div class="p-4">
+        <h2>Gestión de Flota de Vehículos Eéctricos</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod <strong>tempor</strong> incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu
+            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est laborum. Praesent euismod, neque ut malesuada efficitur, <em>sapien justo fringilla lectus</em>, nec fermentum eros
+            magna vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat libero nulla
+            in nunc.
+        </p>
+    </div>
+</section>
+<section class="d-flex border-bottom border-dark">
+    <section class="w-50 p-4 border-end border-dark">
+        <h3>Beneficios de los vehículos eléctricos: </h3>
+        <ol>
+            <li>Menor coste de uso y mantenimiento</li>
+            <li>Eficiencia energética y cero emisiones locales</li>
+            <li>Ventajas en normativas y uso urbano</li>
+        </ol>
+
+        <ul>
+            <li>Gestión de flotas de vehículos eléctricos</li>
+            <li>Gestión de concesionarios</li>
+            <li>Gestión de usuarios y roles</li>
+            <li>Reservas y devoluciones</li>
+            <li>Accesibilidad digital inclusiva</li>
+        </ul>
+    </section>
+    <section class="w-50 p-4">
+        <dl>
+            <dt>HTML</dt>
+            <dd>Lenguaje de marcado para estructurar páginas web.</dd>
+            <dt>CSS</dt>
+            <dd>Lenguaje de estilos para dar formato al contenido.</dd>
+            <dt>JSON</dt>
+            <dd>Formato ligero de intercambio de datos basado en texto (clave–valor y listas), fácil de leer por humanos
+                y
+                procesar por máquinas.</dd>
+        </dl>
+    </section>
+</section>
+
+
+<!-- <img src="img/ev.jpg" alt="Vehículo eléctrico" width="100%"
+title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"> -->
+<section id="vehiculos" class="d-flex align-items-center">
+    <div class="p-4">
+        <h2>Vehículos</h2>
+        <p>Esta es la sección de los coches</p>
+        <p>Empieza tu alquiler desde 10&euro;</p>
+
+        <section id="vehiculos-disponibles">
+        <h3>Vehículos disponibles</h3>
+        <table>
+            <caption>Vehículos disponibles</caption>
+            <thead>
+                <tr class="bg-zapgrey">
+                    <th scope="col">Matrícula</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Autonomía (km)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>12가 3456</td>
+                    <td>Kia</td>
+                    <td>528</td>
+                </tr>
+                <tr>
+                    <td>34나 7890</td>
+                    <td>Hyundai</td>
+                    <td>507</td>
+                </tr>
+                <tr>
+                    <td>56다 1122</td>
+                    <td>Tesla</td>
+                    <td>602</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    </div>
+
+    <a href="img/ev.jpg" aria-label="Enlace a la imagen de resolucion completa" class="ms-auto bg-zapgrey">
+        <img
+            src="img/ev_miniatura.png"
+            id="imagen-ev"
+            alt="Vehículo eléctrico"
+            title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"
+        />
+    </a>
+</section>
+<!--<video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop></video>-->
+
+<%- include('partials/footer') %>

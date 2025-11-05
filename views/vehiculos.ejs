@@ -1,0 +1,34 @@
+<%- include('partials/header', { title: 'Vehículos - Zap', activePage: 'vehiculo' }) %>
+    <section id="vehiculos-disponibles">
+        <h3>Vehículos disponibles</h3>
+        <table>
+            <caption>Vehículos disponibles</caption>
+            <thead>
+                <tr class="bg-zapgrey">
+                    <th scope="col">Matrícula</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Autonomía (km)</th>
+                    <th scope="col">Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sol.forEach(v=> { %>
+                    <tr>
+                        <td>
+                            <%= v.matricula %>
+                        </td>
+                        <td>
+                            <%= v.marca %>
+                        </td>
+                        <td>
+                            <%= v.autonomiaKm %> km
+                        </td>
+                        <td>
+                            <%= v.tipo %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </section>
+<%- include('partials/footer') %>
