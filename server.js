@@ -27,6 +27,15 @@ app.get("/registro", (req, res) => {
     res.render("registro");
 });
 
+app.use((req, res) => {
+    res.status(404).render("404");
+});
+
+app.use((err, req, res, next) => {
+    console.error("Error en el servidor:", err.stack);
+    res.status(500).render("500");
+});
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
