@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("#reservationForm");
     const fullNameInput = document.querySelector("#fullName");
     const emailInput = document.querySelector("#email");
     const dateInput = document.querySelector("#dateInput");
     const durationInput = document.querySelector("#durationInput");
     const submitBtn = document.querySelector("#submitBtn");
     const vehicle = document.querySelector("#selectedVehicle");
-    const startTime = document.querySelector("#startTime");
-    const endtTime = document.querySelector("#endTime");
+    //const startTime = document.querySelector("#startTime");
+    //const endtTime = document.querySelector("#endTime");
     const checkboxInput = document.querySelector("#checkboxInput");
-    const phone = document.querySelector("#phone");
+    //const phone = document.querySelector("#phone");
 
     const fullNameInputError = document.querySelector("#fullNameError");
     const emailInputError = document.querySelector("#emailError");
     const dateInputError = document.querySelector("#dateInputError");
     const durationInputError = document.querySelector("#durationInputError");
 
-    const progressBar = document.querySelector("#progressBar")
+    const progressBar = document.querySelector("#progressBar");
     let progress = Array(6).fill(false);
 
     const fields = 6;
@@ -36,7 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const fullName = fullNameInput.value.trim();
 
         if (fullName.length < 3) {
-            fullNameInputError.innerHTML = "El nombre y apellidos deben tener al menos 3 caracteres.";
+            fullNameInputError.innerHTML =
+                "El nombre y apellidos deben tener al menos 3 caracteres.";
             fullNameInputError.style.display = "block";
             fullNameInput.classList.remove("border-dark");
             fullNameInput.classList.add("border-danger");
@@ -55,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const email = emailInput.value.trim();
         if (!emailRegex.test(email)) {
-            emailInputError.innerHTML = "Por favor, introduce un correo electrónico válido.";
+            emailInputError.innerHTML =
+                "Por favor, introduce un correo electrónico válido.";
             emailInputError.style.display = "block";
             emailInput.classList.remove("border-dark");
             emailInput.classList.add("border-danger");
@@ -76,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentDate = new Date();
 
         if (selectedDate < currentDate) {
-            dateInputError.innerHTML = "Por favor, escoja una fecha posterior al actual.";
+            dateInputError.innerHTML =
+                "Por favor, escoja una fecha posterior al actual.";
             dateInputError.style.display = "block";
             dateInput.classList.remove("border-dark");
             dateInput.classList.add("border-danger");
@@ -93,8 +97,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     durationInput.addEventListener("input", function () {
         if (durationInput.value < 0 || durationInput.value == "") {
-            durationInputError.innerHTML = "Por favor, introduzca una duración postiva.";
-            durationInputError.style.display = "block"
+            durationInputError.innerHTML =
+                "Por favor, introduzca una duración postiva.";
+            durationInputError.style.display = "block";
             emailInput.classList.remove("border-dark");
             emailInput.classList.add("border-danger");
             progress[3] = false;
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             progress[3] = true;
         }
         updateProgressBar();
-    })
+    });
 
     checkboxInput.addEventListener("click", function () {
         if (checkboxInput.checked) {
@@ -123,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateProgressBar();
     });
+
     /*
     startTime.addEventListener("input", function () {
         if (startTime.value !== "") {
@@ -152,8 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     */
 
-    submitBtn.addEventListener("click", function (event) {
-        event.preventDefault();
+    submitBtn.addEventListener("click", async function (event) {
         fullNameInputError.style.display = "none";
         emailInputError.style.display = "none";
         dateInputError.style.display = "none";
@@ -163,14 +168,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedDateString = dateInput.value;
 
         if (fullName.length < 3) {
-            fullNameInputError.innerHTML = "El nombre y apellidos deben tener al menos 3 caracteres.";
+            fullNameInputError.innerHTML =
+                "El nombre y apellidos deben tener al menos 3 caracteres.";
             fullNameInputError.style.display = "block";
             fullNameInput.focus();
             return;
         }
 
         if (!email.includes("@") || !email.includes(".")) {
-            emailInputError.innerHTML = "Por favor, introduce un correo electrónico válido.";
+            emailInputError.innerHTML =
+                "Por favor, introduce un correo electrónico válido.";
             emailInputError.style.display = "block";
             emailInput.focus();
             return;
@@ -178,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!selectedDateString) {
             dateInputError.innerHTML = "Por favor, selecciona una fecha.";
-            dateInputError.style.display = "block"
+            dateInputError.style.display = "block";
             dateInput.focus();
             return;
         }
@@ -187,13 +194,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentDate = new Date();
 
         if (selectedDate < currentDate) {
-            dateInputError.innerHTML = "Por favor, escoja una fecha posterior al actual.";
-            dateInputError.style.display = "block"
+            dateInputError.innerHTML =
+                "Por favor, escoja una fecha posterior al actual.";
+            dateInputError.style.display = "block";
             dateInput.focus();
             return;
         }
 
-        alert("Formulario enviado correctamente");
+        const formData = new FormData(form);
+
+        /*
+        try {
+            const response = await fetch("/reservas", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert("Formulario enviado correctamente");
+                window.location.href = "/reservas";
+            }
+        } catch (error) {
+            console.error(error);
+        }*/
     });
 
     resetBtn.addEventListener("click", function () {

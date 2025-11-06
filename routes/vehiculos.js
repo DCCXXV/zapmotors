@@ -1,23 +1,5 @@
 const express = require("express");
-const path = require("path");
-const app = express();
-const port = 3000;
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/reserva", (req, res) => {
-    res.render("reservas");
-});
-
-app.get("/contacto", (req, res) => {
-    res.render("contacto");
-});
-
-app.get("/registro", (req, res) => {
-    res.render("registro");
-});
+const router = express.Router();
 
 const cars = [
     //coches
@@ -44,20 +26,10 @@ const cars = [
     { matricula: "MT-002", marca: "Zero", autonomiaKm: 160, tipo: "moto" },
 ];
 
-app.get("/", (req, res) => {
-    res.render("index");
-});
-
-app.get("/reservas", (req, res) => {
-    res.render("reservas");
-});
-
-app.get("/vehiculos", (req, res) => {
+router.get("/", (req, res) => {
     const tipo = (req.query.tipo || "").toLowerCase().trim();
     const sol = tipo ? cars.filter((v) => v.tipo.toLowerCase() === tipo) : cars;
     res.render("vehiculos", { sol });
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+module.exports = router;
