@@ -1,34 +1,36 @@
 <%- include('partials/header', { title: 'Vehículos - Zap', activePage: 'vehiculos' }) %>
-    <section id="vehiculos-disponibles">
-        <h3>Vehículos disponibles</h3>
-        <table>
-            <caption>Vehículos disponibles</caption>
-            <thead>
-                <tr class="bg-zapgrey">
-                    <th scope="col">Matrícula</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Autonomía (km)</th>
-                    <th scope="col">Tipo</th>
+<section id="vehiculos-disponibles" class="p-4">
+    <h3>Vehículos disponibles</h3>
+    <table class="table table-striped border border-2 border-dark w-100">
+        <caption>Vehículos disponibles</caption>
+        <thead>
+            <tr class="bg-zapgrey">
+                <th scope="col">Matrícula</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Autonomía (km)</th>
+                <th scope="col">Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% sol.forEach(v=> { %>
+                <tr>
+                    <td>
+                        <%= v.matricula %>
+                    </td>
+                    <td>
+                        <%= v.marca %>
+                    </td>
+                    <td>
+                        <%= v.autonomiaKm %> km
+                    </td>
+                    <td>
+                        <%= v.tipo %>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <% sol.forEach(v=> { %>
-                    <tr>
-                        <td>
-                            <%= v.matricula %>
-                        </td>
-                        <td>
-                            <%= v.marca %>
-                        </td>
-                        <td>
-                            <%= v.autonomiaKm %> km
-                        </td>
-                        <td>
-                            <%= v.tipo %>
-                        </td>
-                    </tr>
-                    <% }) %>
-            </tbody>
-        </table>
-    </section>
+                <% }) %>
+        </tbody>
+    </table>
+</section>
+
+
 <%- include('partials/footer') %>

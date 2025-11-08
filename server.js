@@ -5,6 +5,7 @@ const port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -29,6 +30,10 @@ app.get("/registro", (req, res) => {
 
 app.use((req, res) => {
     res.status(404).render("404");
+});
+
+app.use((req, res) => {
+    res.status(400).render("400");
 });
 
 app.use((err, req, res, next) => {

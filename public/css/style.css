@@ -56,16 +56,6 @@ main {
     min-height: 100vh;
 }
 
-table {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    border: 1px solid black;
-}
-
 video {
     width: 100%;
 }
@@ -93,9 +83,4 @@ input {
 
 #passwordInput {
     border-color: #ccc;
-}
-
-th,
-td {
-    padding: 4px;
 }
