@@ -1,17 +1,32 @@
 <%- include('partials/header', { title: 'Registro - Zap', activePage: 'none' }) %>
-<h1>TEMPORAL</h1>
-<fieldset>
-    <legend>Formulario de registro</legend>
-        <label for="passwordInput">Contraseña: </label>
-        <input
-            id="passwordInput"
-            name="passwordInput"
-            type="password"
-            minlength="8"
-            pattern="(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}"
-            title="Mínimo 8 caracteres, al menos 1 mayúscula, 1 número y 1 carácter especial."
-            placeholder="Introduce tu contraseña"
-            required
-        >
+<section id="registroSection" class="d-flex w-75 bg-zapgrey mx-auto mt-5 border">
+    <fieldset class="w-50 p-4 d-flex flex-column">
+        <legend class="text-center">Formulario de registro</legend>
+        <form id="registroForm" method="post" action="/registro" class="d-flex flex-column flex-grow-1">
+            <div class="d-flex flex-column gap-4 flex-grow-1">
+                <div class="d-flex flex-column gap-2">
+                    <label for="name">Nombre: </label>
+                    <input id="name" name="name" type="text" required class="border p-2">
+                    <label for="email">Correo electrónico: </label>
+                    <input id="email" name="email" type="email" required class="border p-2">
+                </div>
+                <div class="d-flex flex-column gap-2">
+                    <label for="password">Contraseña: </label>
+                    <input
+                        id="passwordInput"
+                        name="password"
+                        type="password"
+                        minlength="8"
+                        pattern="(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}"
+                        title="Mínimo 8 caracteres, al menos 1 mayúscula, 1 número y 1 carácter especial."
+                        placeholder="Introduce tu contraseña"
+                        class="border p-2"
+                        required>
+                </div>
+            </div>
+            <button class="btn btn-dark rounded-0 mt-auto" type="submit">Registrarse</button>
+        </form>
     </fieldset>
+    <img class="w-50" src="/img/ev2.jpg" alt="">
+</section>
 <%- include('partials/footer') %>

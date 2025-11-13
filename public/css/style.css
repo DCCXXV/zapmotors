@@ -200,3 +200,7 @@ select {
     color: var(--text) !important;
     background-color: var(--bg) !important;
 }
+
+#registroSection {
+    box-shadow: -6px 6px 0px var(--text);
+}
