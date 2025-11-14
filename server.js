@@ -13,30 +13,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/bootstrap-icons', express.static('node_modules/bootstrap-icons/font'));
 
-const users = [];
-
-app.get("/", (req, res) => {
-    res.render("index");
-});
-
 const reservas = require("./routes/reservas");
 app.use("/reservas", reservas);
 
 const vehiculos = require("./routes/vehiculos");
 app.use("/vehiculos", vehiculos);
 
-app.get("/contacto", (req, res) => {
-    res.render("contacto");
-});
-
-app.get("/registro", (req, res) => {
-    res.render("registro");
-});
-
-app.post("/registro", (req, res) => {
-    console.log(req.body);
-    res.redirect("/registro");
-});
+const indice = require("./routes/index");
+app.use("/", indice);
 
 app.use((req, res) => {
     res.status(404).render("404");
@@ -50,3 +34,4 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
