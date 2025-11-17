@@ -1,36 +1,36 @@
-<%- include('partials/header', { title: 'Vehículos - Zap', activePage: 'vehiculos' }) %>
-<section id="vehiculos-disponibles" class="p-4">
-    <h3>Vehículos disponibles</h3>
-    <table class="table table-striped border border-2 w-100">
-        <caption>Vehículos disponibles</caption>
-        <thead>
-            <tr class="bg-zapgrey">
-                <th scope="col">Matrícula</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Autonomía (km)</th>
-                <th scope="col">Tipo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% sol.forEach(v=> { %>
-                <tr>
-                    <td>
-                        <%= v.matricula %>
-                    </td>
-                    <td>
-                        <%= v.marca %>
-                    </td>
-                    <td>
-                        <%= v.autonomiaKm %> km
-                    </td>
-                    <td>
-                        <%= v.tipo %>
-                    </td>
+<%- include('partials/header', { title: 'Vehículos - Zap' , activePage: 'vehiculos' }) %>
+    <section id="vehiculos-disponibles" class="p-4">
+        <h3>Vehículos disponibles</h3>
+        <table class="table table-striped border border-2 w-100">
+            <caption>Vehículos disponibles</caption>
+            <thead>
+                <tr class="bg-zapgrey">
+                    <th scope="col"></th>
+                    <th scope="col">Matrícula</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Autonomía (km)</th>
                 </tr>
-                <% }) %>
-        </tbody>
-    </table>
-</section>
+            </thead>
+            <tbody>
+                <% sol.forEach(v=> { %>
+                    <tr>
+                        <td>
+                            <img src="/<%=v.imagen %>" style="width: 150px; height: auto;">
+                        </td>
+                        <td>
+                            <%= v.matricula %>
+                        </td>
+                        <td>
+                            <%= v.marca %>
+                        </td>
+                        <td>
+                            <%= v.autonomia_km %> km
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </section>
 
 
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>

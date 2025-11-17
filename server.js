@@ -13,6 +13,23 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/bootstrap-icons', express.static('node_modules/bootstrap-icons/font'));
 
+
+app.use(
+    session({
+        secret: 'un_secreto_super_secreto',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60
+        }
+    })
+);
+
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
+});
+
 const reservas = require("./routes/reservas");
 app.use("/reservas", reservas);
 

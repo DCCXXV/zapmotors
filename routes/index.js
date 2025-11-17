@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../connection");
+const pool = require("../connection");
+const userRep = require("../repository/userRepository");
 
 const users = [];
 
@@ -18,33 +19,39 @@ router.get("/registro", (req, res) => {
 
 router.post("/registro", (req, res) => {
     console.log(req.body);
-    const {name, email, password} = req.body;
-    
+    const { name, email, password } = req.body;
+
     const sql = `INSERT INTO usuarios 
     (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad) 
     VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    
-    const values = [
-        name,
-        email,
-        password,
-        "empleado",
-        "123456789",
-        1,
-        null,
-    ];
 
-    connection.query(sql, values, (error, rows, fields) => {
-        if (error) {
-            console.error("Error:", error);
-            return res.status(500).send('Error al registrar');
+    const values = {
+        nombre: name,
+        correo: email,
+        contrasena: password,
+        rol: "empleado",
+        telefono: "123456789",
+        id_concesionario: 1,
+        preferencias_accesibilidad: null,
+    };
+
+    console.log(values);
+
+
+    userRep.createUser(values, function (err, rows) {
+        if (err) {
+            console.log("Error al crear usuario");
+        } else {
+            console.log('Usuario registrado con ID:', rows.insertId);
+            res.redirect("/");
         }
-        
-        console.log("rows:", rows);
-        console.log('Usuario registrado con ID:', rows.insertId);
-        res.redirect("/");
     });
 });
+
+router.get("/iniciar_sesion", (req, res) => {
+    res.render("iniciar_sesion");
+});
+
 
 router.use((req, res) => {
     res.status(404).render("404");
