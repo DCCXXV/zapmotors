@@ -36,6 +36,25 @@ function findByEmail(email, callback) {
     });
 };
 
+function findUser(email, password, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(`SELECT * FROM usuarios WHERE correo = ? and contrasena = ?`, [email, password], function (err, rows) {
+                connection.release();
+                if (err) {
+                    callback(err);
+                } else if (rows.length === 0) {
+                    callback(null, null);
+                } else {
+                    callback(null, rows[0]);
+                }
+            });
+        }
+    });
+};
+
 function createUser(user, callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
@@ -56,4 +75,4 @@ function createUser(user, callback) {
     });
 };
 
-module.exports = { findById, findByEmail, createUser };
+module.exports = { findById, findByEmail, findUser, createUser };

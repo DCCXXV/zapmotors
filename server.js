@@ -14,15 +14,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use('/bootstrap-icons', express.static('node_modules/bootstrap-icons/font'));
 
 
-app.use(
-    session({
-        secret: 'un_secreto_super_secreto',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 60
-        }
-    })
+app.use(session({
+    secret: 'VhQak??mj7',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    }
+})
 );
 
 app.use((req, res, next) => {

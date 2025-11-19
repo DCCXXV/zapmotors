@@ -52,6 +52,25 @@ router.get("/iniciar_sesion", (req, res) => {
     res.render("iniciar_sesion");
 });
 
+router.post("/iniciar_sesion", (req, res) => {
+    const { email, password } = req.body;
+
+    userRep.findUser(email, password, function (err, row) {
+        if (err) {
+            console.log("Error al buscar usuario");
+        }
+        if (!row) {
+            console.log("Usuario o contraseña incorrecto");
+            return res.render("iniciar_sesion", { error: "Usuario o contraseña incorrecto" })
+        }
+
+        req.session.userId = row.id_usuario;
+        req.session.userName = row.nombre;
+
+        res.redirect("/");
+
+    });
+});
 
 router.use((req, res) => {
     res.status(404).render("404");
