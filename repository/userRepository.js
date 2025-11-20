@@ -100,4 +100,26 @@ function createUser(user, callback) {
     });
 }
 
-module.exports = { findById, findByEmail, findUser, createUser };
+function getUsers(callback){
+    pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                connection.query(
+                    `SELECT * FROM usuarios`,
+                    function (err, rows) {
+                        connection.release();
+                        if (err) {
+                            callback(err);
+                        } else if (rows.length === 0) {
+                            callback(null, null);
+                        } else {
+                            callback(null, rows);
+                        }
+                    }
+                );
+            }
+        });
+};
+
+module.exports = { findById, findByEmail, findUser, createUser, getUsers };

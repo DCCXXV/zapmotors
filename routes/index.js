@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../connection");
 const userRep = require("../repository/userRepository");
+const bcrypt = require("bcrypt");
 
 const users = [];
 
@@ -13,50 +13,6 @@ router.get("/contacto", (req, res) => {
     res.render("contacto");
 });
 
-router.get("/registro", (req, res) => {
-    res.render("registro");
-});
-
-router.post("/registro", (req, res) => {
-    console.log(req.body);
-    const { name, email, password } = req.body;
-
-    const sql = `INSERT INTO usuarios 
-    (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)`;
-
-    const values = {
-        nombre: name,
-        correo: email,
-        contrasena: password,
-        rol: "empleado",
-        telefono: "123456789",
-        id_concesionario: 1,
-        preferencias_accesibilidad: null,
-    };
-
-    console.log(values);
-
-    userRep.findByEmail(values.correo, function (err, rows) {
-        if (err) {
-            console.log("Error al buscar el usuario por correo");
-        } else if (rows) {
-            return res.render("registro", {
-                errMsg: "El email ya está en uso",
-            });
-        }
-
-        userRep.createUser(values, function (err, rows) {
-            if (err) {
-                console.log("Error al crear usuario");
-            } else {
-                console.log("Usuario registrado con ID:", rows.insertId);
-                return res.redirect("/");
-            }
-        });
-    });
-});
-
 router.get("/iniciar_sesion", (req, res) => {
     res.render("iniciar_sesion");
 });
@@ -64,26 +20,44 @@ router.get("/iniciar_sesion", (req, res) => {
 router.post("/iniciar_sesion", (req, res) => {
     const { email, password } = req.body;
 
-    userRep.findUser(email, password, function (err, row) {
+    userRep.findByEmail(email, function (err, user) {
         if (err) {
-            console.log("Error al buscar usuario");
+            console.log("Error al buscar usuario:", err);
+            return res.render("iniciar_sesion", {
+                error: "Error del servidor. Intenta de nuevo.",
+            });
         }
-        if (!row) {
-            console.log("Usuario o contraseña incorrecto");
+
+        if (!user) {
+            console.log("Usuario no encontrado");
             return res.render("iniciar_sesion", {
                 error: "Usuario o contraseña incorrecto",
             });
         }
 
-        req.session.userId = row.id_usuario;
-        req.session.userName = row.nombre;
+        bcrypt.compare(password, user.contrasena, function (err, isMatch) {
+            if (err) {
+                console.log("Error al comparar contraseñas:", err);
+                return res.render("iniciar_sesion", {
+                    error: "Error del servidor. Intenta de nuevo.",
+                });
+            }
 
-        req.session.user = {
-            id: row.id_usuario,
-            nombre: row.nombre,
-        };
+            if (!isMatch) {
+                console.log("Contraseña incorrecta");
+                return res.render("iniciar_sesion", {
+                    error: "Usuario o contraseña incorrecto",
+                });
+            }
 
-        res.redirect("/");
+            req.session.user = {
+                id: user.id_usuario,
+                nombre: user.nombre,
+                rol: user.rol,
+            };
+
+            res.redirect("/");
+        });
     });
 });
 
@@ -96,6 +70,10 @@ router.get("/logout", (req, res) => {
         res.clearCookie("connect.sid");
         res.redirect("/");
     });
+});
+
+router.get("/admin", (req, res) => {
+    res.render("admin");
 });
 
 router.use((req, res) => {

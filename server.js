@@ -39,6 +39,9 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+const admin = require("./routes/admin");
+app.use("/admin", admin);
+
 const reservas = require("./routes/reservas");
 app.use("/reservas", authMiddleware, reservas);
 

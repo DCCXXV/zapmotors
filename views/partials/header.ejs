@@ -62,14 +62,19 @@
                         class="btn btn-white rounded-0 me-2"
                         >Login</a
                     >
-                    <a
+                    <!-- <a
                         id="signup-btn"
                         href="/registro"
                         class="btn btn-dark rounded-0 me-2"
                         >Registro</a
-                    >
+                    > -->
                     <%} else {%>
-                    <p class="btn btn-white rounded-0 mb-0 me-2">
+                    <% if(user.rol === "admin") {%>
+                    <a href="/admin" class="btn btn-dark rounded-0">
+                        Administración
+                    </a>
+                    <% } %>
+                    <p class="btn rounded-0 mb-0 border-1 border-dark bg-zapgrey text-dark">
                         <%= user.nombre %>
                     </p>
                     <a href="/logout" class="btn btn-danger rounded-0 me-2">Cerrar sesión</a>
