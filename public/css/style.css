@@ -126,6 +126,11 @@ input {
     background-color: var(--button-hover);
 }
 
+.btn-danger {
+    color: brown;
+    background-color: var(--muted);
+}
+
 .btn-white {
     font-weight: bold;
     color: var(--text);

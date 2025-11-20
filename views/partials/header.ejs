@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<%- include("head", {title: title}) %>
+    <%- include("head", {title: title}) %>
 
     <body class="inter-regular w-100">
         <header class="py-0 sticky-top">
             <nav class="navbar navbar-expand-lg py-0">
-                <p id="nav-title" class="bbh-sans-bartle-regular mx-4 my-0 h2">Zap</p>
+                <p id="nav-title" class="bbh-sans-bartle-regular mx-4 my-0 h2">
+                    Zap
+                </p>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 <%= activePage === 'inicio' ? 'active' : '' %>" href="/">
+                        <a
+                            class="nav-link px-4 py-3 <%= activePage === 'inicio' ? 'active' : '' %>"
+                            href="/"
+                        >
                             Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 <%= activePage === 'vehiculos' ? 'active' : '' %>"
-                            href="/vehiculos">Vehículos
+                        <a
+                            class="nav-link px-4 py-3 <%= activePage === 'vehiculos' ? 'active' : '' %>"
+                            href="/vehiculos"
+                            >Vehículos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
-                            href="/reservas">Reservas
+                        <a
+                            class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
+                            href="/reservas"
+                            >Reservas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-4 py-3 <%= activePage === 'contacto' ? 'active' : '' %>"
-                            href="/contacto">Contacto
+                        <a
+                            class="nav-link px-4 py-3 <%= activePage === 'contacto' ? 'active' : '' %>"
+                            href="/contacto"
+                            >Contacto
                         </a>
                     </li>
                     <!--
@@ -35,15 +45,38 @@
                     </li>-->
                 </ul>
                 <div class="ms-auto d-flex align-items-center gap-2">
-                    <button id="theme-toggle" class="border-0" type="button" aria-label="Cambiar tema">
+                    <button
+                        id="theme-toggle"
+                        class="border-0"
+                        type="button"
+                        aria-label="Cambiar tema"
+                    >
                         <span id="theme-img" class="d-inline-block">
                             <i class="bi bi-brightness-high"></i>
                         </span>
                     </button>
-                    <a id="signup-btn" href="/iniciar_sesion" class="btn btn-white rounded-0 me-2">Login</a>
-                    <a id="signup-btn" href="/registro" class="btn btn-dark rounded-0 me-2">Registro</a>
+                    <% if(!user) {%>
+                    <a
+                        id="login-btn"
+                        href="/iniciar_sesion"
+                        class="btn btn-white rounded-0 me-2"
+                        >Login</a
+                    >
+                    <a
+                        id="signup-btn"
+                        href="/registro"
+                        class="btn btn-dark rounded-0 me-2"
+                        >Registro</a
+                    >
+                    <%} else {%>
+                    <p class="btn btn-white rounded-0 mb-0 me-2">
+                        <%= user.nombre %>
+                    </p>
+                    <a href="/logout" class="btn btn-danger rounded-0 me-2">Cerrar sesión</a>
+                    <% } %>
                 </div>
             </nav>
         </header>
-
         <main>
+    </body>
+</html>

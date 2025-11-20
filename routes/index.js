@@ -37,14 +37,23 @@ router.post("/registro", (req, res) => {
 
     console.log(values);
 
-
-    userRep.createUser(values, function (err, rows) {
+    userRep.findByEmail(values.correo, function (err, rows) {
         if (err) {
-            console.log("Error al crear usuario");
-        } else {
-            console.log('Usuario registrado con ID:', rows.insertId);
-            res.redirect("/");
+            console.log("Error al buscar el usuario por correo");
+        } else if (rows) {
+            return res.render("registro", {
+                errMsg: "El email ya está en uso",
+            });
         }
+
+        userRep.createUser(values, function (err, rows) {
+            if (err) {
+                console.log("Error al crear usuario");
+            } else {
+                console.log("Usuario registrado con ID:", rows.insertId);
+                return res.redirect("/");
+            }
+        });
     });
 });
 
@@ -61,14 +70,31 @@ router.post("/iniciar_sesion", (req, res) => {
         }
         if (!row) {
             console.log("Usuario o contraseña incorrecto");
-            return res.render("iniciar_sesion", { error: "Usuario o contraseña incorrecto" })
+            return res.render("iniciar_sesion", {
+                error: "Usuario o contraseña incorrecto",
+            });
         }
 
         req.session.userId = row.id_usuario;
         req.session.userName = row.nombre;
 
-        res.redirect("/");
+        req.session.user = {
+            id: row.id_usuario,
+            nombre: row.nombre,
+        };
 
+        res.redirect("/");
+    });
+});
+
+router.get("/logout", (req, res) => {
+    console.log("cerrando");
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+        }
+        res.clearCookie("connect.sid");
+        res.redirect("/");
     });
 });
 
@@ -80,6 +106,5 @@ router.use((err, req, res, next) => {
     console.error("Error en el servidor:", err.stack);
     res.status(500).render("500");
 });
-
 
 module.exports = router;

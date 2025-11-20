@@ -1,5 +1,5 @@
 const express = require("express");
-var session = require('express-session')
+var session = require("express-session");
 
 const path = require("path");
 const app = express();
@@ -11,17 +11,20 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/bootstrap-icons', express.static('node_modules/bootstrap-icons/font'));
+app.use(
+    "/bootstrap-icons",
+    express.static("node_modules/bootstrap-icons/font")
+);
 
-
-app.use(session({
-    secret: 'VhQak??mj7',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60
-    }
-})
+app.use(
+    session({
+        secret: "VhQak??mj7",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60,
+        },
+    })
 );
 
 app.use((req, res, next) => {
@@ -29,8 +32,15 @@ app.use((req, res, next) => {
     next();
 });
 
+const authMiddleware = (req, res, next) => {
+    if (res.locals.user == null) {
+        return res.status(401).render("401");
+    }
+    next();
+};
+
 const reservas = require("./routes/reservas");
-app.use("/reservas", reservas);
+app.use("/reservas", authMiddleware, reservas);
 
 const vehiculos = require("./routes/vehiculos");
 app.use("/vehiculos", vehiculos);
@@ -50,4 +60,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-
