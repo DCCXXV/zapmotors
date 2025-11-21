@@ -4,11 +4,11 @@ const userRep = require("../repository/userRepository");
 const bcrypt = require("bcrypt");
 
 router.get("/", (req, res) => {
-    userRep.getUsers((err, rows)=>{
-        if(err){
+    userRep.getUsers((err, rows) => {
+        if (err) {
             return res.status(500).render("500");
         }
-        res.render("admin", {users: rows});
+        res.render("admin", { users: rows });
     });
 });
 
@@ -63,6 +63,35 @@ router.post("/usuarios", async (req, res) => {
             errMsg: "Error al procesar la contraseña. Inténtalo de nuevo.",
         });
     }
+});
+
+router.post("/eliminar/:id", (req, res) => {
+    const id = req.params.id;
+    userRep.deleteById(id, (err, result) => {
+        if (err) {
+            console.error("Error al eliminar usuario:", err);
+            return res.status(500).render("500");
+        } else {
+            return res.redirect("/admin");
+        }
+    });
+});
+
+router.post("/actualizar-rol/:id/rol", (req, res) => {
+    console.log("iniciando actualizacion de roles");
+
+    const id = req.params.id;
+    const rol = req.body.rol;
+    console.log("Datos recibidos:", { id, rol });
+
+    userRep.updateRolUser(id, rol, (err, result) => {
+        if (err) {
+            console.error("Error al actualizar el rol:", err);
+            return res.status(500).render("500");
+        } else {
+            return res.redirect("/admin");
+        }
+    });
 });
 
 module.exports = router;

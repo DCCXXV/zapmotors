@@ -3,7 +3,7 @@
 <section id="contacto">
     <h3 class="m-4">Panel de Administración</h1>
     <div class="d-flex gap-4 m-4">
-        <div class="w-50">
+        <div class="w-50 border p-2">
             <form
                 id="altaUsuarios"
                 method="post"
@@ -60,11 +60,49 @@
                 </button>
             </form>
         </div>
-        <div class="w-50 border d-flex flex-column">
+        <div id="user-container" class="w-50 border d-flex flex-column p-2">
+            <table class="table table-striped border border-2 w-100">
+            <thead>
+                <tr class="text-center">
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
                 <% for (let u of users) { %>
-                <p><%=u.nombre%></p>
+                <tr class="text-center">
+                    <td><%= u.id_usuario %></td>
+                    <td><%= u.nombre %></td>
+                    <td><%= u.correo %></td>
+                    <td>
+                        <form action="/admin/actualizar-rol/<%= u.id_usuario %>/rol" method="POST">
+                            <select name="rol" class="form-select form-select-sm"
+                                    onchange="this.form.submit()">
+                                <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %>>
+                                    Empleado
+                                </option>
+                                <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %>>
+                                    Administrador
+                                </option>
+                            </select>
+                        </form>
+                    </td>
+
+                    <td class="text-center">
+                        <form action="/admin/eliminar/<%= u.id_usuario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                            <button class="btn btn-danger">
+                                <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 <% } %>
-            </div>
+            </tbody>
+        </table>
+        </div>
     </div>
 </section>
 

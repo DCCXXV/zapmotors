@@ -27,14 +27,19 @@
                 </div>
                 <div class="d-flex flex-column gap-2">
                     <label for="password">Contraseña: </label>
-                    <input
-                        id="passwordInput"
-                        name="password"
-                        type="password"
-                        placeholder="Introduce tu contraseña"
-                        class="border p-2"
-                        required
-                    />
+                    <div class="input-group">
+                        <input
+                            id="passwordInput"
+                            name="password"
+                            type="password"
+                            placeholder="Introduce tu contraseña"
+                            class="border p-2 border-end-0 outline-0 form-control"
+                            required
+                        />
+                        <span id="show-btn" class="input-group-text btn-dark">
+                            <i class="bi bi-eye-slash-fill"></i>
+                        </span>
+                    </div>
                 </div>
                 <% if (typeof error !=='undefined' && error) { %>
                 <p class="text-danger mt-1"><%= error %></p>
@@ -47,4 +52,6 @@
     </fieldset>
     <img class="w-50" src="/img/ev2.jpg" alt="" />
 </section>
+<script src="js/index.js"></script>
+
 <%- include('partials/footer') %>

@@ -115,6 +115,10 @@ input {
     border-style: solid;
 }
 
+.form-control:focus {
+    box-shadow: none !important;
+}
+
 .btn-dark {
     font-weight: bold;
     color: var(--bg);
@@ -157,6 +161,11 @@ input {
 button[type="submit"] {
     background-color: var(--button-bg);
     color: var(--button-color);
+}
+
+#user-container{
+    height: 350px;
+    overflow-y: auto;
 }
 
 .table {

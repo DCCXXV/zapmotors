@@ -72,42 +72,6 @@
                 </form>
             </fieldset>
         </div>
-        <div class="col-6">
-            <% if (listareservas.length === 0) { %>
-                <div class="w-full border border-dark p-2 bg-zapgrey">
-                    <p class="text-center text-muted pt-3">No hay reservas aún.</p>
-                </div>
-            <% } else { %>
-                <table class="table bg-white">
-                    <thead>
-                        <tr class="bg-zapgrey">
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Vehículo</th>
-                            <th>Fecha</th>
-                            <th>Duración</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% listareservas.forEach(reserva => { %>
-                            <tr>
-                                <td><%= reserva.fullName %></td>
-                                <td><%= reserva.email %></td>
-                                <td><%= reserva.vehicles %></td>
-                                <td><%= reserva.dateInput %></td>
-                                <td><%= reserva.durationInput %>
-                                <% if (reserva.durationInput == 1) { %>
-                                    hora
-                                <% } else { %>
-                                    horas
-                                <% } %>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            <% } %>
-        </div>
     </div>
 </section>
 

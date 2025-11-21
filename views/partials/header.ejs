@@ -73,7 +73,11 @@
                     <a href="/admin" class="btn btn-dark rounded-0">
                         Administración
                     </a>
-                    <% } %>
+                    <% }else {%>
+                    <a href="/empleado" class="btn btn-dark rounded-0">
+                        Panel
+                    </a>
+                        <%} %>
                     <p class="btn rounded-0 mb-0 border-1 border-dark bg-zapgrey text-dark">
                         <%= user.nombre %>
                     </p>

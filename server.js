@@ -40,7 +40,10 @@ const authMiddleware = (req, res, next) => {
 };
 
 const admin = require("./routes/admin");
-app.use("/admin", admin);
+app.use("/admin", authMiddleware, admin);
+
+const empleado = require("./routes/empleado");
+app.use("/empleado", authMiddleware, empleado);
 
 const reservas = require("./routes/reservas");
 app.use("/reservas", authMiddleware, reservas);
