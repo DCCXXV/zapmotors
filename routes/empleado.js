@@ -1,24 +1,40 @@
 const express = require("express");
 const router = express.Router();
 const userRep = require("../repository/userRepository");
+const vehicleRep = require("../repository/vehicleRepository");
 
 router.get("/", (req, res) => {
-    console.log("buscando reservas");
-    console.log(req.session.user.id);
+    let reservas = null;
+    let vehiculos = null;
 
     userRep.getReservesById(req.session.user.id, (err, rows) => {
         if (err) {
             console.log("Error al listar las reservas");
             return res.render("500");
         }
-        console.log(rows);
+        reservas = rows;
+        console.log(reservas);
 
-        return res.render("empleado", { listaReservas: rows });
+        vehicleRep.findAllByIdConcessionaire(
+            req.session.user.id_concesionario,
+            (err, rows) => {
+                if (err) {
+                    console.log(
+                        "Error al listar los vehículos asociados al id del concesionario del empleado"
+                    );
+                    return res.render("500");
+                }
+                vehiculos = rows;
+                console.log(vehiculos);
+
+                return res.render("empleado", {
+                    listaReservas: reservas,
+                    listaVehiculos: vehiculos,
+                });
+            }
+        );
     });
 });
 
-router.get("lista-de-reserva/", (req, res) => {
-    userRep.getReservesById();
-});
 
 module.exports = router;

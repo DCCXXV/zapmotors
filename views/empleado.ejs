@@ -2,42 +2,77 @@
 
 <section id="contacto">
     <h3 class="m-4">Panel de empleado</h1>
-    <div class="col-6">
-            <% if (listaReservas.length === 0) { %>
-                <div class="w-full border border-dark p-2 bg-zapgrey">
-                    <p class="text-center text-muted pt-3">No hay reservas aún.</p>
-                </div>
-            <% } else { %>
-                <table class="table bg-white">
-                    <thead>
-                        <tr class="bg-zapgrey">
-                            <th>Id usuario</th>
-                            <th>Id vehiculo</th>
-                            <th>Fecha inicio</th>
-                            <th>Fecha fin</th>
-                            <th>Estado</th>
+    <div class="d-flex flex-column m-4">
+    <div>
+        <% if (listaReservas.length === 0) { %>
+            <div class="w-full border border-dark p-2 bg-zapgrey">
+                <p class="text-center text-muted pt-3">No hay reservas aún.</p>
+            </div>
+        <% } else { %>
+            <table class="table bg-white">
+                <thead>
+                    <tr class="bg-zapgrey">
+                        <th>Id usuario</th>
+                        <th>Id vehiculo</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% listaReservas.forEach(reserva => { %>
+                        <tr>
+                            <td><%= reserva.id_usuario %></td>
+                            <td><%= reserva.id_vehiculo %></td>
+                            <td><%= reserva.fecha_inicio_fmt %></td>
+                            <td><%= reserva.fecha_fin_fmt %></td>
+                            <td><%= reserva.estado %>
+                            <% if (reserva.durationInput == 1) { %>
+                                hora
+                            <% } else { %>
+                                horas
+                            <% } %>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% listaReservas.forEach(reserva => { %>
-                            <tr>
-                                <td><%= reserva.id_usuario %></td>
-                                <td><%= reserva.id_vehiculo %></td>
-                                <td><%= reserva.fecha_inicio_fmt %></td>
-                                <td><%= reserva.fecha_fin_fmt %></td>
-                                <td><%= reserva.estado %>
-                                <% if (reserva.durationInput == 1) { %>
-                                    hora
-                                <% } else { %>
-                                    horas
-                                <% } %>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            <% } %>
-        </div>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+    <table class="table table-striped border border-2 w-100">
+        <caption>
+            Vehículos disponibles
+        </caption>
+        <thead>
+            <tr class="bg-zapgrey">
+                <th scope="col"></th>
+                <th scope="col">Matrícula</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Año matriculación</th>
+                <th scope="col">Autonomía (km)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% listaVehiculos.forEach(v=> { %>
+            <tr>
+                <td>
+                    <img
+                        src="/<%=v.imagen %>"
+                        style="width: 150px; height: auto"
+                    />
+                </td>
+                <td><%= v.matricula %></td>
+                <td><%= v.marca %></td>
+                <td><%= v.modelo %></td>
+                <td><%= v.ano_matriculacion %></td>
+                <td><%= v.autonomia_km %> km</td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    </div>
 </section>
 
 <%- include('partials/footer') %>

@@ -1,14 +1,52 @@
 const express = require("express");
+const path = require("path");
 const router = express.Router();
 const userRep = require("../repository/userRepository");
+const vehicleRep = require("../repository/vehicleRepository");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "../public/img"));
+    },
+    filename: function (req, file, cb) {
+        const extension = path.extname(file.originalname);
+        const name = path.basename(file.originalname, extension);
+        const now = new Date();
+
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const year = now.getFullYear();
+
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        const formatted = `${day}-${month}-${year}_${hours}-${minutes}`;
+        const fileName = `${name}_${formatted}${extension}`;
+        cb(null, fileName);
+    },
+});
+
+const multerFactory = multer({ storage });
 
 router.get("/", (req, res) => {
+    let users;
+    let vehicles;
     userRep.getUsers((err, rows) => {
         if (err) {
+            console.log("Error al mostrar los usuarios");
             return res.status(500).render("500");
         }
-        res.render("admin", { users: rows });
+        users = rows;
+        vehicleRep.getAll((err, rows) => {
+            if (err) {
+                console.log("Error al mostrar los vehículos");
+                return res.render("500");
+            }
+            vehicles = rows;
+            res.render("admin", { users: users, vehicles: vehicles });
+        });
     });
 });
 
@@ -63,6 +101,48 @@ router.post("/usuarios", async (req, res) => {
             errMsg: "Error al procesar la contraseña. Inténtalo de nuevo.",
         });
     }
+});
+
+router.post("/vehiculos", multerFactory.single("image"), async (req, res) => {
+    const {
+        licensePlate,
+        brand,
+        model,
+        registrationYear,
+        seatsNumber,
+        rangeKm,
+        color,
+        status,
+    } = req.body;
+
+    let imgName = null;
+    if (req.file.filename) {
+        imgName = req.file.filename;
+    }
+
+    const vehicleData = {
+        licensePlate,
+        brand,
+        model,
+        registrationYear,
+        seatsNumber,
+        rangeKm,
+        color,
+        image: `img\\${imgName}`,
+        status,
+        concessionaireId: req.session.user.id_concesionario,
+    };
+
+    console.log(vehicleData);
+    console.log(req.session.user);
+
+    vehicleRep.createVehicle(vehicleData, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.send("Error creando vehículo");
+        }
+        res.redirect("/");
+    });
 });
 
 router.post("/eliminar/:id", (req, res) => {

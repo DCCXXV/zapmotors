@@ -54,6 +54,7 @@ router.post("/iniciar_sesion", (req, res) => {
                 id: user.id_usuario,
                 nombre: user.nombre,
                 rol: user.rol,
+                id_concesionario: user.id_concesionario,
             };
 
             res.redirect("/");

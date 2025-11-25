@@ -61,7 +61,7 @@ const cars = [
 ];
 
 router.get("/", (req, res) => {
-    vehiculosRep.findAll(function (err, rows) {
+    vehiculosRep.getAll(function (err, rows) {
         if (err) {
             console.log("Error al mostrar todos los vehículos");
         } else {
