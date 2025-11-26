@@ -14,8 +14,10 @@ function findById(id, callback) {
                     connection.release();
                     if (err) {
                         callback(err);
+                    } else if (rows.lenght() == 0) {
+                        callback(null, null);
                     } else {
-                        callback(null, rows);
+                        callback(null, rows[0]);
                     }
                 }
             );
@@ -135,7 +137,7 @@ function updateVehicle(id, data, callback) {
                     data.rangeKm,
                     data.color,
                     data.status,
-                    id
+                    id,
                 ],
                 function (err, result) {
                     connection.release();
@@ -150,4 +152,11 @@ function updateVehicle(id, data, callback) {
     });
 }
 
-module.exports = { findById, getAll, findAllByIdConcessionaire, createVehicle, deleteById, updateVehicle };
+module.exports = {
+    findById,
+    getAll,
+    findAllByIdConcessionaire,
+    createVehicle,
+    deleteById,
+    updateVehicle,
+};

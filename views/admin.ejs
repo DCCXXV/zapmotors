@@ -261,6 +261,106 @@
         </div>
     </div>
 
+    <div class="d-flex gap-4 m-4">
+        <div class="d-flex flex-column w-50">
+            <h4>Registro de concesionario</h4>
+            <div class="w-100 border p-2">
+                <form
+                    id="altavehiculo"
+                    method="post"
+                    action="/admin/vehiculos"
+                    enctype="multipart/form-data"
+                    class="d-flex flex-column w-100">
+                    <div class="w-100 mb-4">
+                        <div class="d-flex gap-2">
+                            <div class="d-flex flex-column w-50">
+                                    <label for="name">Nombre:</label>
+                                    <input
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        required
+                                        class="border p-2" />
+                            </div>
+                            <div class="d-flex flex-column w-50">
+                                    <label for="city">Ciudad:</label>
+                                    <input
+                                        id="city"
+                                        name="city"
+                                        type="text"
+                                        required
+                                        class="border p-2" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <div class="d-flex flex-column w-50">
+                                <label for="address">Dirección:</label>
+                                <input
+                                    id="address"
+                                    name="address"
+                                    type="text"
+                                    required
+                                    class="border p-2" />
+                            </div>
+                            <div class="d-flex flex-column w-50">
+                                <label for="phone">Teléfono:</label>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="number"
+                                    required
+                                    class="border p-2" />
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark rounded-0 mt-auto" type="submit">
+                        Registrar concesionario
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="d-flex flex-column w-50">
+            <h4>Lista de concesionario</h4>
+            <div id="user-container" class="w-100 border d-flex flex-column p-2">
+                <table class="table table-striped border border-2 w-100">
+                    <thead>
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Ciudad</th>
+                            <th>Direccion</th>
+                            <th>Teléfono</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let c of dealerships) { %>
+                        <tr class="text-center align-middle">
+                            <td><%= c.id_concesionario %></td>
+                            <td><%= c.nombre %></td>
+                            <td><%= c.ciudad %></td>
+                            <td><%= c.direccion %></td>
+                            <td><%= c.telefono_contacto %></td>
+                            <td class="text-center d-flex justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary edit-vehicle-btn" data-id="<%= c.id_concesionario %>">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <form action="/admin/eliminar-concesionario/<%= c.id_concesionario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este concesionario?')">
+                                    <button class="btn btn-danger">
+                                        <i class="bi bi-x-square"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="editVehicleModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

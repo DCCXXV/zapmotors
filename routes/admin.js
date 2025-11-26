@@ -3,8 +3,10 @@ const path = require("path");
 const router = express.Router();
 const userRep = require("../repository/userRepository");
 const vehicleRep = require("../repository/vehicleRepository");
+const dealershipRep = require("../repository/dealershipRepository");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -33,7 +35,7 @@ const multerFactory = multer({ storage });
 router.get("/", (req, res) => {
     let users;
     let vehicles;
-        
+    let dealerships;
     userRep.getUsersWithoutUser(req.session.user.id, (err, rows) => {
         if (err) {
             console.log("Error al mostrar los usuarios");
@@ -46,15 +48,24 @@ router.get("/", (req, res) => {
                 return res.render("500");
             }
             vehicles = rows;
-            console.log(users);
-            
-            res.render("admin", { users: users, vehicles: vehicles });
+
+            dealershipRep.getDealerships((err, rows) => {
+                if (err) {
+                    console.log("Error al mostrar los concesionarios");
+                    return res.render("500");
+                }
+                dealerships = rows;
+                res.render("admin", {
+                    users: users,
+                    vehicles: vehicles,
+                    dealerships: dealerships,
+                });
+            });
         });
     });
 });
 
 router.post("/usuarios", async (req, res) => {
-    console.log(req.body);
     const { name, email, password, telephone, concessionaire } = req.body;
 
     try {
@@ -69,8 +80,6 @@ router.post("/usuarios", async (req, res) => {
             id_concesionario: concessionaire,
             preferencias_accesibilidad: null,
         };
-
-        console.log(values);
 
         userRep.findByEmail(values.correo, function (err, rows) {
             if (err) {
@@ -131,13 +140,10 @@ router.post("/vehiculos", multerFactory.single("image"), async (req, res) => {
         seatsNumber,
         rangeKm,
         color,
-        image: `img\\${imgName}`,
+        image: `${imgName}`,
         status,
         concessionaireId: req.session.user.id_concesionario,
     };
-
-    console.log(vehicleData);
-    console.log(req.session.user);
 
     vehicleRep.createVehicle(vehicleData, (err, result) => {
         if (err) {
@@ -161,11 +167,8 @@ router.post("/eliminar/:id", (req, res) => {
 });
 
 router.post("/actualizar-rol/:id/rol", (req, res) => {
-    console.log("iniciando actualizacion de roles");
-
     const id = req.params.id;
     const rol = req.body.rol;
-    console.log("Datos recibidos:", { id, rol });
 
     userRep.updateRolUser(id, rol, (err, result) => {
         if (err) {
@@ -179,14 +182,66 @@ router.post("/actualizar-rol/:id/rol", (req, res) => {
 
 router.post("/eliminar-vehiculo/:id", (req, res) => {
     const id = req.params.id;
-    vehicleRep.deleteById(id, (err, result) => {
+
+    vehicleRep.findById(id, (err, rows) => {
         if (err) {
-            console.error("Error al eliminar vehículo: ", err);
+            console.error("Error al buscar el vehículo");
             return res.status(500).render("500");
-        } else {
+        }
+
+        const vehiculo = rows.imagen;
+
+        if (!vehiculo) {
+            console.log("No se encontró el vehículo");
             return res.redirect("/admin");
         }
-    })
+
+        console.log("Vehículo encontrado:", vehiculo);
+
+        const filePath = path.join(
+            __dirname,
+            "..",
+            "public",
+            "img",
+            vehiculo.imagen
+        );
+
+        console.log("Intentando borrar:", filePath);
+
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error("No se pudo borrar la imagen:", err);
+            } else {
+                console.log("Imagen eliminada:", vehiculo.imagen);
+            }
+
+            vehicleRep.deleteById(id, (err, result) => {
+                if (err) {
+                    console.error("Error al eliminar vehículo: ", err);
+                    return res.status(500).render("500");
+                }
+
+                console.log("Vehículo eliminado de la BD");
+                return res.redirect("/admin");
+            });
+        });
+    });
+});
+
+router.post("/eliminar-concesionario/:id", (req, res) => {
+    const id = req.params.id;
+
+    console.log(id);
+
+    dealershipRep.deleteById(id, (err, result) => {
+        if (err) {
+            console.error("Error al eliminar concesionario: ", err);
+            return res.status(500).render("500");
+        }
+
+        console.log("Concesionario eliminado de la BD");
+        return res.redirect("/admin");
+    });
 });
 
 router.get("/vehiculo/:id", (req, res) => {
@@ -213,7 +268,7 @@ router.post("/vehiculo/:id", (req, res) => {
         seatsNumber,
         rangeKm,
         color,
-        status
+        status,
     } = req.body;
 
     const vehicleData = {
@@ -224,7 +279,7 @@ router.post("/vehiculo/:id", (req, res) => {
         seatsNumber,
         rangeKm,
         color,
-        status
+        status,
     };
 
     vehicleRep.updateVehicle(id, vehicleData, (err, result) => {
