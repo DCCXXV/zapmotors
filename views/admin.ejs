@@ -78,7 +78,7 @@
                     </thead>
                     <tbody>
                         <% for (let u of users) { %>
-                        <tr class="text-center">
+                        <tr class="text-center align-middle">
                             <td><%= u.id_usuario %></td>
                             <td><%= u.nombre %></td>
                             <td><%= u.correo %></td>
@@ -199,6 +199,7 @@
                             <div class="d-flex flex-column w-50">
                                 <label for="image">Imagen:</label>
                                 <input
+                                    class="form-control rounded-0 border-dark p-2"
                                     id="image"
                                     type="file"
                                     name="image"
@@ -232,33 +233,23 @@
                             <th>Matricula</th>
                             <th>Marca</th>
                             <th>Modelo</th>
-                            <th>Eliminar</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (let v of vehicles) { %>
-                        <tr class="text-center">
-                            <td><%= v.id_usuario %></td>
-                            <td><%= v.nombre %></td>
-                            <td><%= v.correo %></td>
-                            <td>
-                                <form action="/admin/actualizar-rol/<%= u.id_usuario %>/rol" method="POST">
-                                    <select name="rol" class="form-select form-select-sm"
-                                            onchange="this.form.submit()">
-                                        <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %>>
-                                            Empleado
-                                        </option>
-                                        <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %>>
-                                            Administrador
-                                        </option>
-                                    </select>
-                                </form>
-                            </td>
-
-                            <td class="text-center">
-                                <form action="/admin/eliminar/<%= u.id_usuario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                        <tr class="text-center align-middle">
+                            <td><%= v.id_vehiculo %></td>
+                            <td><%= v.matricula %></td>
+                            <td><%= v.marca %></td>
+                            <td><%= v.modelo %></td>
+                            <td class="text-center d-flex justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary edit-vehicle-btn" data-id="<%= v.id_vehiculo %>">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <form action="/admin/eliminar-vehiculo/<%= v.id_vehiculo %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este vehículo?')">
                                     <button class="btn btn-danger">
-                                        <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                                        <i class="bi bi-x-square"></i>
                                     </button>
                                 </form>
                             </td>
@@ -269,7 +260,87 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="editVehicleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Vehículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editVehicleForm" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit-id" name="id">
+                        <div class="mb-3">
+                            <label for="edit-licensePlate" class="form-label">Matrícula:</label>
+                            <input type="text" class="form-control" id="edit-licensePlate" name="licensePlate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-brand" class="form-label">Marca:</label>
+                            <input type="text" class="form-control" id="edit-brand" name="brand" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-model" class="form-label">Modelo:</label>
+                            <input type="text" class="form-control" id="edit-model" name="model" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-registrationYear" class="form-label">Año de matriculación:</label>
+                            <input type="number" class="form-control" id="edit-registrationYear" name="registrationYear" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-seatsNumber" class="form-label">Número de plazas:</label>
+                            <input type="number" class="form-control" id="edit-seatsNumber" name="seatsNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-rangeKm" class="form-label">Autonomía (km):</label>
+                            <input type="number" class="form-control" id="edit-rangeKm" name="rangeKm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-color" class="form-label">Color:</label>
+                            <input type="text" class="form-control" id="edit-color" name="color" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-status" class="form-label">Estado:</label>
+                            <select class="form-select" id="edit-status" name="status">
+                                <option value="disponible">Disponible</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="reservado">Reservado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-dark">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
 
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.edit-vehicle-btn').click(function() {
+        const id = $(this).data('id');
+
+        $.get('/admin/vehiculo/' + id, function(data) {
+            $('#edit-id').val(data.id_vehiculo);
+            $('#edit-licensePlate').val(data.matricula);
+            $('#edit-brand').val(data.marca);
+            $('#edit-model').val(data.modelo);
+            $('#edit-registrationYear').val(data.ano_matriculacion);
+            $('#edit-seatsNumber').val(data.numero_plazas);
+            $('#edit-rangeKm').val(data.autonomia_km);
+            $('#edit-color').val(data.color);
+            $('#edit-status').val(data.estado);
+
+            $('#editVehicleForm').attr('action', '/admin/vehiculo/' + id);
+
+            new bootstrap.Modal($('#editVehicleModal')).show();
+        });
+    });
+});
+</script>
+
 <%- include('partials/footer') %>
->

@@ -119,6 +119,25 @@ function getUsers(callback) {
     });
 }
 
+function getUsersWithoutUser(id, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+                connection.query("SELECT * FROM usuarios WHERE id_usuario <> ?", [id], function (err, rows) {
+                connection.release();
+                if (err) {
+                    callback(err);
+                } else if (rows.length === 0) {
+                    callback(null, null);
+                } else {
+                    callback(null, rows);
+                }
+            });
+        }
+    });
+}
+
 function deleteById(id, callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
@@ -196,7 +215,8 @@ module.exports = {
     findUser,
     createUser,
     getUsers,
+    getUsersWithoutUser,
     deleteById,
     updateRolUser,
-    getReservesById,
+    getReservesById
 };

@@ -33,7 +33,8 @@ const multerFactory = multer({ storage });
 router.get("/", (req, res) => {
     let users;
     let vehicles;
-    userRep.getUsers((err, rows) => {
+        
+    userRep.getUsersWithoutUser(req.session.user.id, (err, rows) => {
         if (err) {
             console.log("Error al mostrar los usuarios");
             return res.status(500).render("500");
@@ -45,6 +46,8 @@ router.get("/", (req, res) => {
                 return res.render("500");
             }
             vehicles = rows;
+            console.log(users);
+            
             res.render("admin", { users: users, vehicles: vehicles });
         });
     });
@@ -92,7 +95,7 @@ router.post("/usuarios", async (req, res) => {
                 }
 
                 console.log("Usuario registrado con ID:", rows.insertId);
-                return res.redirect("/");
+                return res.redirect("/admin");
             });
         });
     } catch (error) {
@@ -141,7 +144,7 @@ router.post("/vehiculos", multerFactory.single("image"), async (req, res) => {
             console.error(err);
             return res.send("Error creando vehículo");
         }
-        res.redirect("/");
+        res.redirect("/admin");
     });
 });
 
@@ -171,6 +174,65 @@ router.post("/actualizar-rol/:id/rol", (req, res) => {
         } else {
             return res.redirect("/admin");
         }
+    });
+});
+
+router.post("/eliminar-vehiculo/:id", (req, res) => {
+    const id = req.params.id;
+    vehicleRep.deleteById(id, (err, result) => {
+        if (err) {
+            console.error("Error al eliminar vehículo: ", err);
+            return res.status(500).render("500");
+        } else {
+            return res.redirect("/admin");
+        }
+    })
+});
+
+router.get("/vehiculo/:id", (req, res) => {
+    const id = req.params.id;
+    vehicleRep.findById(id, (err, rows) => {
+        if (err) {
+            console.error("Error al buscar vehículo: ", err);
+            return res.status(500).json({ error: "Error al buscar vehículo" });
+        }
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "Vehículo no encontrado" });
+        }
+        return res.json(rows[0]);
+    });
+});
+
+router.post("/vehiculo/:id", (req, res) => {
+    const id = req.params.id;
+    const {
+        licensePlate,
+        brand,
+        model,
+        registrationYear,
+        seatsNumber,
+        rangeKm,
+        color,
+        status
+    } = req.body;
+
+    const vehicleData = {
+        licensePlate,
+        brand,
+        model,
+        registrationYear,
+        seatsNumber,
+        rangeKm,
+        color,
+        status
+    };
+
+    vehicleRep.updateVehicle(id, vehicleData, (err, result) => {
+        if (err) {
+            console.error("Error al actualizar vehículo: ", err);
+            return res.status(500).render("500");
+        }
+        return res.redirect("/admin");
     });
 });
 
