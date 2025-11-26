@@ -8,7 +8,7 @@ function findById(id, callback) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * FROM vehiculos WHERE id_vehiculo = ? AND activo = TRUE`,
+                `SELECT * FROM clientes WHERE id_cliente = ? AND activo = TRUE`,
                 [id],
                 function (err, rows) {
                     connection.release();
@@ -25,31 +25,37 @@ function findById(id, callback) {
     });
 }
 
-function getAll(callback) {
-    pool.getConnection(function (err, connection) {
-        if (err) {
-            callback(err);
-        } else {
-            connection.query(`SELECT * FROM vehiculos WHERE activo = TRUE`, function (err, rows) {
-                connection.release();
-                if (err) {
-                    callback(err);
-                } else {
-                    callback(null, rows);
-                }
-            });
-        }
-    });
-}
-
-function findAllByIdConcessionaire(id, callback) {
+function findByEmail(email, callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * FROM vehiculos WHERE id_concesionario = ? and estado = "disponible" AND activo = TRUE`,
-                [id],
+                `SELECT * FROM clientes WHERE correo = ? AND activo = TRUE`,
+                [email],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else if (rows.length === 0) {
+                        callback(null, null);
+                    } else {
+                        callback(null, rows[0]);
+                    }
+                }
+            );
+        }
+    });
+}
+
+
+function getAll(callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT * FROM clientes WHERE activo = TRUE`,
                 function (err, rows) {
                     connection.release();
                     if (err) {
@@ -63,27 +69,38 @@ function findAllByIdConcessionaire(id, callback) {
     });
 }
 
-function createVehicle(data, callback) {
+function createClient(client, callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
             callback(err);
         } else {
             connection.query(
-                `INSERT INTO vehiculos
-                (matricula, marca, modelo, ano_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario, activo)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)`,
-                [
-                    data.licensePlate,
-                    data.brand,
-                    data.model,
-                    data.registrationYear,
-                    data.seatsNumber,
-                    data.rangeKm,
-                    data.color,
-                    data.image,
-                    data.status,
-                    data.concessionaireId,
-                ],
+                `INSERT INTO clientes (nombre, correo, activo)
+                VALUES (?, ?, TRUE)`,
+                [client.nombre, client.correo],
+                function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function updateClient(id, client, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `UPDATE clientes
+                SET nombre = ?, correo = ?
+                WHERE id_cliente = ? AND activo = TRUE`,
+                [client.nombre, client.correo, id],
                 function (err, result) {
                     connection.release();
                     if (err) {
@@ -103,42 +120,8 @@ function deleteById(id, callback) {
             callback(err);
         } else {
             connection.query(
-                `UPDATE vehiculos SET activo = FALSE WHERE id_vehiculo = ?`,
+                `UPDATE clientes SET activo = FALSE WHERE id_cliente = ?`,
                 [id],
-                function (err, result) {
-                    connection.release();
-                    if (err) {
-                        callback(err);
-                    } else {
-                        callback(null, result);
-                    }
-                }
-            );
-        }
-    });
-}
-
-function updateVehicle(id, data, callback) {
-    pool.getConnection(function (err, connection) {
-        if (err) {
-            callback(err);
-        } else {
-            connection.query(
-                `UPDATE vehiculos
-                SET matricula = ?, marca = ?, modelo = ?, ano_matriculacion = ?,
-                    numero_plazas = ?, autonomia_km = ?, color = ?, estado = ?
-                WHERE id_vehiculo = ? AND activo = TRUE`,
-                [
-                    data.licensePlate,
-                    data.brand,
-                    data.model,
-                    data.registrationYear,
-                    data.seatsNumber,
-                    data.rangeKm,
-                    data.color,
-                    data.status,
-                    id,
-                ],
                 function (err, result) {
                     connection.release();
                     if (err) {
@@ -154,9 +137,9 @@ function updateVehicle(id, data, callback) {
 
 module.exports = {
     findById,
+    findByEmail,
     getAll,
-    findAllByIdConcessionaire,
-    createVehicle,
-    deleteById,
-    updateVehicle,
+    createClient,
+    updateClient,
+    deleteById
 };

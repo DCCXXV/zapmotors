@@ -8,7 +8,7 @@ function findById(id, callback) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * FROM usuarios WHERE id_usuario = ?`,
+                `SELECT * FROM usuarios WHERE id_usuario = ? AND activo = TRUE`,
                 [id],
                 function (err, rows) {
                     connection.release();
@@ -29,7 +29,7 @@ function findByEmail(email, callback) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * FROM usuarios WHERE correo = ?`,
+                `SELECT * FROM usuarios WHERE correo = ? AND activo = TRUE`,
                 [email],
                 function (err, rows) {
                     connection.release();
@@ -52,7 +52,7 @@ function findUser(email, password, callback) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * FROM usuarios WHERE correo = ? and contrasena = ?`,
+                `SELECT * FROM usuarios WHERE correo = ? and contrasena = ? AND activo = TRUE`,
                 [email, password],
                 function (err, rows) {
                     connection.release();
@@ -75,9 +75,9 @@ function createUser(user, callback) {
             callback(err);
         } else {
             connection.query(
-                `INSERT INTO 
-                usuarios (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO
+                usuarios (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad, activo)
+                VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)`,
                 [
                     user.nombre,
                     user.correo,
@@ -105,7 +105,7 @@ function getUsers(callback) {
         if (err) {
             callback(err);
         } else {
-            connection.query(`SELECT * FROM usuarios`, function (err, rows) {
+            connection.query(`SELECT * FROM usuarios WHERE activo = TRUE`, function (err, rows) {
                 connection.release();
                 if (err) {
                     callback(err);
@@ -124,7 +124,7 @@ function getUsersWithoutUser(id, callback) {
         if (err) {
             callback(err);
         } else {
-                connection.query("SELECT * FROM usuarios WHERE id_usuario <> ?", [id], function (err, rows) {
+                connection.query("SELECT * FROM usuarios WHERE id_usuario <> ? AND activo = TRUE", [id], function (err, rows) {
                 connection.release();
                 if (err) {
                     callback(err);
@@ -144,7 +144,7 @@ function deleteById(id, callback) {
             callback(err);
         } else {
             connection.query(
-                `DELETE FROM usuarios where id_usuario = ?`,
+                `UPDATE usuarios SET activo = FALSE WHERE id_usuario = ?`,
                 [id],
                 function (err, result) {
                     connection.release();
@@ -165,7 +165,7 @@ function updateRolUser(id, rol, callback) {
             callback(err);
         } else {
             connection.query(
-                `UPDATE usuarios SET rol = ? WHERE id_usuario = ?`,
+                `UPDATE usuarios SET rol = ? WHERE id_usuario = ? AND activo = TRUE`,
                 [rol, id],
                 function (err, result) {
                     connection.release();
@@ -192,7 +192,7 @@ function getReservesById(id, callback) {
                     id_vehiculo,
                     DATE_FORMAT(fecha_inicio, '%d/%m/%Y %H:%i') AS fecha_inicio_fmt,
                     DATE_FORMAT(fecha_fin, '%d/%m/%Y %H:%i') AS fecha_fin_fmt,
-                    estado FROM reservas WHERE id_usuario = ?`,
+                    estado FROM reservas WHERE id_usuario = ? AND activo = TRUE`,
                 [id],
                 function (err, rows) {
                     connection.release();
