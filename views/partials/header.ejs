@@ -46,15 +46,16 @@
                 </ul>
                 <div class="ms-auto d-flex align-items-center gap-2">
                     <button
-                        id="theme-toggle"
-                        class="border-0"
+                        id="accessibility"
+                        class="border-1"
                         type="button"
-                        aria-label="Cambiar tema"
+                        data-bs-toggle="modal"
+                        data-bs-target="#accessibilityModal"
+                        aria-label="Accesibilidades"
                     >
-                        <span id="theme-img" class="d-inline-block">
-                            <i class="bi bi-brightness-high"></i>
-                        </span>
+                        <span><i class="bi bi-universal-access"></i></span>
                     </button>
+
                     <% if(!user) {%>
                     <a
                         id="login-btn"
@@ -78,14 +79,52 @@
                         Panel
                     </a>
                         <%} %>
-                    <p class="btn rounded-0 mb-0 border-1 border-dark bg-zapgrey text-dark">
+                    <div class="rounded-0 mb-0 border border-0 border-dark ">
                         <%= user.nombre %>
-                    </p>
+                    </div>
                     <a href="/logout" class="btn btn-danger rounded-0 me-2">Cerrar sesión</a>
                     <% } %>
                 </div>
             </nav>
         </header>
         <main>
+
+        <div class="modal fade" id="accessibilityModal" tabindex="-1" aria-labelledby="accessibilityModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accessibilityModalLabel">Opciones de accesibilidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <button
+                        id="theme-toggle"
+                        class="border-0"
+                        type="button"
+                        aria-label="Cambiar tema"
+                    >
+                        <span id="theme-img" class="d-inline-block">
+                            <i class="bi bi-brightness-high"></i>
+                        </span>
+                    </button>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+
+                </div>
+            </div>
+        </div>
     </body>
+    <script>
+        document.getElementById("theme-toggle-modal").addEventListener("click", () => {
+            document.getElementById("theme-toggle").click();
+        });
+    </script>
 </html>

@@ -2,10 +2,45 @@
 'vehiculos' }) %>
 <section id="vehiculos-disponibles" class="p-4">
     <h3>Vehículos disponibles</h3>
+
+    <form id="filtro-vehiculos" class="mb-4" action="/vehiculos/filtrar" method="POST">
+        <div class="row g-3 align-items-end">
+
+            <div class="d-flex flex-column col-md-3">
+                <label for="autonomia">Autonomía mínima</label>
+                <input type="number" id="autonomia" name="autonomia" placeholder="Ej: 300" class="form-control rounded-0 p-2 border-1 border-dark">
+            </div>
+
+            <div class="d-flex flex-column col-md-3">
+                <label for="plazas" class="form-label">Número de plazas</label>
+                <select id="plazas" name="plazas" class="form-select rounded-0 p-2 border-1 border-dark">
+                    <option value="">Todas</option>
+                    <option value="2">2 plazas</option>
+                    <option value="4">4 plazas</option>
+                    <option value="5">5 plazas</option>
+                    <option value="6">6 plazas</option>
+                    <option value="8">8 plazas</option>
+                </select>
+            </div>
+
+            <div class="d-flex flex-column col-md-3">
+                <label for="color" class="form-label">Color</label>
+                <input type="text" id="color" name="color" placeholder="Ej: rojo" class="form-control rounded-0 p-2 border-1 border-dark">
+            </div>
+
+            <div class="col-md-3">
+                <button class="btn btn-dark w-100 p-2" type="submit">
+                    Filtrar
+                </button>
+            </div>
+        </div>
+    </form>
+
     <table class="table table-striped border border-2 w-100 align-middle">
         <caption>
             Vehículos disponibles
         </caption>
+
         <thead class="fs-5 text-center">
             <tr class="bg-zapgrey">
                 <th scope="col"></th>
@@ -16,7 +51,7 @@
                 <th scope="col">Autonomía (km)</th>
             </tr>
         </thead>
-        <tbody class="fs-5 text-center">
+        <tbody id="vehiculos" class="fs-5 text-center">
             <% sol.forEach(v=> { %>
             <tr>
                 <td>
@@ -35,5 +70,62 @@
         </tbody>
     </table>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(function () {
+        $('#filtro-vehiculos').on('submit', function (e) {
+            e.preventDefault(); // 👈 evita que se recargue la página
+
+            const filtros = {
+                autonomia: $('#autonomia').val(),
+                plazas: $('#plazas').val(),
+                color: $('#color').val()
+            };
+
+            $.ajax({
+                url: '/vehiculos/filtrar',   // ruta del backend
+                method: 'GET',
+                data: filtros,
+                dataType: 'json',
+                success: function (vehiculos) {
+                    let html = '';
+
+                    if (vehiculos.length === 0) {
+                        html = `
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    No se han encontrado vehículos con esos filtros.
+                                </td>
+                            </tr>
+                        `;
+                    } else {
+                        vehiculos.forEach(function (v) {
+                            html += `
+                                <tr>
+                                    <td>
+                                        <img src="img/${v.imagen}" style="width: 150px; height: auto" />
+                                    </td>
+                                    <td>${v.matricula}</td>
+                                    <td>${v.marca}</td>
+                                    <td>${v.modelo}</td>
+                                    <td>${v.ano_matriculacion}</td>
+                                    <td>${v.autonomia_km} km</td>
+                                </tr>
+                            `;
+                        });
+                    }
+
+                    $('#vehiculos').html(html); // 👈 actualizamos la tabla
+                },
+                error: function (err) {
+                    console.error(err);
+                    alert('Ha ocurrido un error al filtrar los vehículos');
+                }
+            });
+        });
+    });
+</script>
+
 
 <%- include('partials/footer') %>

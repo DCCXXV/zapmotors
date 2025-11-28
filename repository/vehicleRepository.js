@@ -30,14 +30,17 @@ function getAll(callback) {
         if (err) {
             callback(err);
         } else {
-            connection.query(`SELECT * FROM vehiculos WHERE activo = TRUE`, function (err, rows) {
-                connection.release();
-                if (err) {
-                    callback(err);
-                } else {
-                    callback(null, rows);
+            connection.query(
+                `SELECT * FROM vehiculos WHERE activo = TRUE`,
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
                 }
-            });
+            );
         }
     });
 }
@@ -152,6 +155,108 @@ function updateVehicle(id, data, callback) {
     });
 }
 
+function findByMinAutonomy(minAutonomy, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT * 
+                 FROM vehiculos 
+                 WHERE autonomia_km > ? 
+                 AND activo = TRUE`,
+                [minAutonomy],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function findBySeatsNumber(seatsNumber, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT *
+                 FROM vehiculos
+                 WHERE numero_plazas = ?
+                 AND activo = TRUE`,
+                [seatsNumber],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function findByColor(color, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT *
+                 FROM vehiculos
+                 WHERE LOWER(color) = LOWER(?)
+                 AND activo = TRUE`,
+                [color],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function findWithFilters({ autonomia, plazas, color }, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) return callback(err);
+
+        let sql = `SELECT * FROM vehiculos WHERE activo = TRUE AND id_concesionario = 1`;
+        const params = [];
+
+        if (autonomia) {
+            sql += ` AND autonomia_km >= ?`;
+            params.push(autonomia);
+        }
+
+        if (plazas) {
+            sql += ` AND numero_plazas = ?`;
+            params.push(plazas);
+        }
+
+        if (color) {
+            sql += ` AND LOWER(color) = LOWER(?)`;
+            params.push(color);
+        }
+
+        connection.query(sql, params, function (err, rows) {
+            connection.release();
+            if (err) return callback(err);
+            callback(null, rows);
+        });
+    });
+}
+
 module.exports = {
     findById,
     getAll,
@@ -159,4 +264,8 @@ module.exports = {
     createVehicle,
     deleteById,
     updateVehicle,
+    findByMinAutonomy,
+    findBySeatsNumber,
+    findByColor,
+    findWithFilters,
 };

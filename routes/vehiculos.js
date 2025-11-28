@@ -72,6 +72,26 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/filtrar", (req, res) => {
+    const { autonomia, plazas, color } = req.query;
+
+    const filtros = {
+        autonomia: autonomia ? Number(autonomia) : null,
+        plazas: plazas ? Number(plazas) : null,
+        color: color && color.trim() !== "" ? color.trim() : null,
+    };
+
+    vehiculosRep.findWithFilters(filtros, (err, vehiculos) => {
+        if (err) {
+            console.error(err);
+            return res
+                .status(500)
+                .json({ error: "Error al filtrar vehículos" });
+        }
+        res.json(vehiculos);
+    });
+});
+
 router.get("/:id", (req, res) => {
     const id = parseInt(req.params.id);
     vehiculosRep.findById(id, function (err, row) {

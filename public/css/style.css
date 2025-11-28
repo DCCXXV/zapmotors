@@ -229,3 +229,12 @@ select {
 #registroSection {
     box-shadow: -6px 6px 0px var(--text);
 }
+
+.modal-content{
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+#accessibility{
+    background-color: var(--bg);
+}

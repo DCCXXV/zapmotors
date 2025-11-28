@@ -420,27 +420,27 @@
 
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('.edit-vehicle-btn').click(function() {
-        const id = $(this).data('id');
+    $(document).ready(function() {
+        $('.edit-vehicle-btn').click(function() {
+            const id = $(this).data('id');
 
-        $.get('/admin/vehiculo/' + id, function(data) {
-            $('#edit-id').val(data.id_vehiculo);
-            $('#edit-licensePlate').val(data.matricula);
-            $('#edit-brand').val(data.marca);
-            $('#edit-model').val(data.modelo);
-            $('#edit-registrationYear').val(data.ano_matriculacion);
-            $('#edit-seatsNumber').val(data.numero_plazas);
-            $('#edit-rangeKm').val(data.autonomia_km);
-            $('#edit-color').val(data.color);
-            $('#edit-status').val(data.estado);
+            $.get('/admin/vehiculo/' + id, function(data) {
+                $('#edit-id').val(data.id_vehiculo);
+                $('#edit-licensePlate').val(data.matricula);
+                $('#edit-brand').val(data.marca);
+                $('#edit-model').val(data.modelo);
+                $('#edit-registrationYear').val(data.ano_matriculacion);
+                $('#edit-seatsNumber').val(data.numero_plazas);
+                $('#edit-rangeKm').val(data.autonomia_km);
+                $('#edit-color').val(data.color);
+                $('#edit-status').val(data.estado);
 
-            $('#editVehicleForm').attr('action', '/admin/vehiculo/' + id);
+                $('#editVehicleForm').attr('action', '/admin/vehiculo/' + id);
 
-            new bootstrap.Modal($('#editVehicleModal')).show();
+                new bootstrap.Modal($('#editVehicleModal')).show();
+            });
         });
     });
-});
 </script>
 
 <%- include('partials/footer') %>
