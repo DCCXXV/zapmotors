@@ -198,32 +198,14 @@ router.post("/eliminar-vehiculo/:id", (req, res) => {
 
         console.log("Vehículo encontrado:", vehiculo);
 
-        const filePath = path.join(
-            __dirname,
-            "..",
-            "public",
-            "img",
-            vehiculo.imagen
-        );
-
-        console.log("Intentando borrar:", filePath);
-
-        fs.unlink(filePath, (err) => {
+        vehicleRep.deleteById(id, (err, result) => {
             if (err) {
-                console.error("No se pudo borrar la imagen:", err);
-            } else {
-                console.log("Imagen eliminada:", vehiculo.imagen);
+                console.error("Error al eliminar vehículo: ", err);
+                return res.status(500).render("500");
             }
 
-            vehicleRep.deleteById(id, (err, result) => {
-                if (err) {
-                    console.error("Error al eliminar vehículo: ", err);
-                    return res.status(500).render("500");
-                }
-
-                console.log("Vehículo eliminado de la BD");
-                return res.redirect("/admin");
-            });
+            console.log("Vehículo eliminado de la BD");
+            return res.redirect("/admin");
         });
     });
 });
@@ -246,15 +228,17 @@ router.post("/eliminar-concesionario/:id", (req, res) => {
 
 router.get("/vehiculo/:id", (req, res) => {
     const id = req.params.id;
+    console.log(id);
+
     vehicleRep.findById(id, (err, rows) => {
         if (err) {
             console.error("Error al buscar vehículo: ", err);
             return res.status(500).json({ error: "Error al buscar vehículo" });
         }
-        if (rows.length === 0) {
+        if (rows === null) {
             return res.status(404).json({ error: "Vehículo no encontrado" });
         }
-        return res.json(rows[0]);
+        return res.json(rows);
     });
 });
 

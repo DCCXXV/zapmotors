@@ -115,7 +115,7 @@
             <h4>Registro de vehíuclo</h4>
             <div class="w-100 border p-2">
                 <form
-                    id="altavehiculo"
+                    id="altaVehiculo"
                     method="post"
                     action="/admin/vehiculos"
                     enctype="multipart/form-data"
@@ -225,7 +225,7 @@
         </div>
         <div class="d-flex flex-column w-50">
             <h4>Lista de vehículos</h4>
-            <div id="user-container" class="w-100 border d-flex flex-column p-2">
+            <div id="vehicles-container" class="w-100 border d-flex flex-column p-2">
                 <table class="table table-striped border border-2 w-100">
                     <thead>
                         <tr class="text-center">
@@ -266,18 +266,18 @@
             <h4>Registro de concesionario</h4>
             <div class="w-100 border p-2">
                 <form
-                    id="altavehiculo"
+                    id="altaConcesion"
                     method="post"
-                    action="/admin/vehiculos"
+                    action="/admin/"
                     enctype="multipart/form-data"
                     class="d-flex flex-column w-100">
                     <div class="w-100 mb-4">
                         <div class="d-flex gap-2">
                             <div class="d-flex flex-column w-50">
-                                    <label for="name">Nombre:</label>
+                                    <label for="dealershipsName">Nombre:</label>
                                     <input
-                                        id="name"
-                                        name="name"
+                                        id="dealershipsName"
+                                        name="dealershipsName"
                                         type="text"
                                         required
                                         class="border p-2" />
@@ -322,7 +322,7 @@
         </div>
         <div class="d-flex flex-column w-50">
             <h4>Lista de concesionario</h4>
-            <div id="user-container" class="w-100 border d-flex flex-column p-2">
+            <div id="dealerships-container" class="w-100 border d-flex flex-column p-2">
                 <table class="table table-striped border border-2 w-100">
                     <thead>
                         <tr class="text-center">
@@ -343,7 +343,7 @@
                             <td><%= c.direccion %></td>
                             <td><%= c.telefono_contacto %></td>
                             <td class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-secondary edit-vehicle-btn" data-id="<%= c.id_concesionario %>">
+                                <button class="btn btn-outline-secondary edit-dealership-btn" data-id="<%= c.id_concesionario %>">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
                                 <form action="/admin/eliminar-concesionario/<%= c.id_concesionario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este concesionario?')">
@@ -419,12 +419,14 @@
 </section>
 
 <script src="/js/jquery-3.7.1.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('.edit-vehicle-btn').click(function() {
             const id = $(this).data('id');
 
             $.get('/admin/vehiculo/' + id, function(data) {
+                // Rellenar los campos del modal con los datos del vehículo
                 $('#edit-id').val(data.id_vehiculo);
                 $('#edit-licensePlate').val(data.matricula);
                 $('#edit-brand').val(data.marca);
@@ -435,12 +437,20 @@
                 $('#edit-color').val(data.color);
                 $('#edit-status').val(data.estado);
 
+                // Configurar la acción del formulario
                 $('#editVehicleForm').attr('action', '/admin/vehiculo/' + id);
 
-                new bootstrap.Modal($('#editVehicleModal')).show();
+                // Mostrar el modal de Bootstrap correctamente
+                const modalElement = document.getElementById('editVehicleModal');
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }).fail(function(error) {
+                console.error('Error al cargar datos del vehículo:', error);
+                alert('Error al cargar los datos del vehículo');
             });
         });
     });
 </script>
+
 
 <%- include('partials/footer') %>

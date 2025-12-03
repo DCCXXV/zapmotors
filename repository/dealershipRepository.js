@@ -56,16 +56,19 @@ function getDealerships(callback) {
         if (err) {
             callback(err);
         } else {
-            connection.query(`SELECT * FROM concesionarios`, (err, rows) => {
-                connection.release();
-                if (err) {
-                    callback(err);
-                } else if (rows.lenght == 0) {
-                    callback(null, null);
-                } else {
-                    callback(null, rows);
+            connection.query(
+                `SELECT * FROM concesionarios WHERE activo = TRUE`,
+                (err, rows) => {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else if (rows.lenght == 0) {
+                        callback(null, null);
+                    } else {
+                        callback(null, rows);
+                    }
                 }
-            });
+            );
         }
     });
 }
@@ -76,7 +79,7 @@ function deleteById(id, callback) {
             callback(err);
         } else {
             connection.query(
-                `DELETE FROM concesionarios WHERE id_concesionario = ?`,
+                `UPDATE concesionarios SET activo = FALSE WHERE id_concesionario = ?`,
                 [id],
                 (err, result) => {
                     connection.release();
