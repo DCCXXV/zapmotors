@@ -85,7 +85,7 @@ function createVehicle(data, callback) {
                     data.color,
                     data.image,
                     data.status,
-                    data.concessionaireId,
+                    data.dealershipId,
                 ],
                 function (err, result) {
                     connection.release();
@@ -161,9 +161,9 @@ function findByMinAutonomy(minAutonomy, callback) {
             callback(err);
         } else {
             connection.query(
-                `SELECT * 
-                 FROM vehiculos 
-                 WHERE autonomia_km > ? 
+                `SELECT *
+                 FROM vehiculos
+                 WHERE autonomia_km > ?
                  AND activo = TRUE`,
                 [minAutonomy],
                 function (err, rows) {

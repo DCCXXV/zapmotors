@@ -8,8 +8,6 @@
             <div class="w-100 border p-2">
                 <form
                     id="altaUsuarios"
-                    method="post"
-                    action="/admin/usuarios"
                     class="d-flex flex-column">
                     <div>
                         <div class="d-flex flex-column gap-2">
@@ -78,30 +76,21 @@
                     </thead>
                     <tbody>
                         <% for (let u of users) { %>
-                        <tr class="text-center align-middle">
+                        <tr class="text-center align-middle" data-user-id="<%= u.id_usuario %>">
                             <td><%= u.id_usuario %></td>
                             <td><%= u.nombre %></td>
                             <td><%= u.correo %></td>
                             <td>
-                                <form action="/admin/actualizar-rol/<%= u.id_usuario %>/rol" method="POST">
-                                    <select name="rol" class="form-select form-select-sm"
-                                            onchange="this.form.submit()">
-                                        <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %>>
-                                            Empleado
-                                        </option>
-                                        <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %>>
-                                            Administrador
-                                        </option>
-                                    </select>
-                                </form>
+                                <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="<%= u.id_usuario %>">
+                                    <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %> >Empleado</option>
+                                    <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %> >Administrador</option>
+                                </select>
                             </td>
 
                             <td class="text-center">
-                                <form action="/admin/eliminar/<%= u.id_usuario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?')">
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-x-square" style="font-size: 1rem;"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-danger delete-user-btn" data-user-id="<%= u.id_usuario %>">
+                                    <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                                </button>
                             </td>
                         </tr>
                         <% } %>
@@ -112,12 +101,10 @@
     </div>
     <div class="d-flex gap-4 m-4">
         <div class="d-flex flex-column w-50">
-            <h4>Registro de vehíuclo</h4>
+            <h4>Registro de vehículo</h4>
             <div class="w-100 border p-2">
                 <form
                     id="altaVehiculo"
-                    method="post"
-                    action="/admin/vehiculos"
                     enctype="multipart/form-data"
                     class="d-flex flex-column w-100">
                     <div class="w-100 mb-4">
@@ -128,6 +115,7 @@
                                         id="licensePlate"
                                         name="licensePlate"
                                         type="text"
+                                        placeholder="1234ABC"
                                         required
                                         class="border p-2" />
                             </div>
@@ -137,6 +125,7 @@
                                         id="brand"
                                         name="brand"
                                         type="text"
+                                        placeholder="Tesla"
                                         required
                                         class="border p-2" />
                             </div>
@@ -149,6 +138,7 @@
                                     id="model"
                                     name="model"
                                     type="text"
+                                    placeholder="Model 3"
                                     required
                                     class="border p-2" />
                             </div>
@@ -158,6 +148,7 @@
                                     id="registrationYear"
                                     name="registrationYear"
                                     type="number"
+                                    placeholder="2024"
                                     required
                                     class="border p-2" />
                             </div>
@@ -170,6 +161,7 @@
                                     id="seatsNumber"
                                     name="seatsNumber"
                                     type="number"
+                                    placeholder="5"
                                     required
                                     class="border p-2" />
                             </div>
@@ -180,6 +172,7 @@
                                     id="rangeKm"
                                     name="rangeKm"
                                     type="number"
+                                    placeholder="500"
                                     required
                                     class="border p-2" />
                             </div>
@@ -192,6 +185,7 @@
                                     id="color"
                                     name="color"
                                     type="text"
+                                    placeholder="Blanco"
                                     required
                                     class="border p-2" />
                             </div>
@@ -207,15 +201,27 @@
                                     required />
                             </div>
                         </div>
-                        
-                        <div class="d-flex flex-column">
-                            <label for="status">Estado:</label>
-                            <select id="status" name="status">
-                                <option value="disponible" selected>Disponible</option>
-                                <option value="mantenimiento">Mantenimiento</option>
-                                <option value="reservado">Reservado</option>
-                            </select>
-                        </div>  
+
+                        <div class="d-flex gap-2">
+                            <div class="d-flex flex-column w-50">
+                                <label for="status">Estado:</label>
+                                <select id="status" name="status" class="border p-2 rounded-0">
+                                    <option value="disponible" selected>Disponible</option>
+                                    <option value="mantenimiento">Mantenimiento</option>
+                                    <option value="reservado">Reservado</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column w-50">
+                                <label for="dealershipId">ID concesionario: </label>
+                                <input
+                                    id="dealershipId"
+                                    name="dealershipId"
+                                    type="number"
+                                    placeholder="1"
+                                    required
+                                    class="border p-2" />
+                            </div>
+                        </div>
                     </div>
                     <button class="btn btn-dark rounded-0 mt-auto" type="submit">
                         Registrar vehículo
@@ -238,20 +244,18 @@
                     </thead>
                     <tbody>
                         <% for (let v of vehicles) { %>
-                        <tr class="text-center align-middle">
+                        <tr class="text-center align-middle" data-vehicle-id="<%= v.id_vehiculo %>">
                             <td><%= v.id_vehiculo %></td>
                             <td><%= v.matricula %></td>
                             <td><%= v.marca %></td>
                             <td><%= v.modelo %></td>
                             <td class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-secondary edit-vehicle-btn" data-id="<%= v.id_vehiculo %>">
+                                <button class="btn btn-outline-secondary edit-vehicle-btn">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
-                                <form action="/admin/eliminar-vehiculo/<%= v.id_vehiculo %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este vehículo?')">
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-x-square"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-danger delete-vehicle-btn">
+                                    <i class="bi bi-x-square"></i>
+                                </button>
                             </td>
                         </tr>
                         <% } %>
@@ -266,10 +270,7 @@
             <h4>Registro de concesionario</h4>
             <div class="w-100 border p-2">
                 <form
-                    id="altaConcesion"
-                    method="post"
-                    action="/admin/"
-                    enctype="multipart/form-data"
+                    id="altaConcesionario"
                     class="d-flex flex-column w-100">
                     <div class="w-100 mb-4">
                         <div class="d-flex gap-2">
@@ -279,6 +280,7 @@
                                         id="dealershipsName"
                                         name="dealershipsName"
                                         type="text"
+                                        placeholder="Zap Motors Madrid"
                                         required
                                         class="border p-2" />
                             </div>
@@ -288,6 +290,7 @@
                                         id="city"
                                         name="city"
                                         type="text"
+                                        placeholder="Madrid"
                                         required
                                         class="border p-2" />
                             </div>
@@ -300,6 +303,7 @@
                                     id="address"
                                     name="address"
                                     type="text"
+                                    placeholder="Calle Gran Vía, 28"
                                     required
                                     class="border p-2" />
                             </div>
@@ -309,6 +313,7 @@
                                     id="phone"
                                     name="phone"
                                     type="number"
+                                    placeholder="912345678"
                                     required
                                     class="border p-2" />
                             </div>
@@ -336,21 +341,19 @@
                     </thead>
                     <tbody>
                         <% for (let c of dealerships) { %>
-                        <tr class="text-center align-middle">
+                        <tr class="text-center align-middle" data-dealership-id="<%= c.id_concesionario %>">
                             <td><%= c.id_concesionario %></td>
                             <td><%= c.nombre %></td>
                             <td><%= c.ciudad %></td>
                             <td><%= c.direccion %></td>
                             <td><%= c.telefono_contacto %></td>
                             <td class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-secondary edit-dealership-btn" data-id="<%= c.id_concesionario %>">
+                                <button class="btn btn-outline-secondary edit-dealership-btn">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
-                                <form action="/admin/eliminar-concesionario/<%= c.id_concesionario %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este concesionario?')">
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-x-square"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-danger delete-dealership-btn">
+                                    <i class="bi bi-x-square"></i>
+                                </button>
                             </td>
                         </tr>
                         <% } %>
@@ -409,8 +412,44 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-dark">Guardar cambios</button>
+                        <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editDealershipModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Concesionario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editDealershipForm" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit-dealership-id" name="id">
+                        <div class="mb-3">
+                            <label for="edit-dealership-name" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="edit-dealership-name" name="dealershipsName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-dealership-city" class="form-label">Ciudad:</label>
+                            <input type="text" class="form-control" id="edit-dealership-city" name="city" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-dealership-address" class="form-label">Dirección:</label>
+                            <input type="text" class="form-control" id="edit-dealership-address" name="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-dealership-phone" class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="edit-dealership-phone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -421,35 +460,426 @@
 <script src="/js/jquery-3.7.1.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('.edit-vehicle-btn').click(function() {
-            const id = $(this).data('id');
+document.addEventListener('DOMContentLoaded', function() {
 
-            $.get('/admin/vehiculo/' + id, function(data) {
-                // Rellenar los campos del modal con los datos del vehículo
-                $('#edit-id').val(data.id_vehiculo);
-                $('#edit-licensePlate').val(data.matricula);
-                $('#edit-brand').val(data.marca);
-                $('#edit-model').val(data.modelo);
-                $('#edit-registrationYear').val(data.ano_matriculacion);
-                $('#edit-seatsNumber').val(data.numero_plazas);
-                $('#edit-rangeKm').val(data.autonomia_km);
-                $('#edit-color').val(data.color);
-                $('#edit-status').val(data.estado);
+    document.getElementById('altaUsuarios').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const form = e.target;
 
-                // Configurar la acción del formulario
-                $('#editVehicleForm').attr('action', '/admin/vehiculo/' + id);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            telephone: formData.get('telephone'),
+            concessionaire: formData.get('concessionaire')
+        };
 
-                // Mostrar el modal de Bootstrap correctamente
-                const modalElement = document.getElementById('editVehicleModal');
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-            }).fail(function(error) {
-                console.error('Error al cargar datos del vehículo:', error);
-                alert('Error al cargar los datos del vehículo');
-            });
+        fetch('/api/usuarios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.error || 'Error al crear usuario');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            form.reset();
+
+            // Añadir fila a la tabla
+            const tbody = document.querySelector('#user-container tbody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'text-center align-middle';
+            newRow.dataset.userId = data.id;
+            newRow.innerHTML = `
+                <td>${data.id}</td>
+                <td>${data.nombre}</td>
+                <td>${data.correo}</td>
+                <td>
+                    <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="${data.id}">
+                        <option value="empleado" ${data.rol === 'empleado' ? 'selected' : ''}>Empleado</option>
+                        <option value="admin" ${data.rol === 'admin' ? 'selected' : ''}>Administrador</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-danger delete-user-btn" data-user-id="${data.id}">
+                        <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            alert('Empleado registrado correctamente');
+        })
+        .catch(error => {
+            console.error(error);
+            alert(error.message);
         });
     });
+
+    document.querySelector('#user-container').addEventListener('change', (e) => {
+        const select = e.target.closest('.update-rol-select');
+
+        if (select) {
+            const userId = select.dataset.userId;
+            const nuevoRol = select.value;
+
+            fetch(`/api/usuarios/${userId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({rol:nuevoRol})
+            }).then(response => {
+                if (!response.ok) throw new Error('Error al actualizar rol');
+                return response.json();
+            }).catch(error => {
+                console.error(error);
+                alert('Error al actualizar rol');
+                location.reload();
+            });
+        }
+    })
+
+    document.querySelector('#user-container').addEventListener('click', (e) => {
+        const deleteBtn = e.target.closest('.delete-user-btn');
+
+        if (deleteBtn) {
+            if (!confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+                return;
+            }
+
+            const userId = deleteBtn.dataset.userId;
+            fetch(`/api/usuarios/${userId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al eliminar usuario');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Usuario eliminado correctamente');
+                location.reload();
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Error al eliminar usuario');
+                location.reload();
+            });
+        }
+    })
+
+    document.getElementById('altaVehiculo').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const form = e.target;
+
+        fetch('/api/vehiculos', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al crear vehículo');
+            }
+            return response.json();
+        })
+        .then(data => {
+            form.reset();
+
+            // Añadir fila a la tabla
+            const tbody = document.querySelector('#vehicles-container tbody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'text-center align-middle';
+            newRow.dataset.vehicleId = data.id;
+            newRow.innerHTML = `
+                <td>${data.id}</td>
+                <td>${formData.get('licensePlate')}</td>
+                <td>${formData.get('brand')}</td>
+                <td>${formData.get('model')}</td>
+                <td class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-outline-secondary edit-vehicle-btn">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-danger delete-vehicle-btn">
+                        <i class="bi bi-x-square"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            // TODO: mensaje de éxito
+        })
+        .catch(error => {
+            console.error(error);
+            // TODO: mensaje de error
+        });
+    });
+
+    document.querySelector('#vehicles-container').addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.delete-vehicle-btn');
+
+            if (deleteBtn) {
+                if (!confirm('¿Seguro que quieres eliminar este vehículo?')) {
+                    return;
+                }
+
+                const row = deleteBtn.closest('tr');
+                const id = row.dataset.vehicleId;
+
+                fetch(`/api/vehiculos/${id}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al eliminar el vehículo');
+                    return response.json();
+                })
+                .then(data => {
+                    row.remove();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error al eliminar el vehículo');
+                });
+            }
+        });
+
+    document.querySelector('#vehicles-container').addEventListener('click', (e) => {
+        const editBtn = e.target.closest('.edit-vehicle-btn');
+
+        if (editBtn) {
+            const row = editBtn.closest('tr');
+            const id = row.dataset.vehicleId;
+
+            fetch(`/api/vehiculos/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al obtener vehículo');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('edit-id').value = data.id_vehiculo;
+                    document.getElementById('edit-licensePlate').value = data.matricula;
+                    document.getElementById('edit-brand').value = data.marca;
+                    document.getElementById('edit-model').value = data.modelo;
+                    document.getElementById('edit-registrationYear').value = data.ano_matriculacion;
+                    document.getElementById('edit-seatsNumber').value = data.numero_plazas;
+                    document.getElementById('edit-rangeKm').value = data.autonomia_km;
+                    document.getElementById('edit-color').value = data.color;
+                    document.getElementById('edit-status').value = data.estado;
+
+                    document.getElementById('editVehicleForm').dataset.vehicleId = id;
+
+                    const modal = new bootstrap.Modal(document.getElementById('editVehicleModal'));
+                    modal.show();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error al cargar los datos del vehículo');
+                });
+        }
+    });
+
+    document.getElementById('editVehicleForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = e.target.dataset.vehicleId;
+        const formData = new FormData(e.target);
+
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch(`/api/vehiculos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Error al actualizar vehículo');
+            return response.json();
+        })
+        .then(data => {
+            const row = document.querySelector(`tr[data-vehicle-id="${id}"]`);
+            row.querySelector('td:nth-child(2)').textContent = formData.get('licensePlate');
+            row.querySelector('td:nth-child(3)').textContent = formData.get('brand');
+            row.querySelector('td:nth-child(4)').textContent = formData.get('model');
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editVehicleModal'));
+            modal.hide();
+
+            alert('Vehículo actualizado correctamente');
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Error al actualizar el vehículo');
+        });
+    });
+
+    document.getElementById('altaConcesionario').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const form = this;
+
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch('/api/concesionarios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al crear Concesionario');
+            }
+            return response.json();
+        })
+        .then(data => {
+            form.reset();
+
+            // Añadir fila a la tabla
+            const tbody = document.querySelector('#dealerships-container tbody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'text-center align-middle';
+            newRow.dataset.dealershipId = data.id;
+            newRow.innerHTML = `
+                <td>${data.id}</td>
+                <td>${formData.get('dealershipsName')}</td>
+                <td>${formData.get('city')}</td>
+                <td>${formData.get('address')}</td>
+                <td>${formData.get('phone')}</td>
+                <td class="text-center d-flex justify-content-center gap-2">
+                    <button class="btn btn-outline-secondary edit-dealership-btn">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-danger delete-dealership-btn">
+                        <i class="bi bi-x-square"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            alert('Concesionario creado correctamente');
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Error al crear concesionario');
+        });
+    });
+
+    document.querySelector('#dealerships-container').addEventListener('click', (e) => {
+        const deleteBtn = e.target.closest('.delete-dealership-btn');
+
+        if (deleteBtn) {
+            if (!confirm('¿Seguro que quieres eliminar este concesionario?')) {
+                return;
+            }
+
+            const row = deleteBtn.closest('tr');
+            const id = row.dataset.dealershipId;
+
+            fetch(`/api/concesionarios/${id}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Error al eliminar el concesionario');
+                return response.json();
+            })
+            .then(data => {
+                row.remove();
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Error al eliminar el concesionario');
+            });
+        }
+    });
+
+    document.querySelector('#dealerships-container').addEventListener('click', (e) => {
+        const editBtn = e.target.closest('.edit-dealership-btn');
+
+        if (editBtn) {
+            const row = editBtn.closest('tr');
+            const id = row.dataset.dealershipId;
+
+            fetch(`/api/concesionarios/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al obtener concesionario');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('edit-dealership-id').value = data.id_concesionario;
+                    document.getElementById('edit-dealership-name').value = data.nombre;
+                    document.getElementById('edit-dealership-city').value = data.ciudad;
+                    document.getElementById('edit-dealership-address').value = data.direccion;
+                    document.getElementById('edit-dealership-phone').value = data.telefono_contacto;
+
+                    document.getElementById('editDealershipForm').dataset.dealershipId = id;
+
+                    const modal = new bootstrap.Modal(document.getElementById('editDealershipModal'));
+                    modal.show();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error al cargar los datos del concesionario');
+                });
+        }
+    });
+
+    document.getElementById('editDealershipForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = e.target.dataset.dealershipId;
+        const formData = new FormData(e.target);
+
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch(`/api/concesionarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Error al actualizar concesionario');
+            return response.json();
+        })
+        .then(data => {
+            const row = document.querySelector(`tr[data-dealership-id="${id}"]`);
+            row.querySelector('td:nth-child(2)').textContent = formData.get('dealershipsName');
+            row.querySelector('td:nth-child(3)').textContent = formData.get('city');
+            row.querySelector('td:nth-child(4)').textContent = formData.get('address');
+            row.querySelector('td:nth-child(5)').textContent = formData.get('phone');
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editDealershipModal'));
+            modal.hide();
+
+            alert('Concesionario actualizado correctamente');
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Error al actualizar el concesionario');
+        });
+    });
+})
+
 </script>
 
 

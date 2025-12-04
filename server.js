@@ -39,21 +39,18 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
-const admin = require("./routes/admin");
-app.use("/admin", authMiddleware, admin);
+app.use("/admin", authMiddleware,  require("./routes/admin"));
+app.use("/empleado", authMiddleware, require("./routes/empleado"));
+app.use("/reservar", authMiddleware, require("./routes/reservar"));
+app.use("/vehiculos",  require("./routes/vehiculos"));
 
-const empleado = require("./routes/empleado");
-app.use("/empleado", authMiddleware, empleado);
+app.use("/api/vehiculos",  require("./routes/api/vehiculos"));
+app.use("/api/usuarios",  require("./routes/api/usuarios"));
+app.use("/api/concesionarios",  require("./routes/api/concesionarios"));
 
-const reservas = require("./routes/reservas");
-app.use("/reservas", authMiddleware, reservas);
+app.use("/",  require("./routes/index"));
 
-const vehiculos = require("./routes/vehiculos");
-app.use("/vehiculos", vehiculos);
-
-const indice = require("./routes/index");
-app.use("/", indice);
-
+// TODO: página de errores dinámicos ->
 app.use((req, res) => {
     res.status(404).render("404");
 });

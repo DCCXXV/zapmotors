@@ -100,7 +100,7 @@ function createUser(user, callback) {
     });
 }
 
-function getUsers(callback) {
+function getAll(callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
             callback(err);
@@ -214,7 +214,7 @@ module.exports = {
     findByEmail,
     findUser,
     createUser,
-    getUsers,
+    getAll,
     getUsersWithoutUser,
     deleteById,
     updateRolUser,

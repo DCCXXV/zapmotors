@@ -15,6 +15,7 @@
     --button-color: #e9e9e9;
     --button-bg: #1c1c1c;
     --button-hover: #3b3b3b;
+    --zoom: 1;
 }
 
 [data-theme="dark"] {
@@ -29,6 +30,7 @@
     --button-color: #1c1c1c;
     --button-bg: #e9e9e9;
     --button-hover: #c5c5c5;
+    --zoom: 1;
 }
 
 .border,
@@ -50,6 +52,7 @@ html {
 body {
     background-color: var(--bg);
     color: var(--text);
+    font-size: calc(1rem * var(--zoom));
 }
 
 .bbh-sans-bartle-regular {

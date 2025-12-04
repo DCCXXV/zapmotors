@@ -94,9 +94,39 @@ function deleteById(id, callback) {
     });
 }
 
+function updateDealership(id, dealership, callback) {
+    pool.getConnection((err, connection) => {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `UPDATE concesionarios
+                SET nombre = ?, ciudad = ?, direccion = ?, telefono_contacto = ?
+                WHERE id_concesionario = ?`,
+                [
+                    dealership.dealershipsName,
+                    dealership.city,
+                    dealership.address,
+                    dealership.phone,
+                    id
+                ],
+                (err, result) => {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
 module.exports = {
     findById,
     createDealership,
     getDealerships,
     deleteById,
+    updateDealership,
 };

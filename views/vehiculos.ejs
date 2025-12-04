@@ -56,7 +56,7 @@
             <tr>
                 <td>
                     <img
-                        src="img/<%=v.imagen %>"
+                        src="img/uploads/<%=v.imagen %>"
                         style="width: 150px; height: auto"
                     />
                 </td>
@@ -75,7 +75,7 @@
 <script>
     $(function () {
         $('#filtro-vehiculos').on('submit', function (e) {
-            e.preventDefault(); // 👈 evita que se recargue la página
+            e.preventDefault();
 
             const filtros = {
                 autonomia: $('#autonomia').val(),
@@ -84,7 +84,7 @@
             };
 
             $.ajax({
-                url: '/vehiculos/filtrar',   // ruta del backend
+                url: '/vehiculos/filtrar',
                 method: 'GET',
                 data: filtros,
                 dataType: 'json',
@@ -116,7 +116,7 @@
                         });
                     }
 
-                    $('#vehiculos').html(html); // 👈 actualizamos la tabla
+                    $('#vehiculos').html(html);
                 },
                 error: function (err) {
                     console.error(err);

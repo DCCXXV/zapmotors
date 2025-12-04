@@ -3,8 +3,6 @@ const router = express.Router();
 const userRep = require("../repository/userRepository");
 const bcrypt = require("bcrypt");
 
-const users = [];
-
 router.get("/", (req, res) => {
     res.render("index");
 });
@@ -13,24 +11,24 @@ router.get("/contacto", (req, res) => {
     res.render("contacto");
 });
 
-router.get("/iniciar_sesion", (req, res) => {
-    res.render("iniciar_sesion");
+router.get("/login", (req, res) => {
+    res.render("login");
 });
 
-router.post("/iniciar_sesion", (req, res) => {
+router.post("/login", (req, res) => {
     const { email, password } = req.body;
 
     userRep.findByEmail(email, function (err, user) {
         if (err) {
             console.log("Error al buscar usuario:", err);
-            return res.render("iniciar_sesion", {
+            return res.render("login", {
                 error: "Error del servidor. Intenta de nuevo.",
             });
         }
 
         if (!user) {
             console.log("Usuario no encontrado");
-            return res.render("iniciar_sesion", {
+            return res.render("login", {
                 error: "Usuario o contraseña incorrecto",
             });
         }
@@ -38,14 +36,14 @@ router.post("/iniciar_sesion", (req, res) => {
         bcrypt.compare(password, user.contrasena, function (err, isMatch) {
             if (err) {
                 console.log("Error al comparar contraseñas:", err);
-                return res.render("iniciar_sesion", {
+                return res.render("login", {
                     error: "Error del servidor. Intenta de nuevo.",
                 });
             }
 
             if (!isMatch) {
                 console.log("Contraseña incorrecta");
-                return res.render("iniciar_sesion", {
+                return res.render("login", {
                     error: "Usuario o contraseña incorrecto",
                 });
             }

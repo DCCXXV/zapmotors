@@ -2,14 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("#reservationForm");
     const fullNameInput = document.querySelector("#fullName");
     const emailInput = document.querySelector("#email");
-    const dateInput = document.querySelector("#dateInput");
-    const durationInput = document.querySelector("#durationInput");
-    const submitBtn = document.querySelector("#submitBtn");
-    const vehicle = document.querySelector("#selectedVehicle");
-    //const startTime = document.querySelector("#startTime");
-    //const endtTime = document.querySelector("#endTime");
+    const vehicleInput = document.querySelector("selectedVehicle");
+    const startTime = document.querySelector("#startTime");
+    const endTime = document.querySelector("#endTime");
     const checkboxInput = document.querySelector("#checkboxInput");
-    //const phone = document.querySelector("#phone");
+    const submitBtn = document.querySelector("#submitBtn");
 
     const fullNameInputError = document.querySelector("#fullNameError");
     const emailInputError = document.querySelector("#emailError");
@@ -73,42 +70,40 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProgressBar();
     });
 
-    dateInput.addEventListener("input", function () {
-        const selectedDateString = dateInput.value;
-        const selectedDate = new Date(selectedDateString);
-        const currentDate = new Date();
-
-        if (selectedDate < currentDate) {
-            dateInputError.innerHTML =
-                "Por favor, escoja una fecha posterior al actual.";
-            dateInputError.style.display = "block";
-            dateInput.classList.remove("border-dark");
-            dateInput.classList.add("border-danger");
-            progress[2] = false;
+    startTimeInput.addEventListener("input", function () {
+        const startTime = startTimeInput.value;
+        if (!startTime) {
+            startTimeInputError.innerHTML =
+                "Por favor, introduce una hora de inicio.";
+            startTimeInputError.style.display = "block";
+            startTimeInput.classList.remove("border-dark");
+            startTimeInput.classList.add("border-danger");
+            progress[3] = false;
         } else {
-            dateInput.classList.remove("border-danger");
-            dateInput.classList.remove("border-dark");
-            dateInput.classList.add("border-success");
-            dateInputError.style.display = "none";
-            progress[2] = true;
+            startTimeInput.classList.remove("border-danger");
+            startTimeInput.classList.remove("border-dark");
+            startTimeInput.classList.add("border-success");
+            startTimeInputError.style.display = "none";
+            progress[3] = true;
         }
         updateProgressBar();
     });
 
-    durationInput.addEventListener("input", function () {
-        if (durationInput.value < 0 || durationInput.value == "") {
-            durationInputError.innerHTML =
-                "Por favor, introduzca una duración postiva.";
-            durationInputError.style.display = "block";
-            emailInput.classList.remove("border-dark");
-            emailInput.classList.add("border-danger");
-            progress[3] = false;
+    endTimeInput.addEventListener("input", function () {
+        const endTime = endTimeInput.value;
+        if (!endTime) {
+            endTimeInputError.innerHTML =
+                "Por favor, introduce una hora de fin.";
+            endTimeInputError.style.display = "block";
+            endTimeInput.classList.remove("border-dark");
+            endTimeInput.classList.add("border-danger");
+            progress[4] = false;
         } else {
-            durationInput.classList.remove("border-danger");
-            durationInput.classList.remove("border-dark");
-            durationInput.classList.add("border-success");
-            durationInputError.style.display = "none";
-            progress[3] = true;
+            endTimeInput.classList.remove("border-danger");
+            endTimeInput.classList.remove("border-dark");
+            endTimeInput.classList.add("border-success");
+            endTimeInputError.style.display = "none";
+            progress[4] = true;
         }
         updateProgressBar();
     });
@@ -122,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProgressBar();
     });
 
-    vehicle.addEventListener("click", function () {
+    vehicleInput.addEventListener("click", function () {
         if (vehicle.value !== "") {
             progress[5] = true;
         }

@@ -1,10 +1,23 @@
-</main>
+    <script>
+        document.getElementById("zoom").addEventListener("change", () => {
+            const zoom = document.getElementById("zoom").value;
+            document.documentElement.style.setProperty("--zoom", zoom);
+            localStorage.setItem("zoom", zoom);
+        });
 
-<footer class="p-4 text-secondary border-top border-dark">
-    &copy; COPYRIGHT 2025. ALL RIGHTS RESERVED.
-</footer>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/theme.js"></script>
+        const savedZoom = localStorage.getItem("zoom");
+        if (savedZoom) {
+            document.documentElement.style.setProperty("--zoom", savedZoom);
+            document.getElementById("zoom").value = savedZoom;
+        }
+    </script>
+    </main>
+
+    <footer class="p-4 text-secondary border-top border-dark">
+        &copy; COPYRIGHT 2025. ALL RIGHTS RESERVED.
+    </footer>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/theme.js"></script>
 </body>
 
 </html>

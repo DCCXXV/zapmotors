@@ -2,7 +2,7 @@
 <html lang="es">
     <%- include("head", {title: title}) %>
 
-    <body class="inter-regular w-100">
+    <body class="inter-regular w-100 zoom">
         <header class="py-0 sticky-top">
             <nav class="navbar navbar-expand-lg py-0">
                 <p id="nav-title" class="bbh-sans-bartle-regular mx-4 my-0 h2">
@@ -24,13 +24,15 @@
                             >Vehículos
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
-                            href="/reservas"
-                            >Reservas
-                        </a>
-                    </li>
+                    <% if (user) {%>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
+                                href="/reservar"
+                                >Reservar
+                            </a>
+                        </li>
+                    <% } %>
                     <li class="nav-item">
                         <a
                             class="nav-link px-4 py-3 <%= activePage === 'contacto' ? 'active' : '' %>"
@@ -59,7 +61,7 @@
                     <% if(!user) {%>
                     <a
                         id="login-btn"
-                        href="/iniciar_sesion"
+                        href="/login"
                         class="btn btn-white rounded-0 me-2"
                         >Login</a
                     >
@@ -110,7 +112,17 @@
                         </span>
                     </button>
 
+                    <select id="zoom" class="form-select">
+                        <option value="1" selected>100%</option>
+                        <option value="1.2">120%</option>
+                        <option value="1.5">150%</option>
+                        <option value="2">200%</option>
+                    </select>
+
                 </div>
+
+
+
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -122,9 +134,3 @@
             </div>
         </div>
     </body>
-    <script>
-        document.getElementById("theme-toggle-modal").addEventListener("click", () => {
-            document.getElementById("theme-toggle").click();
-        });
-    </script>
-</html>
