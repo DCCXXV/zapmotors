@@ -100,25 +100,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
-                <div class="modal-body text-center">
-                    <button
-                        id="theme-toggle"
-                        class="border-0"
-                        type="button"
-                        aria-label="Cambiar tema"
-                    >
-                        <span id="theme-img" class="d-inline-block">
-                            <i class="bi bi-brightness-high"></i>
-                        </span>
-                    </button>
+                <div class="modal-body">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label for="theme-toggle" class="mb-0">Tema</label>
+                            <button
+                                id="theme-toggle"
+                                class="border-0 btn btn-outline-secondary"
+                                type="button"
+                                aria-label="Cambiar tema"
+                            >
+                                <span id="theme-img" class="d-inline-block">
+                                    <i class="bi bi-brightness-high"></i>
+                                </span>
+                            </button>
+                        </div>
 
-                    <select id="zoom" class="form-select">
-                        <option value="1" selected>100%</option>
-                        <option value="1.2">120%</option>
-                        <option value="1.5">150%</option>
-                        <option value="2">200%</option>
-                    </select>
-
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label for="zoom" class="mb-0">Tamaño de texto</label>
+                            <select id="zoom" class="form-select" style="width: auto;">
+                                <option value="1" selected>100%</option>
+                                <option value="1.2">120%</option>
+                                <option value="1.5">150%</option>
+                                <option value="2">200%</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

@@ -7,6 +7,10 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
+router.get("/setup", (req, res) => {
+    res.render("setup");
+});
+
 router.get("/contacto", (req, res) => {
     res.render("contacto");
 });
@@ -17,6 +21,13 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
+
+    const corporateEmailRegex = /^[A-Za-z0-9._%+-]+@zapmotors\.com$/;
+    if (!corporateEmailRegex.test(email)) {
+        return res.render("login", {
+            error: "Debes usar un correo corporativo (@zapmotors.com)",
+        });
+    }
 
     userRep.findByEmail(email, function (err, user) {
         if (err) {

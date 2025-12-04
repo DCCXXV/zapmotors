@@ -55,7 +55,6 @@ router.post("/", (req, res) => {
     });
 });
 
-
 router.delete("/:id", (req, res) => {
     const id = parseInt(req.params.id);
     dealershipRep.deleteById(id, (err) => {

@@ -17,6 +17,13 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
     const { name, email, password, telephone, concessionaire } = req.body;
 
+    const corporateEmailRegex = /^[A-Za-z0-9._%+-]+@zapmotors\.com$/;
+    if (!corporateEmailRegex.test(email)) {
+        return res.status(400).json({
+            error: "El correo debe ser corporativo (@zapmotors.com)",
+        });
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 

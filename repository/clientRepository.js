@@ -75,9 +75,9 @@ function createClient(client, callback) {
             callback(err);
         } else {
             connection.query(
-                `INSERT INTO clientes (nombre, correo, activo)
-                VALUES (?, ?, TRUE)`,
-                [client.nombre, client.correo],
+                `INSERT INTO clientes (nombre, correo, activo, fecha_creacion)
+                VALUES (?, ?, TRUE, ?)`,
+                [client.nombre, client.correo, client.fecha_creacion],
                 function (err, result) {
                     connection.release();
                     if (err) {

@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const reservaRep = require("../../repository/reservaRepository");
+const clientRep = require("../../repository/clientRepository");
 
 router.post("/", (req, res) => {
     const { fullName, email, vehicleId, startTime, endTime, conditions } =
@@ -51,12 +52,78 @@ router.post("/", (req, res) => {
     if (conditions !== "on") {
         return res.status(400).json({ error: "Debe aceptar las condiciones" });
     }
-    const data = {id:  ,req.body};
-    date
+
+    const user = {
+        nombre: fullName,
+        correo: email,
+        fecha_creacion: now
+    }
+
+    clientRep.findByEmail(email, (err, row)=>{
+        if(err){
+            console.error("Error al buscar usuario por correo:", err);
+            res.status(500).json({error: "Error al buscar usuario por correo"})
+        }else{
+            if(row.length === 0){
+                clientRep.createClient(user, (err, result)=>{
+                    if(err){
+                        console.error("Error al crear usuario", err);
+                        res.status(500).json({error: "Error al crear us"})
+                    }else{
+                        const userId = result.insertId;
+                        const data = {
+                            ...req.body,
+                            id_cliente: userId
+                        }
+                        reservaRep.createReserva(data, (err, result)=>{
+                            if(err){
+                                console.error("Error al crear reserva:", err);
+                                res.status(500).json({ error: "Error al crear la reserva" });
+                            }else{
+                                res.status(201).json({
+                                    id: result.insertId,
+                                    fullName,
+                                    email,
+                                    vehicleId,
+                                    startTime,
+                                    endTime,
+                                    message: "Reserva creada correctamente"
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                const userId = row;
+                const data = {
+                    ...req.body,
+                    id_cliente: userId
+                }
+                reservaRep.createReserva(data, (err, result)=>{
+                    if(err){
+                        console.error("Error al crear reserva:", err);
+                        res.status(500).json({ error: "Error al crear la reserva" });
+                    }else{
+                        res.status(201).json({
+                            id: result.insertId,
+                            fullName,
+                            email,
+                            vehicleId,
+                            startTime,
+                            endTime,
+                            message: "Reserva creada correctamente"
+                        });
+                    }
+                });
+
+            }
+        }
+    });
     reservaRep.createReserva(req.body, (err, result) => {
         if (err) {
             console.error("Error al crear reserva:", err);
-            return res.status(500).json({ error: "Error al crear la reserva" });
+            res.status(500).json({ error: "Error al crear la reserva" });
         }
 
         return res.status(201).json({
