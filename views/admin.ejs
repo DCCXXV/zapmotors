@@ -56,7 +56,7 @@
                         <% } %>
                     </div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
-                        Registrar empleado
+                        <i class="bi bi-person-plus-fill me-2"></i>Registrar empleado
                     </button>
                 </form>
             </div>
@@ -89,7 +89,7 @@
 
                             <td class="text-center">
                                 <button class="btn btn-danger delete-user-btn" data-user-id="<%= u.id_usuario %>">
-                                    <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                                    <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
@@ -224,7 +224,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
-                        Registrar vehículo
+                        <i class="bi bi-car-front-fill me-2"></i>Registrar vehículo
                     </button>
                 </form>
             </div>
@@ -251,11 +251,11 @@
                             <td><%= v.modelo %></td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <button class="btn btn-outline-secondary edit-vehicle-btn">
+                                    <button class="btn btn-secondary edit-vehicle-btn">
                                         <i class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button class="btn btn-danger delete-vehicle-btn">
-                                        <i class="bi bi-x-square"></i>
+                                        <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </div>
                             </td>
@@ -322,7 +322,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
-                        Registrar concesionario
+                        <i class="bi bi-building-fill-add me-2"></i>Registrar concesionario
                     </button>
                 </form>
             </div>
@@ -350,11 +350,11 @@
                             <td><%= c.direccion %></td>
                             <td><%= c.telefono_contacto %></td>
                             <td class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-secondary edit-dealership-btn">
+                                <button class="btn btn-secondary edit-dealership-btn">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
                                 <button class="btn btn-danger delete-dealership-btn">
-                                    <i class="bi bi-x-square"></i>
+                                    <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </td>
                 <td class="text-center">
                     <button class="btn btn-danger delete-user-btn" data-user-id="${data.id}">
-                        <i class="bi bi-x-square" style="font-size: 1rem;"></i>
+                        <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
             `;
@@ -609,11 +609,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formData.get('model')}</td>
                 <td class="text-center">
                     <div class="d-flex justify-content-center gap-2">
-                        <button class="btn btn-outline-secondary edit-vehicle-btn">
+                        <button class="btn btn-secondary edit-vehicle-btn">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
                         <button class="btn btn-danger delete-vehicle-btn">
-                            <i class="bi bi-x-square"></i>
+                            <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
                 </td>
@@ -767,11 +767,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formData.get('address')}</td>
                 <td>${formData.get('phone')}</td>
                 <td class="text-center d-flex justify-content-center gap-2">
-                    <button class="btn btn-outline-secondary edit-dealership-btn">
+                    <button class="btn btn-secondary edit-dealership-btn">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
                     <button class="btn btn-danger delete-dealership-btn">
-                        <i class="bi bi-x-square"></i>
+                        <i class="bi bi-trash-fill"></i>
                     </button>
                 </td>
             `;
