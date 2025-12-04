@@ -4,12 +4,18 @@ const router = express.Router();
 const reservaRep = require("../../repository/reservaRepository");
 
 router.post("/", (req, res) => {
-    const { fullName, email, vehicleId, startTime, endTime, conditions } = req.body;
+    const { fullName, email, vehicleId, startTime, endTime, conditions } =
+        req.body;
+
+    console.log("abc");
+    console.log(req.body);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!fullName || fullName.trim().length < 3) {
-        return res.status(400).json({ error: "El nombre debe tener al menos 3 caracteres" });
+        return res
+            .status(400)
+            .json({ error: "El nombre debe tener al menos 3 caracteres" });
     }
 
     if (!email || !emailRegex.test(email.trim())) {
@@ -21,7 +27,9 @@ router.post("/", (req, res) => {
     }
 
     if (!startTime || !endTime) {
-        return res.status(400).json({ error: "Debe especificar fecha de inicio y fin" });
+        return res
+            .status(400)
+            .json({ error: "Debe especificar fecha de inicio y fin" });
     }
 
     const startDate = new Date(startTime);
@@ -29,17 +37,22 @@ router.post("/", (req, res) => {
     const now = new Date();
 
     if (startDate < now) {
-        return res.status(400).json({ error: "La fecha de inicio no puede ser en el pasado" });
+        return res
+            .status(400)
+            .json({ error: "La fecha de inicio no puede ser en el pasado" });
     }
 
     if (endDate <= startDate) {
-        return res.status(400).json({ error: "La fecha de fin debe ser posterior a la fecha de inicio" });
+        return res.status(400).json({
+            error: "La fecha de fin debe ser posterior a la fecha de inicio",
+        });
     }
 
     if (conditions !== "on") {
         return res.status(400).json({ error: "Debe aceptar las condiciones" });
     }
-
+    const data = {id:  ,req.body};
+    date
     reservaRep.createReserva(req.body, (err, result) => {
         if (err) {
             console.error("Error al crear reserva:", err);
@@ -53,7 +66,7 @@ router.post("/", (req, res) => {
             vehicleId,
             startTime,
             endTime,
-            message: "Reserva creada correctamente"
+            message: "Reserva creada correctamente",
         });
     });
 });

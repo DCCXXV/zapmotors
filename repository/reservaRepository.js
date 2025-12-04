@@ -123,15 +123,15 @@ function createReserva(reserva, callback) {
         } else {
             connection.query(
                 `INSERT INTO reservas
-                (id_usuario, id_vehiculo, id_cliente, fecha_inicio, fecha_fin, estado, activo)
+                (id_usuario, id_cliente, id_vehiculo, fecha_inicio, fecha_fin, estado, activo)
                 VALUES (?, ?, ?, ?, ?, ?, TRUE)`,
-                [
+                [   
                     reserva.id_usuario,
                     reserva.id_vehiculo,
                     reserva.id_cliente,
                     reserva.fecha_inicio,
                     reserva.fecha_fin,
-                    reserva.estado || 'activa'
+                    reserva.estado || "activa",
                 ],
                 function (err, result) {
                     connection.release();
@@ -160,7 +160,7 @@ function updateReserva(id, reserva, callback) {
                     reserva.estado,
                     reserva.kilometros_recorridos,
                     reserva.incidencias_reportadas,
-                    id
+                    id,
                 ],
                 function (err, result) {
                     connection.release();
@@ -203,5 +203,5 @@ module.exports = {
     getByCliente,
     createReserva,
     updateReserva,
-    deleteById
+    deleteById,
 };

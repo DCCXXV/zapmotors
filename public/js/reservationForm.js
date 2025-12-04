@@ -2,16 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("#reservationForm");
     const fullNameInput = document.querySelector("#fullName");
     const emailInput = document.querySelector("#email");
-    const vehicleInput = document.querySelector("selectedVehicle");
-    const startTime = document.querySelector("#startTime");
-    const endTime = document.querySelector("#endTime");
+    const vehicleInput = document.querySelector("#selectedVehicle");
+    const startTimeInput = document.querySelector("#startTime");
+    const endTimeInput = document.querySelector("#endTime");
     const checkboxInput = document.querySelector("#checkboxInput");
-    const submitBtn = document.querySelector("#submitBtn");
+    const resetBtn = document.querySelector("#resetBtn");
 
     const fullNameInputError = document.querySelector("#fullNameError");
     const emailInputError = document.querySelector("#emailError");
-    const dateInputError = document.querySelector("#dateInputError");
-    const durationInputError = document.querySelector("#durationInputError");
+    const startTimeError = document.querySelector("#startTimeError");
+    const endTimeError = document.querySelector("#endTimeError");
 
     const progressBar = document.querySelector("#progressBar");
     let progress = Array(6).fill(false);
@@ -72,38 +72,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
     startTimeInput.addEventListener("input", function () {
         const startTime = startTimeInput.value;
-        if (!startTime) {
-            startTimeInputError.innerHTML =
-                "Por favor, introduce una hora de inicio.";
-            startTimeInputError.style.display = "block";
+        const startTimeDate = new Date(startTime);
+        const now = new Date();
+
+        if (startTimeDate < now) {
+            startTimeError.innerHTML =
+                "Por favor, introduce una fehca de inicio posterior a la actual.";
+            startTimeError.style.display = "block";
             startTimeInput.classList.remove("border-dark");
             startTimeInput.classList.add("border-danger");
-            progress[3] = false;
+            progress[2] = false;
         } else {
             startTimeInput.classList.remove("border-danger");
             startTimeInput.classList.remove("border-dark");
             startTimeInput.classList.add("border-success");
-            startTimeInputError.style.display = "none";
-            progress[3] = true;
+            startTimeError.style.display = "none";
+            progress[2] = true;
+        }
+
+        const endTime = endTimeInput.value;
+        const endTimeDate = new Date(endTime);
+
+        console.log(startTimeDate);
+        console.log(endTimeDate);
+
+        if (!isNaN(endTimeDate.getTime())) {
+            if (endTimeDate <= startTimeDate) {
+                endTimeError.innerHTML =
+                    "Por favor, introduce una fecha de fin posterior a la fecha de inicio.";
+                endTimeError.style.display = "block";
+                endTimeInput.classList.remove("border-dark");
+                endTimeInput.classList.remove("border-success");
+                endTimeInput.classList.add("border-danger");
+                progress[3] = false;
+            } else {
+                endTimeError.style.display = "none";
+                endTimeInput.classList.remove("border-danger");
+                endTimeInput.classList.add("border-success");
+                progress[3] = true;
+            }
         }
         updateProgressBar();
     });
 
     endTimeInput.addEventListener("input", function () {
         const endTime = endTimeInput.value;
-        if (!endTime) {
-            endTimeInputError.innerHTML =
-                "Por favor, introduce una hora de fin.";
-            endTimeInputError.style.display = "block";
+        const endTimeDate = new Date(endTime);
+        const startTime = startTimeInput.value;
+        const startTimeDate = new Date(startTime);
+        if (endTimeDate <= startTimeDate) {
+            endTimeError.innerHTML =
+                "Por favor, introduce una fecha de fin posterior a la fecha de inicio.";
+            endTimeError.style.display = "block";
             endTimeInput.classList.remove("border-dark");
             endTimeInput.classList.add("border-danger");
-            progress[4] = false;
+            progress[3] = false;
         } else {
             endTimeInput.classList.remove("border-danger");
             endTimeInput.classList.remove("border-dark");
             endTimeInput.classList.add("border-success");
-            endTimeInputError.style.display = "none";
-            progress[4] = true;
+            endTimeError.style.display = "none";
+            progress[3] = true;
         }
         updateProgressBar();
     });
@@ -118,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     vehicleInput.addEventListener("click", function () {
-        if (vehicle.value !== "") {
+        if (vehicleInput.value !== "") {
             progress[5] = true;
         }
         updateProgressBar();
@@ -153,76 +182,90 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     */
 
-    submitBtn.addEventListener("click", async function (event) {
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log("123");
         fullNameInputError.style.display = "none";
         emailInputError.style.display = "none";
-        dateInputError.style.display = "none";
+        startTimeError.style.display = "none";
+        endTimeError.style.display = "none";
 
-        const fullName = fullNameInput.value.trim();
-        const email = emailInput.value.trim();
-        const selectedDateString = dateInput.value;
+        const formData = new FormData(e.target);
+        const form = e.target;
 
-        if (fullName.length < 3) {
-            fullNameInputError.innerHTML =
-                "El nombre y apellidos deben tener al menos 3 caracteres.";
-            fullNameInputError.style.display = "block";
-            fullNameInput.focus();
-            return;
-        }
+        const data = {
+            fullName: formData.get("fullName"),
+            email: formData.get("email"),
+            vehicleId: formData.get("vehicleId"),
+            startTime: formData.get("startTime"),
+            endTime: formData.get("endTime"),
+            conditions: formData.get("conditions"),
+        };
+        console.log(data);
 
-        if (!email.includes("@") || !email.includes(".")) {
-            emailInputError.innerHTML =
-                "Por favor, introduce un correo electrónico válido.";
-            emailInputError.style.display = "block";
-            emailInput.focus();
-            return;
-        }
+        fetch("/api/reservas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((err) => {
+                        throw new Error(err.error || "Error al crear reserva");
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                form.reset();
 
-        if (!selectedDateString) {
-            dateInputError.innerHTML = "Por favor, selecciona una fecha.";
-            dateInputError.style.display = "block";
-            dateInput.focus();
-            return;
-        }
-
-        const selectedDate = new Date(selectedDateString);
-        const currentDate = new Date();
-
-        if (selectedDate < currentDate) {
-            dateInputError.innerHTML =
-                "Por favor, escoja una fecha posterior al actual.";
-            dateInputError.style.display = "block";
-            dateInput.focus();
-            return;
-        }
-
-        const formData = new FormData(form);
-
-        /*
-        try {
-            const response = await fetch("/reservas", {
-                method: "POST",
-                body: formData,
+                // Añadir fila a la tabla
+                const tbody = document.querySelector(
+                    "#reservation-container tbody"
+                );
+                const newRow = document.createElement("tr");
+                newRow.className = "text-center align-middle";
+                newRow.dataset.reservationId = data.id;
+                newRow.innerHTML = `
+        <td>${data.id}</td>
+        <td>${formData.get("fullName")}</td>
+        <td>${formData.get("email")}</td>
+        <td>${formData.get("vehicleId")}</td>
+        <td>${formData.get("startTime")}</td>
+        <td>${formData.get("endTime")}</td>
+    `;
+                tbody.appendChild(newRow);
+                alert("Reversa registrado correctamente");
+            })
+            .catch((error) => {
+                console.error(error);
+                alert(error.message);
             });
-
-            if (response.ok) {
-                alert("Formulario enviado correctamente");
-                window.location.href = "/reservas";
-            }
-        } catch (error) {
-            console.error(error);
-        }*/
     });
 
     resetBtn.addEventListener("click", function () {
         fullNameInputError.style.display = "none";
         emailInputError.style.display = "none";
-        dateInputError.style.display = "none";
-        durationInputError.style.display = "none";
+        startTimeError.style.display = "none";
+        endTimeError.style.display = "none";
 
-        fullNameInput.style.borderColor = "";
-        emailInput.style.borderColor = "";
-        dateInput.style.borderColor = "";
-        durationInput.style.borderColor = "";
+        const inputs = [
+            fullNameInput,
+            emailInput,
+            startTimeInput,
+            endTimeInput,
+            vehicleInput,
+        ];
+
+        inputs.forEach((input) => {
+            input.classList.remove("border-success", "border-danger");
+            input.classList.add("border-dark");
+        });
+
+        checkboxInput.checked = false;
+        progress = Array(6).fill(false);
+        updateProgressBar();
     });
 });

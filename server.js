@@ -39,16 +39,17 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
-app.use("/admin", authMiddleware,  require("./routes/admin"));
+app.use("/admin", authMiddleware, require("./routes/admin"));
 app.use("/empleado", authMiddleware, require("./routes/empleado"));
 app.use("/reservar", authMiddleware, require("./routes/reservar"));
-app.use("/vehiculos",  require("./routes/vehiculos"));
+app.use("/vehiculos", require("./routes/vehiculos"));
 
-app.use("/api/vehiculos",  require("./routes/api/vehiculos"));
-app.use("/api/usuarios",  require("./routes/api/usuarios"));
-app.use("/api/concesionarios",  require("./routes/api/concesionarios"));
+app.use("/api/vehiculos", require("./routes/api/vehiculos"));
+app.use("/api/usuarios", require("./routes/api/usuarios"));
+app.use("/api/concesionarios", require("./routes/api/concesionarios"));
+app.use("/api/reservas", require("./routes/api/reservas"));
 
-app.use("/",  require("./routes/index"));
+app.use("/", require("./routes/index"));
 
 // TODO: página de errores dinámicos ->
 app.use((req, res) => {
