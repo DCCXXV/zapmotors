@@ -55,7 +55,7 @@
                         <p class="text-danger mt-1"><%= errMsg %></p>
                         <% } %>
                     </div>
-                    <button class="btn btn-dark rounded-0 mt-auto" type="submit">
+                    <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         Registrar empleado
                     </button>
                 </form>
@@ -223,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark rounded-0 mt-auto" type="submit">
+                    <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         Registrar vehículo
                     </button>
                 </form>
@@ -232,14 +232,14 @@
         <div class="d-flex flex-column w-50">
             <h4>Lista de vehículos</h4>
             <div id="vehicles-container" class="w-100 border d-flex flex-column p-2">
-                <table class="table table-striped border border-2 w-100">
+                <table class="table table-striped border border-2 w-100" style="table-layout: fixed;">
                     <thead>
                         <tr class="text-center">
-                            <th>ID</th>
-                            <th>Matricula</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Opciones</th>
+                            <th style="width: 10%;">ID</th>
+                            <th style="width: 25%;">Matricula</th>
+                            <th style="width: 25%;">Marca</th>
+                            <th style="width: 25%;">Modelo</th>
+                            <th style="width: 15%;">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -249,13 +249,15 @@
                             <td><%= v.matricula %></td>
                             <td><%= v.marca %></td>
                             <td><%= v.modelo %></td>
-                            <td class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-secondary edit-vehicle-btn">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </button>
-                                <button class="btn btn-danger delete-vehicle-btn">
-                                    <i class="bi bi-x-square"></i>
-                                </button>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button class="btn btn-outline-secondary edit-vehicle-btn">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-danger delete-vehicle-btn">
+                                        <i class="bi bi-x-square"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         <% } %>
@@ -319,7 +321,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark rounded-0 mt-auto" type="submit">
+                    <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         Registrar concesionario
                     </button>
                 </form>
@@ -605,13 +607,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formData.get('licensePlate')}</td>
                 <td>${formData.get('brand')}</td>
                 <td>${formData.get('model')}</td>
-                <td class="d-flex justify-content-center gap-2">
-                    <button class="btn btn-outline-secondary edit-vehicle-btn">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button class="btn btn-danger delete-vehicle-btn">
-                        <i class="bi bi-x-square"></i>
-                    </button>
+                <td class="text-center">
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-outline-secondary edit-vehicle-btn">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-danger delete-vehicle-btn">
+                            <i class="bi bi-x-square"></i>
+                        </button>
+                    </div>
                 </td>
             `;
             tbody.appendChild(newRow);

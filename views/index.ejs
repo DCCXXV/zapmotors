@@ -53,17 +53,20 @@
     </section>
 
 
-    <!-- <img src="img/ev.jpg" alt="Vehículo eléctrico" width="100%"
-title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"> -->
-    <section id="vehiculos" class="d-flex align-items-center">
-        <div class="p-4">
-            <h2>Vehículos</h2>
-            <p>Esta es la sección de los coches</p>
-            <p>Empieza tu alquiler desde 10&euro;</p>
+    <section id="vehiculos" class="d-flex align-items-stretch border-bottom">
+        <div class="w-50 p-5 d-flex flex-column justify-content-center">
+            <h2>Vehículos Eléctricos Premium</h2>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 
-            <section id="vehiculos-disponibles">
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Praesent euismod, neque ut malesuada efficitur, sapien justo fringilla lectus, nec fermentum eros magna vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat libero nulla in nunc.</p>
+
+            <p><strong>Empieza tu alquiler desde 10&euro;/día</strong></p>
+
+            <section id="vehiculos-disponibles" class="mt-4">
                 <h3>Vehículos disponibles</h3>
-                <table>
+                <table class="table border border-2">
                     <caption>Vehículos disponibles</caption>
                     <thead>
                         <tr class="bg-zapgrey">
@@ -93,11 +96,14 @@ title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"> -->
             </section>
         </div>
 
-        <a href="img/ev.jpg" aria-label="Enlace a la imagen de resolucion completa" class="ms-auto bg-zapgrey">
+        <a href="img/ev.jpg" aria-label="Enlace a la imagen de resolución completa" class="w-50 d-block overflow-hidden position-relative">
             <img src="img/ev_miniatura.png" id="imagen-ev" alt="Vehículo eléctrico"
-                title="Un vehículo eléctrico azul cian de la marca KIA en una carretera" />
+                title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"
+                class="w-100 h-100 object-fit-cover" />
         </a>
     </section>
-    <!--<video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop></video>-->
+    <section class="video-banner border-bottom overflow-hidden">
+        <video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop muted playsinline></video>
+    </section>
 
     <%- include('partials/footer') %>

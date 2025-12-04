@@ -5,8 +5,8 @@
     <body class="inter-regular w-100 zoom">
         <header class="py-0 sticky-top">
             <nav class="navbar navbar-expand-lg py-0">
-                <p id="nav-title" class="bbh-sans-bartle-regular mx-4 my-0 h2">
-                    Zap
+                <p id="nav-title" class="brand-title mx-4 my-0 h2">
+                    <span class="brand-zap">zap</span> <span class="brand-motors">motors</span>
                 </p>
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -62,7 +62,7 @@
                     <a
                         id="login-btn"
                         href="/login"
-                        class="btn btn-white rounded-0 me-2"
+                        class="btn btn-primary rounded-0 me-2"
                         >Login</a
                     >
                     <!-- <a
@@ -81,7 +81,7 @@
                         Panel
                     </a>
                         <%} %>
-                    <div class="rounded-0 mb-0 border border-0 border-dark ">
+                    <div class="rounded-0 mb-0 border p-2 border-dark ">
                         <%= user.nombre %>
                     </div>
                     <a href="/logout" class="btn btn-danger rounded-0 me-2">Cerrar sesión</a>
@@ -120,9 +120,6 @@
                     </select>
 
                 </div>
-
-
-
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
