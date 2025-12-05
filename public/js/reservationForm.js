@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const vehicleInput = document.querySelector("#selectedVehicle");
     const startTimeInput = document.querySelector("#startTime");
     const endTimeInput = document.querySelector("#endTime");
-    const checkboxInput = document.querySelector("#checkboxInput");
     const resetBtn = document.querySelector("#resetBtn");
 
     const fullNameInputError = document.querySelector("#fullNameError");
@@ -14,9 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const endTimeError = document.querySelector("#endTimeError");
 
     const progressBar = document.querySelector("#progressBar");
-    let progress = Array(6).fill(false);
-
-    const fields = 6;
+    
+    const fields = 5;
+    let progress = Array(5).fill(false);
     let increment = 100 / fields;
 
     function updateProgressBar() {
@@ -137,18 +136,15 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProgressBar();
     });
 
-    checkboxInput.addEventListener("click", function () {
-        if (checkboxInput.checked) {
-            progress[4] = true;
-        } else {
-            progress[4] = false;
-        }
-        updateProgressBar();
-    });
-
-    vehicleInput.addEventListener("click", function () {
+    vehicleInput.addEventListener("change", function () {
         if (vehicleInput.value !== "") {
-            progress[5] = true;
+            progress[4] = true;
+
+            // Actualizar aria-label del botón de enviar con información del vehículo
+            const submitBtn = document.querySelector("#submitBtn");
+            const selectedOption = vehicleInput.options[vehicleInput.selectedIndex];
+            const vehicleInfo = selectedOption.text;
+            submitBtn.setAttribute("aria-label", `Reservar vehículo ${vehicleInfo}`);
         }
         updateProgressBar();
     });
@@ -199,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
             vehicleId: formData.get("vehicleId"),
             startTime: formData.get("startTime"),
             endTime: formData.get("endTime"),
-            conditions: formData.get("conditions"),
         };
         console.log(data);
 
@@ -264,7 +259,6 @@ document.addEventListener("DOMContentLoaded", function () {
             input.classList.add("border-dark");
         });
 
-        checkboxInput.checked = false;
         progress = Array(6).fill(false);
         updateProgressBar();
     });

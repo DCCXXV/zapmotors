@@ -1,20 +1,42 @@
     <script>
-        document.getElementById("zoom").addEventListener("change", () => {
-            const zoom = document.getElementById("zoom").value;
-            document.documentElement.style.setProperty("--zoom", zoom);
-            localStorage.setItem("zoom", zoom);
+        // tamaño de fuente
+        document.getElementById("font-size").addEventListener("change", () => {
+            const fontSize = document.getElementById("font-size").value;
+            document.documentElement.style.setProperty("--zoom", fontSize);
+            sessionStorage.setItem("fontSize", fontSize);
         });
 
-        const savedZoom = localStorage.getItem("zoom");
-        if (savedZoom) {
-            document.documentElement.style.setProperty("--zoom", savedZoom);
-            document.getElementById("zoom").value = savedZoom;
+        // sincronizar select con valor ya aplicado en head
+        const savedFontSize = sessionStorage.getItem("fontSize");
+        if (savedFontSize) {
+            document.getElementById("font-size").value = savedFontSize;
+        }
+
+        // contraste y paleta
+        document.getElementById("contrast-mode").addEventListener("change", () => {
+            const mode = document.getElementById("contrast-mode").value;
+
+            // remover todas las clases de contraste previas
+            document.body.classList.remove("high-contrast", "deuteranopia", "protanopia", "tritanopia");
+
+            // añadir la clase correspondiente si no es normal
+            if (mode !== "normal") {
+                document.body.classList.add(mode);
+            }
+
+            sessionStorage.setItem("contrastMode", mode);
+        });
+
+        // sincronizar select con valor ya aplicado en head
+        const savedContrastMode = sessionStorage.getItem("contrastMode");
+        if (savedContrastMode) {
+            document.getElementById("contrast-mode").value = savedContrastMode;
         }
     </script>
     </main>
 
-    <footer class="p-4 text-secondary border-top border-dark">
-        &copy; COPYRIGHT 2025. ALL RIGHTS RESERVED.
+    <footer class="p-4 text-secondary border-top border-dark" role="contentinfo">
+        <p>&copy; COPYRIGHT 2025. ALL RIGHTS RESERVED.</p>
     </footer>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/theme.js"></script>

@@ -196,6 +196,95 @@ function deleteById(id, callback) {
     });
 }
 
+function getStatsByConcessionaire(callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT
+                    c.nombre AS concesionario,
+                    COUNT(r.id_reserva) AS total_reservas
+                FROM concesionarios c
+                LEFT JOIN vehiculos v ON c.id_concesionario = v.id_concesionario AND v.activo = TRUE
+                LEFT JOIN reservas r ON v.id_vehiculo = r.id_vehiculo AND r.activo = TRUE
+                WHERE c.activo = TRUE
+                GROUP BY c.id_concesionario, c.nombre
+                ORDER BY total_reservas DESC`,
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function getMostUsedVehicles(callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT
+                    v.matricula,
+                    v.marca,
+                    v.modelo,
+                    v.color,
+                    COUNT(r.id_reserva) AS total_reservas
+                FROM vehiculos v
+                LEFT JOIN reservas r ON v.id_vehiculo = r.id_vehiculo AND r.activo = TRUE
+                WHERE v.activo = TRUE
+                GROUP BY v.id_vehiculo, v.matricula, v.marca, v.modelo, v.color
+                ORDER BY total_reservas DESC
+                LIMIT 5`,
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function checkVehicleAvailability(vehicleId, startTime, endTime, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT COUNT(*) AS conflictos
+                FROM reservas
+                WHERE id_vehiculo = ?
+                AND activo = TRUE
+                AND (
+                    (fecha_inicio <= ? AND fecha_fin >= ?)
+                    OR (fecha_inicio <= ? AND fecha_fin >= ?)
+                    OR (fecha_inicio >= ? AND fecha_fin <= ?)
+                )`,
+                [vehicleId, startTime, startTime, endTime, endTime, startTime, endTime],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        const conflictos = rows[0].conflictos;
+                        callback(null, conflictos === 0);
+                    }
+                }
+            );
+        }
+    });
+}
+
 module.exports = {
     findById,
     getAll,
@@ -204,4 +293,7 @@ module.exports = {
     createReserva,
     updateReserva,
     deleteById,
+    getStatsByConcessionaire,
+    getMostUsedVehicles,
+    checkVehicleAvailability,
 };

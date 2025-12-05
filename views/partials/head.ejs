@@ -6,12 +6,28 @@
     </title>
     <script>
         (function() {
+            // restaurar tema
             const saved = localStorage.getItem("zap-theme");
             const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
             const theme = saved || (prefersDark ? "dark" : "light");
 
             if (theme === "dark") {
                 document.documentElement.setAttribute("data-theme", "dark");
+            }
+
+            // restaurar tamaño de fuente
+            const savedFontSize = sessionStorage.getItem("fontSize");
+            if (savedFontSize) {
+                document.documentElement.style.setProperty("--zoom", savedFontSize);
+            }
+
+            // restaurar modo de contraste
+            const savedContrastMode = sessionStorage.getItem("contrastMode");
+            if (savedContrastMode && savedContrastMode !== "normal") {
+                // añadir clase al body cuando se cargue
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.body.classList.add(savedContrastMode);
+                });
             }
         })();
     </script>

@@ -24,8 +24,8 @@
     "usuarios": [
       {
         "nombre": "Admin",
-        "correo": "admin2@zapmotors.com",
-        "contrasena": "admin123",
+        "correo": "marco@zapmotors.com",
+        "contrasena": "Abcd1234@",
         "rol": "admin",
         "telefono": "600000000",
         "id_concesionario": 1,
@@ -33,8 +33,8 @@
       },
       {
         "nombre": "Empleado",
-        "correo": "empleado@zapmotors.com",
-        "contrasena": "empleado123",
+        "correo": "wen@zapmotors.com",
+        "contrasena": "Abcd1234@",
         "rol": "empleado",
         "telefono": "600000001",
         "id_concesionario": 1,

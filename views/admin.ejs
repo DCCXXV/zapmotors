@@ -888,5 +888,76 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<!-- seccion de stats -->
+<section class="m-4" aria-labelledby="titulo-estadisticas">
+    <h3 id="titulo-estadisticas">Estadísticas</h3>
+
+    <div class="d-flex gap-4 mt-4">
+        
+        <!-- reservas por concesionario -->
+        <div class="w-50">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Reservas por concesionario</h5>
+                </div>
+                <div class="card-body">
+                    <% if (statsByConcessionaire && statsByConcessionaire.length > 0) { %>
+                        <table class="table table-striped" aria-label="Estadísticas de reservas por concesionario">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Concesionario</th>
+                                    <th scope="col" class="text-end">Total Reservas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let stat of statsByConcessionaire) { %>
+                                    <tr>
+                                        <td><%= stat.concesionario %></td>
+                                        <td class="text-end"><%= stat.total_reservas %></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <p class="text-muted text-center">No hay datos de reservas disponibles</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- vehículos más usados -->
+        <div class="w-50">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Top 5 vehículos más reservados</h5>
+                </div>
+                <div class="card-body">
+                    <% if (mostUsedVehicles && mostUsedVehicles.length > 0) { %>
+                        <table class="table table-striped" aria-label="Vehículos más reservados">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Matrícula</th>
+                                    <th scope="col">Vehículo</th>
+                                    <th scope="col" class="text-end">Reservas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let vehicle of mostUsedVehicles) { %>
+                                    <tr>
+                                        <td><%= vehicle.matricula %></td>
+                                        <td><%= vehicle.marca %> <%= vehicle.modelo %> (<%= vehicle.color %>)</td>
+                                        <td class="text-end"><%= vehicle.total_reservas %></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <p class="text-muted text-center">No hay datos de vehículos disponibles</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <%- include('partials/footer') %>

@@ -3,8 +3,9 @@
     <%- include("head", {title: title}) %>
 
     <body class="inter-regular w-100 zoom">
-        <header class="py-0 sticky-top">
-            <nav class="navbar navbar-expand-lg py-0">
+        <a href="#main-content" class="skip-to-main">Saltar al contenido principal</a>
+        <header class="py-0 sticky-top" role="banner">
+            <nav class="navbar navbar-expand-lg py-0" role="navigation" aria-label="Navegación principal">
                 <p id="nav-title" class="brand-title mx-4 my-0 h2">
                     <span class="brand-zap">zap</span> <span class="brand-motors">motors</span>
                 </p>
@@ -13,6 +14,8 @@
                         <a
                             class="nav-link px-4 py-3 <%= activePage === 'inicio' ? 'active' : '' %>"
                             href="/"
+                            accesskey="h"
+                            title="Inicio (Alt+H)"
                         >
                             Inicio
                         </a>
@@ -21,6 +24,8 @@
                         <a
                             class="nav-link px-4 py-3 <%= activePage === 'vehiculos' ? 'active' : '' %>"
                             href="/vehiculos"
+                            accesskey="v"
+                            title="Vehículos (Alt+V)"
                             >Vehículos
                         </a>
                     </li>
@@ -29,6 +34,8 @@
                             <a
                                 class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
                                 href="/reservar"
+                                accesskey="r"
+                                title="Reservar (Alt+R)"
                                 >Reservar
                             </a>
                         </li>
@@ -37,6 +44,8 @@
                         <a
                             class="nav-link px-4 py-3 <%= activePage === 'contacto' ? 'active' : '' %>"
                             href="/contacto"
+                            accesskey="k"
+                            title="Contacto (Alt+K)"
                             >Contacto
                         </a>
                     </li>
@@ -54,6 +63,8 @@
                         data-bs-toggle="modal"
                         data-bs-target="#accessibilityModal"
                         aria-label="Accesibilidades"
+                        accesskey="a"
+                        title="Accesibilidad (Alt+A)"
                     >
                         <span><i class="bi bi-universal-access"></i></span>
                     </button>
@@ -89,7 +100,7 @@
                 </div>
             </nav>
         </header>
-        <main>
+        <main id="main-content" role="main">
 
         <div class="modal fade" id="accessibilityModal" tabindex="-1" aria-labelledby="accessibilityModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -116,14 +127,52 @@
                             </button>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between">
-                            <label for="zoom" class="mb-0">Tamaño de texto</label>
-                            <select id="zoom" class="form-select" style="width: auto;">
-                                <option value="1" selected>100%</option>
-                                <option value="1.2">120%</option>
-                                <option value="1.5">150%</option>
-                                <option value="2">200%</option>
+                        <div class="d-flex flex-column gap-2">
+                            <label for="contrast-mode" class="mb-0">Contraste y paleta de colores</label>
+                            <select id="contrast-mode" class="form-select" aria-label="Seleccionar modo de contraste">
+                                <option value="normal" selected>Normal</option>
+                                <option value="high-contrast">Alto contraste</option>
+                                <option value="deuteranopia">Deuteranopia (rojo-verde)</option>
+                                <option value="protanopia">Protanopia (rojo-verde)</option>
+                                <option value="tritanopia">Tritanopia (azul-amarillo)</option>
                             </select>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <label for="font-size" class="mb-0">Tamaño de fuente</label>
+                            <select id="font-size" class="form-select" aria-label="Seleccionar tamaño de fuente">
+                                <option value="0.8">Pequeño (80%)</option>
+                                <option value="1" selected>Normal (100%)</option>
+                                <option value="1.2">Grande (120%)</option>
+                            </select>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <div class="d-flex flex-column gap-2">
+                            <h6 class="mb-2">Atajos de teclado disponibles</h6>
+                            <div class="d-flex flex-column gap-1 small">
+                                <div class="d-flex justify-content-between">
+                                    <span>Inicio</span>
+                                    <kbd>Alt+H</kbd>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Vehículos</span>
+                                    <kbd>Alt+V</kbd>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Reservar</span>
+                                    <kbd>Alt+R</kbd>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Contacto</span>
+                                    <kbd>Alt+K</kbd>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Accesibilidad</span>
+                                    <kbd>Alt+A</kbd>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

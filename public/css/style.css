@@ -3,6 +3,7 @@
     margin: 0;
 }
 
+/* normal */
 :root {
     color-scheme: light;
 
@@ -45,6 +46,7 @@
     --zoom: 1;
 }
 
+/* normal oscuro */
 [data-theme="dark"] {
     color-scheme: dark;
 
@@ -85,6 +87,200 @@
     --border-accent: #F6833B;
 
     --zoom: 1;
+}
+
+/* alto contraste */
+body.high-contrast {
+    --bg: #000000;
+    --bg-secondary: #1a1a1a;
+    --text: #ffffff;
+    --text-muted: #ffffff;
+    --progress: #ffff00;
+    --muted: #1a1a1a;
+
+    --accent-primary: #ffff00;
+    --accent-primary-hover: #ffff66;
+    --accent-primary-light: #333300;
+    --accent-primary-soft: #1a1a00;
+    --accent-secondary: #ffff00;
+
+    --accent-green: #00ff00;
+    --accent-green-soft: #003300;
+    --accent-green-soft-hover: #004d00;
+
+    --accent-red: #ff0000;
+    --accent-red-soft: #330000;
+    --accent-red-soft-hover: #4d0000;
+
+    --nav-bg-hover: #333333;
+    --nav-active-bg: #ffff00;
+    --nav-active-text: #000000;
+
+    --button-color: #000000;
+    --button-bg: #ffff00;
+    --button-hover: #ffff66;
+    --button-soft-bg: #1a1a00;
+    --button-soft-hover: #333300;
+    --button-secondary-bg: #ffffff;
+    --button-secondary-hover: #cccccc;
+
+    --border-color: #ffffff;
+    --border-accent: #ffff00;
+}
+
+body.high-contrast nav {
+    background-color: #000000 !important;
+    border-bottom: 2px solid #ffffff !important;
+}
+
+/* deuteranopia (dificultad rojo-verde) */
+body.deuteranopia {
+    --accent-primary: #0088cc;
+    --accent-primary-hover: #0099dd;
+    --accent-primary-light: #e6f4fa;
+    --accent-primary-soft: #cce8f4;
+    --accent-secondary: #0099dd;
+
+    --accent-green: #0088cc;
+    --accent-green-soft: #cce8f4;
+    --accent-green-soft-hover: #b3ddf0;
+
+    --accent-red: #cc6600;
+    --accent-red-soft: #ffe6cc;
+    --accent-red-soft-hover: #ffd9b3;
+
+    --button-bg: #0088cc;
+    --button-hover: #0099dd;
+    --button-soft-bg: #cce8f4;
+    --button-soft-hover: #b3ddf0;
+
+    --border-accent: #0088cc;
+    --nav-active-bg: #0088cc;
+    --progress: #0088cc;
+}
+
+[data-theme="dark"] body.deuteranopia {
+    --accent-primary: #33aaff;
+    --accent-primary-hover: #55bbff;
+    --accent-primary-light: #1a334d;
+    --accent-primary-soft: #1a2633;
+
+    --accent-green: #33aaff;
+    --accent-green-soft: #1a334d;
+    --accent-green-soft-hover: #264d66;
+
+    --accent-red: #ff8800;
+    --accent-red-soft: #4d2600;
+    --accent-red-soft-hover: #663300;
+
+    --button-bg: #33aaff;
+    --button-hover: #55bbff;
+    --button-soft-bg: #1a2633;
+    --button-soft-hover: #263d52;
+
+    --border-accent: #33aaff;
+    --nav-active-bg: #33aaff;
+    --progress: #33aaff;
+}
+
+/* protanopia (dificultad rojo-verde, similar a deuteranopia) */
+body.protanopia {
+    --accent-primary: #0066cc;
+    --accent-primary-hover: #0077dd;
+    --accent-primary-light: #e6f0fa;
+    --accent-primary-soft: #cce0f4;
+    --accent-secondary: #0077dd;
+
+    --accent-green: #0066cc;
+    --accent-green-soft: #cce0f4;
+    --accent-green-soft-hover: #b3d4f0;
+
+    --accent-red: #cc8800;
+    --accent-red-soft: #fff0cc;
+    --accent-red-soft-hover: #ffe6b3;
+
+    --button-bg: #0066cc;
+    --button-hover: #0077dd;
+    --button-soft-bg: #cce0f4;
+    --button-soft-hover: #b3d4f0;
+
+    --border-accent: #0066cc;
+    --nav-active-bg: #0066cc;
+    --progress: #0066cc;
+}
+
+[data-theme="dark"] body.protanopia {
+    --accent-primary: #3399ff;
+    --accent-primary-hover: #55aaff;
+    --accent-primary-light: #1a2d4d;
+    --accent-primary-soft: #1a2433;
+
+    --accent-green: #3399ff;
+    --accent-green-soft: #1a2d4d;
+    --accent-green-soft-hover: #264466;
+
+    --accent-red: #ffaa00;
+    --accent-red-soft: #4d3300;
+    --accent-red-soft-hover: #664400;
+
+    --button-bg: #3399ff;
+    --button-hover: #55aaff;
+    --button-soft-bg: #1a2433;
+    --button-soft-hover: #263652;
+
+    --border-accent: #3399ff;
+    --nav-active-bg: #3399ff;
+    --progress: #3399ff;
+}
+
+/* tritanopia (dificultad azul-amarillo) */
+body.tritanopia {
+    --accent-primary: #cc0066;
+    --accent-primary-hover: #dd0077;
+    --accent-primary-light: #fae6f0;
+    --accent-primary-soft: #f4cce0;
+    --accent-secondary: #dd0077;
+
+    --accent-green: #00aa88;
+    --accent-green-soft: #ccf4e8;
+    --accent-green-soft-hover: #b3f0dd;
+
+    --accent-red: #dd4400;
+    --accent-red-soft: #ffe6d9;
+    --accent-red-soft-hover: #ffd4bf;
+
+    --button-bg: #cc0066;
+    --button-hover: #dd0077;
+    --button-soft-bg: #f4cce0;
+    --button-soft-hover: #f0b3d4;
+
+    --border-accent: #cc0066;
+    --nav-active-bg: #cc0066;
+    --progress: #cc0066;
+}
+
+[data-theme="dark"] body.tritanopia {
+    --accent-primary: #ff3399;
+    --accent-primary-hover: #ff55aa;
+    --accent-primary-light: #4d1a33;
+    --accent-primary-soft: #331a26;
+
+    --accent-green: #00ddaa;
+    --accent-green-soft: #1a4d40;
+    --accent-green-soft-hover: #266657;
+
+    --accent-red: #ff6622;
+    --accent-red-soft: #4d2210;
+    --accent-red-soft-hover: #662d15;
+
+    --button-bg: #ff3399;
+    --button-hover: #ff55aa;
+    --button-soft-bg: #331a26;
+    --button-soft-hover: #52263d;
+
+    --border-accent: #ff3399;
+    --nav-active-bg: #ff3399;
+    --progress: #ff3399;
 }
 
 .border,
@@ -137,6 +333,33 @@ body {
     background-color: var(--bg);
     color: var(--text);
     font-size: calc(1rem * var(--zoom));
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: calc(2.5rem * var(--zoom));
+}
+
+h2 {
+    font-size: calc(2rem * var(--zoom));
+}
+
+h3 {
+    font-size: calc(1.75rem * var(--zoom));
+}
+
+h4 {
+    font-size: calc(1.5rem * var(--zoom));
+}
+
+h5 {
+    font-size: calc(1.25rem * var(--zoom));
+}
+
+h6 {
+    font-size: calc(1rem * var(--zoom));
 }
 
 .inter-regular {
@@ -161,7 +384,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     letter-spacing: 0.05em;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: calc(1.5rem * var(--zoom));
 }
 
 .brand-zap {
@@ -213,7 +436,7 @@ nav {
 }
 
 main {
-    min-height: 100vh;
+    flex: 1;
 }
 
 video {
@@ -379,13 +602,13 @@ select {
     background-color: var(--accent-green-soft);
     color: var(--accent-green);
     border: 0;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: calc(2.5rem * var(--zoom));
+    height: calc(2.5rem * var(--zoom));
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 0;
-    font-size: 1.25rem;
+    font-size: calc(1.25rem * var(--zoom));
     transition: background-color 0.2s ease;
 }
 
@@ -687,6 +910,41 @@ a:hover {
     border-radius: 0;
 }
 
+.btn {
+    font-size: calc(1rem * var(--zoom));
+}
+
+.form-control,
+.form-select,
+.form-label {
+    font-size: calc(1rem * var(--zoom));
+}
+
+.nav-link {
+    font-size: calc(1rem * var(--zoom));
+}
+
+.modal-title {
+    font-size: calc(1.25rem * var(--zoom));
+}
+
+.modal-body,
+.modal-footer {
+    font-size: calc(1rem * var(--zoom));
+}
+
+label {
+    font-size: calc(1rem * var(--zoom));
+}
+
+.table {
+    font-size: calc(1rem * var(--zoom));
+}
+
+footer {
+    font-size: calc(0.875rem * var(--zoom));
+}
+
 ::selection {
     background-color: var(--button-soft-bg);
     color: var(--accent-primary);
@@ -698,7 +956,7 @@ a:hover {
 }
 
 .video-banner {
-    height: 400px;
+    height: calc(400px * var(--zoom));
     position: relative;
 }
 
@@ -708,4 +966,52 @@ a:hover {
     object-fit: cover;
     object-position: center 70%;
     display: block;
+}
+
+/* indicador de foco */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+    outline: 3px solid var(--accent-primary) !important;
+    outline-offset: 2px;
+}
+
+body.high-contrast a:focus,
+body.high-contrast button:focus,
+body.high-contrast input:focus,
+body.high-contrast select:focus,
+body.high-contrast textarea:focus,
+body.high-contrast [tabindex]:focus {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 2px;
+}
+
+/* skip to main content (accesibilidad) */
+.skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1em;
+    background-color: var(--accent-primary);
+    color: var(--button-color);
+    text-decoration: none;
+}
+
+.skip-to-main:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+}
+
+kbd {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0.25rem 0.5rem !important;
+    font-family: monospace;
+    font-size: 0.9em;
 }

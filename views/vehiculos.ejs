@@ -1,9 +1,9 @@
 <%- include('partials/header', { title: 'Vehículos - Zap' , activePage:
 'vehiculos' }) %>
-<section id="vehiculos-disponibles" class="p-4">
-    <h3>Vehículos disponibles</h3>
+<section id="vehiculos-disponibles" class="p-4" aria-labelledby="titulo-vehiculos">
+    <h3 id="titulo-vehiculos">Vehículos disponibles</h3>
 
-    <form id="filtro-vehiculos" class="mb-4" action="/vehiculos/filtrar" method="POST">
+    <form id="filtro-vehiculos" class="mb-4" action="/vehiculos/filtrar" method="POST" aria-label="Filtrar vehículos disponibles">
         <div class="row g-3 align-items-end">
 
             <div class="d-flex flex-column col-md-3">
@@ -57,6 +57,7 @@
                 <td>
                     <img
                         src="img/uploads/<%=v.imagen %>"
+                        alt="<%= v.marca %> <%= v.modelo %> <%= v.color %>"
                         style="width: 150px; height: auto"
                     />
                 </td>
@@ -104,7 +105,7 @@
                             html += `
                                 <tr>
                                     <td>
-                                        <img src="img/${v.imagen}" style="width: 150px; height: auto" />
+                                        <img src="img/${v.imagen}" alt="${v.marca} ${v.modelo} ${v.color}" style="width: 150px; height: auto" />
                                     </td>
                                     <td>${v.matricula}</td>
                                     <td>${v.marca}</td>

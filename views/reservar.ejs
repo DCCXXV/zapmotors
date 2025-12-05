@@ -1,11 +1,11 @@
 <%- include('partials/header', { title: 'Reservas - Zap', activePage: 'reservas' }) %>
 
-<section id="reservations" class="m-4">
+<section id="reservations" class="m-4" aria-labelledby="titulo-reservas">
     <div class="row justify-content-center">
         <div class="col-6 col-lg-6 bg-zapgrey p-4 border border-dark">
-            <h2>Reservas</h2>
+            <h2 id="titulo-reservas">Reservas</h2>
             <fieldset class="mx-auto">
-                <legend>Formulario de las reservas</legend>
+                <legend>Formulario de reservas</legend>
                 <div class="progress rounded-0 mb-2 bg-zapgrey">
                     <div id="progressBar" class="progress-bar progress-bar-striped rounded-0" role="progressbar"
                         style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -49,10 +49,10 @@
 
                         </div>
                     </div>
-                    <div>
+                    <!--<div>
                         <input id="checkboxInput" type="checkbox" name="conditions" required>
                         <span>Acepta las condiciones</span>
-                    </div>
+                    </div>-->
                     <div>
                         <button id="submitBtn" type="submit" aria-label="Enviar"
                             class="btn btn-dark rounded-0 px-4"><i class="bi bi-send-fill me-2"></i>Enviar</button>
@@ -69,20 +69,21 @@
                     <p class="text-center text-muted">No hay reservas aún.</p>
                 </div>
             <% } else { %>
-                <table id="reservation-container" class="table bg-white">
+                <table id="reservation-container" class="table bg-white" aria-label="Lista de reservas realizadas">
                     <thead>
-                        <tr class="bg-zapgrey">
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Vehículo</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Final</th>
+                        <tr class="bg-zapgrey text-center">
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Final</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for(let reserva of listareservas) { %>
-                            <tr data-reservation-id="<%= reserva.id_reserva %>">
+                            <tr class="text-center" data-reservation-id="<%= reserva.id_reserva %>">
+                                <td><%= reserva.id_reserva %></td>
                                 <td><%= reserva.nombre %></td>
                                 <td><%= reserva.correo %></td>
                                 <td><%= reserva.id_vehiculo %></td>
