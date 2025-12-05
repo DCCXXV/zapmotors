@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userRep = require("../repository/userRepository");
 const bcrypt = require("bcrypt");
+const { loadData } = require("../load");
 
 router.get("/", (req, res) => {
     res.render("index");
@@ -9,6 +10,16 @@ router.get("/", (req, res) => {
 
 router.get("/setup", (req, res) => {
     res.render("setup");
+});
+
+router.post("/setup/load", (req, res) => {
+    loadData(req.body, (err) => {
+        if (err) {
+            console.error("Error cargando datos:", err);
+            return res.status(500).json({ error: "Error al cargar datos" });
+        }
+        res.json({ message: "Datos cargados correctamente" });
+    });
 });
 
 router.get("/contacto", (req, res) => {

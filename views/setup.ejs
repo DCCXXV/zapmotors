@@ -1,10 +1,68 @@
 <%- include('partials/header', { title: 'Setup - Zap' , activePage: '' }) %>
 
-<div class="container">
-    <div>
-      <label for="formFileLg" class="form-label">Large file input example</label>
-      <input class="form-control form-control-lg" id="formFileLg" type="file">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Carga inicial de datos</h3>
+        </div>
+        <div class="card-body">
+            <p>La base de datos está vacía. Selecciona un archivo JSON con concesionarios y vehículos.</p>
+            
+            <input class="form-control mb-3" id="jsonFile" type="file" accept=".json">
+            
+            <div id="message" class="alert d-none"></div>
+            
+            <button id="uploadBtn" class="btn btn-primary" disabled>Cargar datos</button>
+        </div>
     </div>
 </div>
+
+<script>
+    const fileInput = document.getElementById('jsonFile');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const messageDiv = document.getElementById('message');
+
+    fileInput.addEventListener('change', () => {
+        uploadBtn.disabled = !fileInput.files.length;
+    });
+
+    uploadBtn.addEventListener('click', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            try {
+                const jsonData = JSON.parse(e.target.result);
+                
+                uploadBtn.disabled = true;
+                uploadBtn.textContent = 'Cargando...';
+
+                const response = await fetch('/setup/load', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jsonData)
+                });
+
+                if (response.ok) {
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.textContent = 'Datos cargados correctamente';
+                    messageDiv.classList.remove('d-none');
+                    setTimeout(() => window.location.href = '/', 1500);
+                } else {
+                    throw new Error('Error al cargar datos');
+                }
+            } catch (error) {
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.textContent = 'Error: ' + error.message;
+                messageDiv.classList.remove('d-none');
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Cargar datos';
+            }
+        };
+
+        reader.readAsText(file);
+    });
+</script>
 
 <%- include('partials/footer') %>

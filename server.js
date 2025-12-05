@@ -5,6 +5,7 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
+const pool = require("./connection");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -40,6 +41,33 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+const jsonMiddleware = (req, res, next) => {
+    if (req.path === '/setup' || req.path === '/setup/load') {
+        return next();
+    }
+    
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            return next(err);
+        } else {
+            connection.query(
+                `SELECT COUNT(*) as count FROM concesionarios WHERE activo = TRUE`,
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        return next(err);
+                    } else if (rows[0].count === 0) {
+                        return res.redirect("/setup");
+                    } else {
+                        return next();
+                    }
+                }
+            );
+        }
+    });
+};
+
+app.use(jsonMiddleware);
 
 app.use("/admin", authMiddleware, require("./routes/admin"));
 app.use("/empleado", authMiddleware, require("./routes/empleado"));
