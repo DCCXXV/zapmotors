@@ -1032,3 +1032,83 @@ hr {
 .border-dark {
     border-color: var(--border-color) !important;
 }
+
+th {
+    font-family: "Instrument Serif", serif;
+    font-size: calc(1.2rem * var(--zoom));
+}
+
+.vehicle-card {
+    background-color: var(--bg-secondary);
+    overflow: hidden;
+}
+
+.vehicle-image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vehicle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: calc(0.9rem * var(--zoom));
+    color: var(--text);
+    padding: 0.5rem 0;
+}
+
+.spec-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+}
+
+.spec-label {
+    font-size: calc(0.7rem * var(--zoom));
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.spec-value {
+    font-size: calc(1rem * var(--zoom));
+    color: var(--text);
+    font-weight: 600;
+}
+
+#vehicle-cards .card-title {
+    font-size: calc(1.25rem * var(--zoom));
+    font-weight: 600;
+    color: var(--text);
+}
+
+@media (max-width: 576px) {
+    .vehicle-image-wrapper {
+        height: 180px;
+    }
+
+    .vehicle-specs {
+        grid-template-columns: 1fr;
+    }
+}

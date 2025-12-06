@@ -14,6 +14,7 @@
                 </div>
                 <form id="reservationForm" method="POST" action="/reservar" aria-label="Formulario de la reserva" class="d-flex flex-column gap-3">
                     <div class="row">
+                        <h3 class="my-3">Datos del cliente</h3>
                         <div class="col-12 col-md-6 mb-2">
                             <label for="fullName">Nombre y Apellidos: </label>
                             <input type="text" id="fullName" name="fullName" required class="form-text border-1 border-dark rounded-0 p-2 w-100">
@@ -26,6 +27,7 @@
                         </div>
                     </div>
                     <div>
+                        <h3>Vehículo</h3>
                         <label for="selectedVehicle">Vehículo: </label>
                         <select id="selectedVehicle" name="vehicleId" required
                             class="form-select border-dark border-1 rounded-0">
@@ -38,6 +40,7 @@
                         </select>
                     </div>
                     <div class="row">
+                        <h3>Duración</h3>
                         <div class="col-12 col-md-6 mb-2">
                             <label for="startTime">Fecha de inicio: </label>
                             <input type="datetime-local" id="startTime" name="startTime" class="form-control border border-1 p-2 rounded-0" required>

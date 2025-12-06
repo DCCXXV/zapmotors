@@ -247,11 +247,11 @@ function findByColor(color, callback) {
     });
 }
 
-function findWithFilters({ autonomia, plazas, color }, callback) {
+function findWithFilters({ autonomia, plazas, color, id_concesionario }, callback) {
     pool.getConnection(function (err, connection) {
         if (err) return callback(err);
 
-        let sql = `SELECT * FROM vehiculos WHERE activo = TRUE AND id_concesionario = 1`;
+        let sql = `SELECT * FROM vehiculos WHERE activo = TRUE`;
         const params = [];
 
         if (autonomia) {
@@ -267,6 +267,11 @@ function findWithFilters({ autonomia, plazas, color }, callback) {
         if (color) {
             sql += ` AND LOWER(color) = LOWER(?)`;
             params.push(color);
+        }
+
+        if (id_concesionario) {
+            sql += ` AND id_concesionario = ?`;
+            params.push(id_concesionario);
         }
 
         connection.query(sql, params, function (err, rows) {

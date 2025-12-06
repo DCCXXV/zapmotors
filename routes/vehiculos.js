@@ -13,38 +13,48 @@ router.get("/", (req, res) => {
             return res.status(500).send("Error al obtener vehículos");
         }
 
-        if (rows.length === 0) {
-            return res.render("vehiculos", { sol: [] });
-        }
+        dealershipRep.getDealerships((err, concesionarios) => {
+            if (err) {
+                console.log("Error al obtener concesionarios");
+                return res.status(500).send("Error al obtener concesionarios");
+            }
 
-        let contador = rows.length;
-        let vehiculos = rows;
+            if (rows.length === 0) {
+                return res.render("vehiculos", { sol: [], concesionarios: concesionarios || [] });
+            }
 
-        for(let v of vehiculos){
-            dealershipRep.findById(v.id_concesionario, (err, result)=>{
-                if(err){
-                    console.log("Error al obtener concesionario:", err);
-                    v.nombre_concesionario = "Desconocido";
-                }else{
-                    v.nombre_concesionario = result.nombre;
-                }
+            let contador = rows.length;
+            let vehiculos = rows;
 
-                contador--;
-                if(contador === 0){
-                    res.render("vehiculos", { sol: vehiculos });
-                }
-            });
-        }
+            for(let v of vehiculos){
+                dealershipRep.findById(v.id_concesionario, (err, result)=>{
+                    if(err || !result){
+                        console.log("Error al obtener concesionario:", err);
+                        v.nombre_concesionario = "Desconocido";
+                        v.ciudad_concesionario = "Desconocida";
+                    }else{
+                        v.nombre_concesionario = result.nombre;
+                        v.ciudad_concesionario = result.ciudad;
+                    }
+
+                    contador--;
+                    if(contador === 0){
+                        res.render("vehiculos", { sol: vehiculos, concesionarios: concesionarios || [] });
+                    }
+                });
+            }
+        });
     });
 });
 
 router.get("/filtrar", (req, res) => {
-    const { autonomia, plazas, color } = req.query;
+    const { autonomia, plazas, color, concesionario, ciudad } = req.query;
 
     const filtros = {
         autonomia: autonomia ? Number(autonomia) : null,
         plazas: plazas ? Number(plazas) : null,
         color: color && color.trim() !== "" ? color.trim() : null,
+        id_concesionario: concesionario ? Number(concesionario) : null,
     };
 
     vehiculosRep.findWithFilters(filtros, (err, vehiculos) => {
@@ -54,7 +64,36 @@ router.get("/filtrar", (req, res) => {
                 .status(500)
                 .json({ error: "Error al filtrar vehículos" });
         }
-        res.json(vehiculos);
+
+        if (vehiculos.length === 0) {
+            return res.json([]);
+        }
+
+        let contador = vehiculos.length;
+
+        for (let v of vehiculos) {
+            dealershipRep.findById(v.id_concesionario, (err, result) => {
+                if (err || !result) {
+                    v.nombre_concesionario = "Desconocido";
+                    v.ciudad_concesionario = "Desconocida";
+                } else {
+                    v.nombre_concesionario = result.nombre;
+                    v.ciudad_concesionario = result.ciudad;
+                }
+
+                contador--;
+                if (contador === 0) {
+                    // filtrar por ciudad si se especificó
+                    let vehiculosFiltrados = vehiculos;
+                    if (ciudad && ciudad.trim() !== "") {
+                        vehiculosFiltrados = vehiculos.filter(v =>
+                            v.ciudad_concesionario.toLowerCase().includes(ciudad.trim().toLowerCase())
+                        );
+                    }
+                    res.json(vehiculosFiltrados);
+                }
+            });
+        }
     });
 });
 

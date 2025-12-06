@@ -1,3 +1,4 @@
 - [ ] mensajes encima de boton de altas de success y error
 - [ ] cambiar imagen en formulario vehiculos
-- [ ] pagina de errores dinamica
+- [x] pagina de errores dinamica
+- [ ] añadir mucho mas en el json de ejemplo para la defensa y tener las imag preparadas
