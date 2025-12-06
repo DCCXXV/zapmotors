@@ -98,12 +98,18 @@ router.get("/admin", (req, res) => {
 });
 
 router.use((req, res) => {
-    res.status(404).render("404");
+    res.status(404).render("error", {
+        errorCode: 404,
+        errorMessage: "Página no encontrada"
+    });
 });
 
 router.use((err, req, res, next) => {
     console.error("Error en el servidor:", err.stack);
-    res.status(500).render("500");
+    res.status(500).render("error", {
+        errorCode: 500,
+        errorMessage: "Error interno del servidor"
+    });
 });
 
 module.exports = router;

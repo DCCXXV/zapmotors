@@ -46,7 +46,10 @@ app.use((req, res, next) => {
 
 const authMiddleware = (req, res, next) => {
     if (res.locals.user == null) {
-        return res.status(401).render("401");
+        return res.status(401).render("error", {
+            errorCode: 401,
+            errorMessage: "No autorizado"
+        });
     }
     next();
 };
@@ -55,7 +58,7 @@ const jsonMiddleware = (req, res, next) => {
     if (req.path === '/setup' || req.path === '/setup/load') {
         return next();
     }
-    
+
     pool.getConnection(function (err, connection) {
         if (err) {
             return next(err);
@@ -91,14 +94,19 @@ app.use("/api/reservas", require("./routes/api/reservas"));
 
 app.use("/", require("./routes/index"));
 
-// TODO: página de errores dinámicos ->
 app.use((req, res) => {
-    res.status(404).render("404");
+    res.status(404).render("error", {
+        errorCode: 404,
+        errorMessage: "Página no encontrada"
+    });
 });
 
 app.use((err, req, res, next) => {
     console.error("Error en el servidor:", err.stack);
-    res.status(500).render("500");
+    res.status(500).render("error", {
+        errorCode: 500,
+        errorMessage: "Error interno del servidor"
+    });
 });
 
 app.listen(port, () => {

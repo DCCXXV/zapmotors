@@ -10,7 +10,10 @@ router.get("/", (req, res) => {
     userRep.getReservesById(req.session.user.id, (err, rows) => {
         if (err) {
             console.log("Error al listar las reservas");
-            return res.render("500");
+            return res.status(500).render("error", {
+                errorCode: 500,
+                errorMessage: "Error interno del servidor"
+            });
         }
         reservas = rows;
         console.log(reservas);
@@ -22,7 +25,10 @@ router.get("/", (req, res) => {
                     console.log(
                         "Error al listar los vehículos asociados al id del concesionario del empleado"
                     );
-                    return res.render("500");
+                    return res.status(500).render("error", {
+                        errorCode: 500,
+                        errorMessage: "Error interno del servidor"
+                    });
                 }
                 vehiculos = rows;
                 console.log(vehiculos);

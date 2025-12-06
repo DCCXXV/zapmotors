@@ -7,11 +7,11 @@
         </div>
         <div class="card-body">
             <p>La base de datos está vacía. Selecciona un archivo JSON con concesionarios y vehículos.</p>
-            
-            <input class="form-control mb-3" id="jsonFile" type="file" accept=".json">
-            
+
+            <input class="form-control mb-3 border-0 id="jsonFile" type="file" accept=".json">
+
             <div id="message" class="alert d-none"></div>
-            
+
             <button id="uploadBtn" class="btn btn-primary" disabled>Cargar datos</button>
         </div>
     </div>
@@ -34,7 +34,7 @@
         reader.onload = async (e) => {
             try {
                 const jsonData = JSON.parse(e.target.result);
-                
+
                 uploadBtn.disabled = true;
                 uploadBtn.textContent = 'Cargando...';
 

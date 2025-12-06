@@ -16,20 +16,29 @@ router.get("/", (req, res) => {
     userRep.getUsersWithoutUser(req.session.user.id, (err, rows) => {
         if (err) {
             console.log("Error al mostrar los usuarios");
-            return res.status(500).render("500");
+            return res.status(500).render("error", {
+                errorCode: 500,
+                errorMessage: "Error interno del servidor"
+            });
         }
         users = rows;
         vehicleRep.getAll((err, rows) => {
             if (err) {
                 console.log("Error al mostrar los vehículos");
-                return res.render("500");
+                return res.status(500).render("error", {
+                    errorCode: 500,
+                    errorMessage: "Error interno del servidor"
+                });
             }
             vehicles = rows;
 
             dealershipRep.getDealerships((err, rows) => {
                 if (err) {
                     console.log("Error al mostrar los concesionarios");
-                    return res.render("500");
+                    return res.status(500).render("error", {
+                        errorCode: 500,
+                        errorMessage: "Error interno del servidor"
+                    });
                 }
                 dealerships = rows;
 
