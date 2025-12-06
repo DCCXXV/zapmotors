@@ -18,14 +18,14 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    dealershipRep.findById(id, (err, rows) => {
+    dealershipRep.findById(id, (err, dealership) => {
         if (err) {
             console.error(err);
             res.status(500).json({ error: "Error al obtener concesionario" });
-        } else if (!rows || rows.length === 0) {
+        } else if (!dealership) {
             res.status(404).json({ error: "Concesionario no encontrado" });
         } else {
-            res.json(rows[0]);
+            res.json(dealership);
         }
     });
 });

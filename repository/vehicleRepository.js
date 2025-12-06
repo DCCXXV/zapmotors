@@ -45,7 +45,27 @@ function getAll(callback) {
     });
 }
 
-function findAllByIdConcessionaire(id, callback) {
+function getAllAvailable(callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT * FROM vehiculos WHERE estado = "disponible" AND activo = TRUE`,
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function findAllByIdDealership(id, callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
             callback(err);
@@ -260,7 +280,8 @@ function findWithFilters({ autonomia, plazas, color }, callback) {
 module.exports = {
     findById,
     getAll,
-    findAllByIdConcessionaire,
+    getAllAvailable,
+    findAllByIdDealership,
     createVehicle,
     deleteById,
     updateVehicle,

@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { name, email, password, telephone, concessionaire } = req.body;
+    const { name, email, password, telephone, dealership } = req.body;
 
     const corporateEmailRegex = /^[A-Za-z0-9._%+-]+@zapmotors\.com$/;
     if (!corporateEmailRegex.test(email)) {
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
             contrasena: hashedPassword,
             rol: "empleado",
             telefono: telephone,
-            id_concesionario: concessionaire,
+            id_concesionario: dealership,
             preferencias_accesibilidad: null,
         };
 
@@ -110,7 +110,7 @@ router.patch("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
     const id = req.params.id;
 
-    userRep.deleteUser(id, (err, result) => {
+    userRep.deleteById(id, (err, result) => {
         if (err) {
             console.error("Error al eliminar usuario:", err);
             return res.status(500).json({ error: "Error al eliminar el usuario" });

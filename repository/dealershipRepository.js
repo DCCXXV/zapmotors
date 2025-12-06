@@ -14,8 +14,10 @@ function findById(id, callback) {
                     connection.release();
                     if (err) {
                         callback(err);
-                    } else {
-                        callback(null, rows);
+                    } else if(rows.length !== 0){
+                        callback(null, rows[0]);
+                    }else{
+                        callback(null,null);
                     }
                 }
             );

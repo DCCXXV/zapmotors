@@ -1,5 +1,7 @@
 const express = require("express");
-var session = require("express-session");
+const session = require("express-session");
+const mysqlSession = require("express-mysql-session");
+const MySQLStore = mysqlSession(session);
 const path = require("path");
 
 const app = express();
@@ -18,14 +20,22 @@ app.use(
     express.static("node_modules/bootstrap-icons/font")
 );
 
+const sessionStore = new MySQLStore({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "zap"
+});
+
 app.use(
     session({
         secret: "VhQak??mj7",
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 1000 * 60 * 60,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
         },
+        store: sessionStore
     })
 );
 

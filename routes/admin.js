@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     let users;
     let vehicles;
     let dealerships;
-    let statsByConcessionaire;
+    let statsByDealership;
     let mostUsedVehicles;
 
     userRep.getUsersWithoutUser(req.session.user.id, (err, rows) => {
@@ -34,12 +34,12 @@ router.get("/", (req, res) => {
                 dealerships = rows;
 
                 // obtener stats
-                reservaRep.getStatsByConcessionaire((err, rows) => {
+                reservaRep.getStatsByDealership((err, rows) => {
                     if (err) {
                         console.log("Error al obtener estadísticas por concesionario");
-                        statsByConcessionaire = [];
+                        statsByDealership = [];
                     } else {
-                        statsByConcessionaire = rows;
+                        statsByDealership = rows;
                     }
 
                     reservaRep.getMostUsedVehicles((err, rows) => {
@@ -54,7 +54,7 @@ router.get("/", (req, res) => {
                             users: users,
                             vehicles: vehicles,
                             dealerships: dealerships,
-                            statsByConcessionaire: statsByConcessionaire,
+                            statsByDealership: statsByDealership,
                             mostUsedVehicles: mostUsedVehicles,
                         });
                     });

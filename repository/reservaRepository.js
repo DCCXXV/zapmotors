@@ -124,14 +124,13 @@ function createReserva(reserva, callback) {
             connection.query(
                 `INSERT INTO reservas
                 (id_usuario, id_cliente, id_vehiculo, fecha_inicio, fecha_fin, estado, activo)
-                VALUES (?, ?, ?, ?, ?, ?, TRUE)`,
+                VALUES (?, ?, ?, ?, ?, "activa", TRUE)`,
                 [   
                     reserva.id_usuario,
-                    reserva.id_vehiculo,
                     reserva.id_cliente,
+                    reserva.id_vehiculo,
                     reserva.fecha_inicio,
                     reserva.fecha_fin,
-                    reserva.estado || "activa",
                 ],
                 function (err, result) {
                     connection.release();
@@ -196,7 +195,7 @@ function deleteById(id, callback) {
     });
 }
 
-function getStatsByConcessionaire(callback) {
+function getStatsByDealership(callback) {
     pool.getConnection(function (err, connection) {
         if (err) {
             callback(err);
@@ -293,7 +292,7 @@ module.exports = {
     createReserva,
     updateReserva,
     deleteById,
-    getStatsByConcessionaire,
+    getStatsByDealership,
     getMostUsedVehicles,
     checkVehicleAvailability,
 };

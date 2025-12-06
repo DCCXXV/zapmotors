@@ -9,6 +9,7 @@
                 <p class="text-center text-muted pt-3">No hay reservas aún.</p>
             </div>
         <% } else { %>
+            <div class="overflow-auto">
             <table class="table bg-white">
                 <thead>
                     <tr class="bg-zapgrey">
@@ -37,9 +38,11 @@
                     <% }) %>
                 </tbody>
             </table>
+            </div>
         <% } %>
     </div>
 
+    <div class="overflow-auto">
     <table class="table table-striped border border-2 w-100">
         <caption>
             Vehículos disponibles
@@ -72,6 +75,7 @@
             <% }) %>
         </tbody>
     </table>
+    </div>
     </div>
 </section>
 

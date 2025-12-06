@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         reservas = rows;
         console.log(reservas);
 
-        vehicleRep.findAllByIdConcessionaire(
+        vehicleRep.findAllByIdDealership(
             req.session.user.id_concesionario,
             (err, rows) => {
                 if (err) {

@@ -5,7 +5,7 @@ const reservaRep = require("../repository/reservaRepository");
 const clienteRep = require("../repository/clientRepository");
 
 router.get("/", (req, res) => {
-    vehiculoRep.getAll((err, vehicles)=>{
+    vehiculoRep.getAllAvailable((err, vehicles)=>{
         if(err){
             console.log(err);
             return res.status(500).send("Error al cargar reservas");
@@ -23,11 +23,11 @@ router.get("/", (req, res) => {
                     });
                 }
                 for(let r of reservations){
-                    clienteRep.findById(r.id_reserva, (err, row)=>{
+                    clienteRep.findById(r.id_cliente, (err, row)=>{
                         if(err){
                             console.log(err);
                             return res.status(500).send("Error al cargar reservas");
-                        }else{           
+                        }else{                                       
                             r.nombre = row.nombre;
                             r.correo = row.correo;
 

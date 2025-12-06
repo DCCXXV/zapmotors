@@ -59,7 +59,7 @@ router.post("/", (req, res) => {
                 error: "El vehículo no está disponible en el rango de fechas seleccionado. Por favor, elija otras fechas.",
             });
         }
-
+        
         // si está disponible, continuar con la creación
         const user = {
             nombre: fullName,
@@ -73,13 +73,14 @@ router.post("/", (req, res) => {
                 return res.status(500).json({error: "Error al buscar usuario por correo"});
             }
 
-            if (row.length === 0) {
+
+            if (row === null) {
                 clientRep.createClient(user, (err, result) => {
                     if (err) {
                         console.error("Error al crear usuario", err);
                         return res.status(500).json({error: "Error al crear usuario"});
                     }
-
+                    
                     const clientId = result.insertId;
                     const data = {
                         id_usuario: req.session.user.id,
@@ -88,14 +89,12 @@ router.post("/", (req, res) => {
                         fecha_inicio: startTime,
                         fecha_fin: endTime
                     };
-                    console.log(data);
 
                     reservaRep.createReserva(data, (err, result) => {
                         if (err) {
                             console.error("Error al crear reserva:", err);
                             return res.status(500).json({ error: "Error al crear la reserva" });
-                        }
-
+                        }                        
                         res.status(201).json({
                             id: result.insertId,
                             fullName,
@@ -116,8 +115,7 @@ router.post("/", (req, res) => {
                     fecha_inicio: startTime,
                     fecha_fin: endTime
                 };
-                console.log(data);
-
+                
                 reservaRep.createReserva(data, (err, result) => {
                     if (err) {
                         console.error("Error al crear reserva:", err);

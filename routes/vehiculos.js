@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const vehiculosRep = require("../repository/vehicleRepository");
+const dealershipRep = require("../repository/dealershipRepository");
 const { findById } = require("../repository/userRepository");
 
 
@@ -9,9 +10,30 @@ router.get("/", (req, res) => {
     vehiculosRep.getAll(function (err, rows) {
         if (err) {
             console.log("Error al mostrar todos los vehículos");
-        } else {
-            const sol = rows;
-            res.render("vehiculos", { sol });
+            return res.status(500).send("Error al obtener vehículos");
+        }
+
+        if (rows.length === 0) {
+            return res.render("vehiculos", { sol: [] });
+        }
+
+        let contador = rows.length;
+        let vehiculos = rows;
+
+        for(let v of vehiculos){
+            dealershipRep.findById(v.id_concesionario, (err, result)=>{
+                if(err){
+                    console.log("Error al obtener concesionario:", err);
+                    v.nombre_concesionario = "Desconocido";
+                }else{
+                    v.nombre_concesionario = result.nombre;
+                }
+
+                contador--;
+                if(contador === 0){
+                    res.render("vehiculos", { sol: vehiculos });
+                }
+            });
         }
     });
 });

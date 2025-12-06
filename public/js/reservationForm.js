@@ -180,11 +180,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        console.log("123");
         fullNameInputError.style.display = "none";
         emailInputError.style.display = "none";
         startTimeError.style.display = "none";
         endTimeError.style.display = "none";
+
+        const inputs = [
+            fullNameInput,
+            emailInput,
+            startTimeInput,
+            endTimeInput,
+            vehicleInput,
+        ];
+
+        inputs.forEach((input) => {
+            input.classList.remove("border-success", "border-danger");
+            input.classList.add("border-dark");
+        });
+
+        progress = Array(6).fill(false);
+        updateProgressBar();
 
         const formData = new FormData(e.target);
         const form = e.target;
@@ -216,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((data) => {
                 form.reset();
 
-                // Añadir fila a la tabla
+                // añadir fila a la tabla
                 const tbody = document.querySelector(
                     "#reservation-container tbody"
                 );
@@ -228,11 +243,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <td>${formData.get("fullName")}</td>
         <td>${formData.get("email")}</td>
         <td>${formData.get("vehicleId")}</td>
-        <td>${formData.get("startTime")}</td>
-        <td>${formData.get("endTime")}</td>
+        <td>${formData.get("startTime").replace("T", ",")}</td>
+        <td>${formData.get("endTime").replace("T", ",")}</td>
     `;
                 tbody.appendChild(newRow);
-                alert("Reversa registrado correctamente");
             })
             .catch((error) => {
                 console.error(error);

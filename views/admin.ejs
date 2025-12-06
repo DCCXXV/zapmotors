@@ -2,8 +2,8 @@
 
 <section id="contacto">
     <h3 class="m-4">Panel de Administración</h3>
-    <div class="d-flex gap-4 m-4">
-        <div class="d-flex flex-column w-50">
+    <div class="d-flex flex-column flex-lg-row gap-4 m-4">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Registro de empleado</h4>
             <div class="w-100 border p-2">
                 <form
@@ -11,8 +11,8 @@
                     class="d-flex flex-column">
                     <div>
                         <div class="d-flex flex-column gap-2">
-                            <div class="d-flex gap-2">
-                                <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column flex-md-row gap-2">
+                                <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="name">Nombre: </label>
                                     <input
                                         id="name"
@@ -22,7 +22,7 @@
                                         required
                                         class="border p-2" />
                                 </div>
-                                <div class="d-flex flex-column w-50">
+                                <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="email">Correo electrónico: </label>
                                     <input
                                         id="email"
@@ -50,8 +50,8 @@
                                 required />
                             <label for="telefono">Teléfono: </label>
                             <input type="tel" name="telephone" placeholder="679 56 12 12" class="form-label border p-2">
-                            <label for="concessionaire">Concesionario: </label>
-                            <input type="number" name="concessionaire" value="1" class="form-number border p-2">
+                            <label for="dealership">Concesionario: </label>
+                            <input type="number" name="dealership" value="1" class="form-number border p-2">
                         </div>
                         <% if (typeof errMsg !=='undefined' && errMsg) { %>
                         <p class="text-danger mt-1"><%= errMsg %></p>
@@ -63,9 +63,9 @@
                 </form>
             </div>
         </div>
-        <div class="d-flex flex-column w-50">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Lista de usuarios</h4>
-            <div id="user-container" class="w-100 border d-flex flex-column p-2">
+            <div id="user-container" class="w-100 border d-flex flex-column p-2 overflow-auto">
                 <table class="table table-striped border border-2 w-100">
                     <thead>
                         <tr class="text-center">
@@ -101,8 +101,8 @@
             </div>
         </div>
     </div>
-    <div class="d-flex gap-4 m-4">
-        <div class="d-flex flex-column w-50">
+    <div class="d-flex flex-column flex-lg-row gap-4 m-4">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Registro de vehículo</h4>
             <div class="w-100 border p-2">
                 <form
@@ -110,8 +110,8 @@
                     enctype="multipart/form-data"
                     class="d-flex flex-column w-100">
                     <div class="w-100 mb-4">
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="licensePlate">Matrícula:</label>
                                     <input
                                         id="licensePlate"
@@ -121,7 +121,7 @@
                                         required
                                         class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="brand">Marca:</label>
                                     <input
                                         id="brand"
@@ -133,8 +133,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="model">Modelo:</label>
                                 <input
                                     id="model"
@@ -144,7 +144,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="registrationYear">Año de matriculación:</label>
                                 <input
                                     id="registrationYear"
@@ -156,8 +156,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="seatsNumber">Número de plazas:</label>
                                 <input
                                     id="seatsNumber"
@@ -168,7 +168,7 @@
                                     class="border p-2" />
                             </div>
 
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="rangeKm">Autonomía (km):</label>
                                 <input
                                     id="rangeKm"
@@ -180,8 +180,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="color">Color:</label>
                                 <input
                                     id="color"
@@ -192,7 +192,7 @@
                                     class="border p-2" />
                             </div>
 
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="image">Imagen:</label>
                                 <input
                                     class="form-control rounded-0 border-dark p-2"
@@ -204,8 +204,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="status">Estado:</label>
                                 <select id="status" name="status" class="border p-2 rounded-0">
                                     <option value="disponible" selected>Disponible</option>
@@ -213,7 +213,7 @@
                                     <option value="reservado">Reservado</option>
                                 </select>
                             </div>
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="dealershipId">ID concesionario: </label>
                                 <input
                                     id="dealershipId"
@@ -231,9 +231,9 @@
                 </form>
             </div>
         </div>
-        <div class="d-flex flex-column w-50">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Lista de vehículos</h4>
-            <div id="vehicles-container" class="w-100 border d-flex flex-column p-2">
+            <div id="vehicles-container" class="w-100 border d-flex flex-column p-2 overflow-auto">
                 <table class="table table-striped border border-2 w-100" style="table-layout: fixed;">
                     <thead>
                         <tr class="text-center">
@@ -269,16 +269,16 @@
         </div>
     </div>
 
-    <div class="d-flex gap-4 m-4">
-        <div class="d-flex flex-column w-50">
+    <div class="d-flex flex-column flex-lg-row gap-4 m-4">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Registro de concesionario</h4>
             <div class="w-100 border p-2">
                 <form
                     id="altaConcesionario"
                     class="d-flex flex-column w-100">
                     <div class="w-100 mb-4">
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="dealershipsName">Nombre:</label>
                                     <input
                                         id="dealershipsName"
@@ -288,7 +288,7 @@
                                         required
                                         class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                     <label for="city">Ciudad:</label>
                                     <input
                                         id="city"
@@ -300,8 +300,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <div class="d-flex flex-column w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="address">Dirección:</label>
                                 <input
                                     id="address"
@@ -311,7 +311,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column w-50">
+                            <div class="d-flex flex-column col-12 col-md-6">
                                 <label for="phone">Teléfono:</label>
                                 <input
                                     id="phone"
@@ -329,9 +329,9 @@
                 </form>
             </div>
         </div>
-        <div class="d-flex flex-column w-50">
+        <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Lista de concesionario</h4>
-            <div id="dealerships-container" class="w-100 border d-flex flex-column p-2">
+            <div id="dealerships-container" class="w-100 border d-flex flex-column p-2 overflow-auto">
                 <table class="table table-striped border border-2 w-100">
                     <thead>
                         <tr class="text-center">
@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
             email: formData.get('email'),
             password: formData.get('password'),
             telephone: formData.get('telephone'),
-            concessionaire: formData.get('concessionaire')
+            dealership: formData.get('dealership')
         };
 
         fetch('/api/usuarios', {
@@ -519,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </td>
             `;
             tbody.appendChild(newRow);
-            alert('Empleado registrado correctamente');
         })
         .catch(error => {
             console.error(error);
@@ -570,7 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                alert('Usuario eliminado correctamente');
                 location.reload();
             })
             .catch(error => {
@@ -722,8 +720,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('editVehicleModal'));
             modal.hide();
-
-            alert('Vehículo actualizado correctamente');
         })
         .catch(error => {
             console.error(error);
@@ -778,7 +774,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </td>
             `;
             tbody.appendChild(newRow);
-            alert('Concesionario creado correctamente');
         })
         .catch(error => {
             console.error(error);
@@ -876,8 +871,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('editDealershipModal'));
             modal.hide();
-
-            alert('Concesionario actualizado correctamente');
         })
         .catch(error => {
             console.error(error);
@@ -892,16 +885,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="m-4" aria-labelledby="titulo-estadisticas">
     <h3 id="titulo-estadisticas">Estadísticas</h3>
 
-    <div class="d-flex gap-4 mt-4">
-        
+    <div class="d-flex flex-column flex-lg-row gap-4 mt-4">
+
         <!-- reservas por concesionario -->
-        <div class="w-50">
+        <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Reservas por concesionario</h5>
                 </div>
                 <div class="card-body">
-                    <% if (statsByConcessionaire && statsByConcessionaire.length > 0) { %>
+                    <% if (statsByDealership && statsByDealership.length > 0) { %>
                         <table class="table table-striped" aria-label="Estadísticas de reservas por concesionario">
                             <thead>
                                 <tr>
@@ -910,7 +903,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for (let stat of statsByConcessionaire) { %>
+                                <% for (let stat of statsByDealership) { %>
                                     <tr>
                                         <td><%= stat.concesionario %></td>
                                         <td class="text-end"><%= stat.total_reservas %></td>
@@ -926,7 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <!-- vehículos más usados -->
-        <div class="w-50">
+        <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Top 5 vehículos más reservados</h5>

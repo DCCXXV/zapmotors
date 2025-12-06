@@ -417,13 +417,21 @@ nav {
     border-bottom: 1px solid rgba(232, 238, 243, 0.1);
 }
 
+.navbar-toggler {
+    color: var(--text);
+}
+
+.navbar-toggler:hover {
+    opacity: 0.7;
+}
+
 .nav-item a.active {
     /*background-color: var(--nav-active-bg);*/
     color: var(--accent-primary) !important;
 }
 
 .nav-item:hover {
-    background-color: var(--nav-bg-hover);
+    background-color: var(--bg-secondary);
 }
 
 .bg-zapgrey {
@@ -534,7 +542,7 @@ button[type="submit"] {
 .table {
     background-color: var(--bg) !important;
     color: var(--text) !important;
-    border: 1px solid var(--text) !important;
+    border: 1px solid var(--border-color) !important;
     border-collapse: separate;
     border-spacing: 0;
 }
@@ -1014,4 +1022,13 @@ kbd {
     padding: 0.25rem 0.5rem !important;
     font-family: monospace;
     font-size: 0.9em;
+}
+
+hr {
+    border-color: var(--border-color) !important;
+    opacity: 1;
+}
+
+.border-dark {
+    border-color: var(--border-color) !important;
 }
