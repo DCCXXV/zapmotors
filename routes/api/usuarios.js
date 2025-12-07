@@ -111,7 +111,7 @@ router.put("/:id/preferences", (req, res) => {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
 
-        // Update session if the logged-in user is the one being updated
+        // update session if the logged-in user is the one being updated
         if (req.session && req.session.user && req.session.user.id === id) {
             req.session.user.preferences = preferences;
             req.session.save(err => {

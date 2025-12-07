@@ -2,6 +2,7 @@
 
 <section id="contacto">
     <h3 class="m-4">Panel de Administración</h3>
+    <a class="ms-4 btn btn-primary" href="/setup"> Cargar JSON</a>
     <div class="d-flex flex-column flex-lg-row gap-4 m-4">
         <div class="d-flex flex-column col-12 col-lg-6">
             <h4>Registro de empleado</h4>
@@ -51,12 +52,12 @@
 
                         <div class="d-flex flex-column">
                             <label for="telefono">Teléfono: </label>
-                            <input type="tel" name="telephone" placeholder="679 56 12 12" class="form-label border p-2" maxlength="9" pattern="^[0-9]{9}$" title="Introduce un teléfono de 9 dígitos (solo números)">
+                            <input type="tel" name="telephone" placeholder="679 56 12 12" class="form-label border p-2" maxlength="9" pattern="^[0-9]{9}$" title="Introduce un teléfono de 9 dígitos (solo números)" required>
                         </div>
 
                         <div class="d-flex flex-column">
                             <label for="dealership">Concesionario: </label>
-                            <input id="dealership" type="number" name="dealership" value="1" class="form-number border p-2">
+                            <input id="dealership" type="number" name="dealership" value="1" class="form-number border p-2" required>
                         </div>
                     </div>
 
@@ -92,7 +93,7 @@
                             <td><%= u.nombre %></td>
                             <td><%= u.correo %></td>
                             <td>
-                                <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="<%= u.id_usuario %>" aria-label="Cambiar rol del usuario>
+                                <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="<%= u.id_usuario %>" aria-label="Cambiar rol del usuario">
                                     <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %> >Empleado</option>
                                     <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %> >Administrador</option>
                                 </select>

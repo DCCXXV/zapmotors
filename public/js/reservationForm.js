@@ -149,35 +149,6 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProgressBar();
     });
 
-    /*
-    startTime.addEventListener("input", function () {
-        if (startTime.value !== "") {
-            progress[6] = true;
-        } else {
-            progress[6] = false;
-        }
-        updateProgressBar();
-    });
-
-    endTime.addEventListener("input", function () {
-        if (endTime.value !== "") {
-            progress[7] = true;
-        } else {
-            progress[7] = false;
-        }
-        updateProgressBar();
-    });
-
-    phone.addEventListener("input", function () {
-        if (phone.value.length < 9) {
-            progress[8] = false;
-        } else {
-            progress[8] = true;
-        }
-        updateProgressBar();
-    });
-    */
-
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         fullNameInputError.style.display = "none";
