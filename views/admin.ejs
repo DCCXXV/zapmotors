@@ -9,34 +9,33 @@
                 <form
                     id="altaUsuarios"
                     class="d-flex flex-column">
-                    <div>
-                        <div class="d-flex flex-column gap-2">
-                            <div class="d-flex flex-column flex-md-row gap-2">
-                                <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="name">Nombre: </label>
-                                    <input
-                                        id="name"
-                                        name="name"
-                                        type="text"
-                                        placeholder="John Doe"
-                                        required
-                                        class="border p-2" />
-                                </div>
-                                <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="email">Correo electrónico: </label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        pattern="^[A-Za-z0-9._%+-]+@zapmotors\.com$"
-                                        title="Debe ser un correo corporativo (@zapmotors.com)"
-                                        placeholder="johndoe@zapmotors.com"
-                                        required
-                                        class="border p-2" />
-                                </div>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="name">Nombre: </label>
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    placeholder="John Doe"
+                                    required
+                                    class="border p-2" />
+                            </div>
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="email">Correo electrónico: </label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    pattern="^[A-Za-z0-9._%+-]+@zapmotors\.com$"
+                                    title="Debe ser un correo corporativo (@zapmotors.com)"
+                                    placeholder="johndoe@zapmotors.com"
+                                    required
+                                    class="border p-2" />
                             </div>
                         </div>
-                        <div class="d-flex flex-column mb-4">
+
+                        <div class="d-flex flex-column">
                             <label for="password">Contraseña: </label>
                             <input
                                 id="passwordInput"
@@ -48,15 +47,25 @@
                                 placeholder="Introduce tu contraseña"
                                 class="border p-2"
                                 required />
-                            <label for="telefono">Teléfono: </label>
-                            <input type="tel" name="telephone" placeholder="679 56 12 12" class="form-label border p-2">
-                            <label for="dealership">Concesionario: </label>
-                            <input type="number" name="dealership" value="1" class="form-number border p-2">
                         </div>
-                        <% if (typeof errMsg !=='undefined' && errMsg) { %>
-                        <p class="text-danger mt-1"><%= errMsg %></p>
-                        <% } %>
+
+                        <div class="d-flex flex-column">
+                            <label for="telefono">Teléfono: </label>
+                            <input type="tel" name="telephone" placeholder="679 56 12 12" class="form-label border p-2" maxlength="9" pattern="^[0-9]{9}$" title="Introduce un teléfono de 9 dígitos (solo números)">
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <label for="dealership">Concesionario: </label>
+                            <input id="dealership" type="number" name="dealership" value="1" class="form-number border p-2">
+                        </div>
                     </div>
+
+                    <% if (typeof errMsg !=='undefined' && errMsg) { %>
+                    <div class="alert alert-danger mb-3" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i> <%= errMsg %>
+                    </div>
+                    <% } %>
+                    <div id="user-msg-box" class="mb-3"></div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         <i class="bi bi-person-plus-fill me-2"></i>Registrar empleado
                     </button>
@@ -83,7 +92,7 @@
                             <td><%= u.nombre %></td>
                             <td><%= u.correo %></td>
                             <td>
-                                <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="<%= u.id_usuario %>">
+                                <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="<%= u.id_usuario %>" aria-label="Cambiar rol del usuario>
                                     <option value="empleado" <%= u.rol === 'empleado' ? 'selected' : '' %> >Empleado</option>
                                     <option value="admin" <%= u.rol === 'admin' ? 'selected' : '' %> >Administrador</option>
                                 </select>
@@ -91,7 +100,7 @@
 
                             <td class="text-center">
                                 <button class="btn btn-danger delete-user-btn" data-user-id="<%= u.id_usuario %>">
-                                    <i class="bi bi-trash-fill"></i>
+                                    <i aria-label="Eliminar usuario" class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
@@ -109,32 +118,32 @@
                     id="altaVehiculo"
                     enctype="multipart/form-data"
                     class="d-flex flex-column w-100">
-                    <div class="w-100 mb-4">
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="licensePlate">Matrícula:</label>
-                                    <input
-                                        id="licensePlate"
-                                        name="licensePlate"
-                                        type="text"
-                                        placeholder="1234ABC"
-                                        required
-                                        class="border p-2" />
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="licensePlate">Matrícula:</label>
+                                <input
+                                    id="licensePlate"
+                                    name="licensePlate"
+                                    type="text"
+                                    placeholder="1234ABC"
+                                    required
+                                    class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="brand">Marca:</label>
-                                    <input
-                                        id="brand"
-                                        name="brand"
-                                        type="text"
-                                        placeholder="Tesla"
-                                        required
-                                        class="border p-2" />
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="brand">Marca:</label>
+                                <input
+                                    id="brand"
+                                    name="brand"
+                                    type="text"
+                                    placeholder="Tesla"
+                                    required
+                                    class="border p-2" />
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="model">Modelo:</label>
                                 <input
                                     id="model"
@@ -144,7 +153,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column col-12 col-md-6">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="registrationYear">Año de matriculación:</label>
                                 <input
                                     id="registrationYear"
@@ -156,8 +165,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="seatsNumber">Número de plazas:</label>
                                 <input
                                     id="seatsNumber"
@@ -167,8 +176,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-
-                            <div class="d-flex flex-column col-12 col-md-6">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="rangeKm">Autonomía (km):</label>
                                 <input
                                     id="rangeKm"
@@ -180,8 +188,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="color">Color:</label>
                                 <input
                                     id="color"
@@ -191,8 +199,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-
-                            <div class="d-flex flex-column col-12 col-md-6">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="image">Imagen:</label>
                                 <input
                                     class="form-control rounded-0 border-dark p-2"
@@ -204,8 +211,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="status">Estado:</label>
                                 <select id="status" name="status" class="border p-2 rounded-0">
                                     <option value="disponible" selected>Disponible</option>
@@ -213,7 +220,7 @@
                                     <option value="reservado">Reservado</option>
                                 </select>
                             </div>
-                            <div class="d-flex flex-column col-12 col-md-6">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="dealershipId">ID concesionario: </label>
                                 <input
                                     id="dealershipId"
@@ -225,6 +232,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="vehicle-msg-box" class="mb-3"></div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         <i class="bi bi-car-front-fill me-2"></i>Registrar vehículo
                     </button>
@@ -254,10 +262,10 @@
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     <button class="btn btn-secondary edit-vehicle-btn">
-                                        <i class="bi bi-pencil-fill"></i>
+                                        <i aria-label="Modificar vehículo" class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button class="btn btn-danger delete-vehicle-btn">
-                                        <i class="bi bi-trash-fill"></i>
+                                        <i aria-label="Eliminar vehículo" class="bi bi-trash-fill"></i>
                                     </button>
                                 </div>
                             </td>
@@ -276,32 +284,32 @@
                 <form
                     id="altaConcesionario"
                     class="d-flex flex-column w-100">
-                    <div class="w-100 mb-4">
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="dealershipsName">Nombre:</label>
-                                    <input
-                                        id="dealershipsName"
-                                        name="dealershipsName"
-                                        type="text"
-                                        placeholder="Zap Motors Madrid"
-                                        required
-                                        class="border p-2" />
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="dealershipsName">Nombre:</label>
+                                <input
+                                    id="dealershipsName"
+                                    name="dealershipsName"
+                                    type="text"
+                                    placeholder="Zap Motors Madrid"
+                                    required
+                                    class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column col-12 col-md-6">
-                                    <label for="city">Ciudad:</label>
-                                    <input
-                                        id="city"
-                                        name="city"
-                                        type="text"
-                                        placeholder="Madrid"
-                                        required
-                                        class="border p-2" />
+                            <div class="d-flex flex-column flex-fill">
+                                <label for="city">Ciudad:</label>
+                                <input
+                                    id="city"
+                                    name="city"
+                                    type="text"
+                                    placeholder="Madrid"
+                                    required
+                                    class="border p-2" />
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column flex-md-row gap-2">
-                            <div class="d-flex flex-column col-12 col-md-6">
+                        <div class="d-flex flex-column flex-lg-row gap-2">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="address">Dirección:</label>
                                 <input
                                     id="address"
@@ -311,7 +319,7 @@
                                     required
                                     class="border p-2" />
                             </div>
-                            <div class="d-flex flex-column col-12 col-md-6">
+                            <div class="d-flex flex-column flex-fill">
                                 <label for="phone">Teléfono:</label>
                                 <input
                                     id="phone"
@@ -323,6 +331,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="dealership-msg-box" class="mb-3"></div>
                     <button class="btn btn-primary rounded-0 mt-auto" type="submit">
                         <i class="bi bi-building-fill-add me-2"></i>Registrar concesionario
                     </button>
@@ -353,10 +362,10 @@
                             <td><%= c.telefono_contacto %></td>
                             <td class="text-center d-flex justify-content-center gap-2">
                                 <button class="btn btn-secondary edit-dealership-btn">
-                                    <i class="bi bi-pencil-fill"></i>
+                                    <i aria-label="Modificar concesionario" class="bi bi-pencil-fill"></i>
                                 </button>
                                 <button class="btn btn-danger delete-dealership-btn">
-                                    <i class="bi bi-trash-fill"></i>
+                                    <i aria-label="Eliminar concesionario" class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
@@ -415,9 +424,12 @@
                             </select>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
+                    <div class="modal-footer d-flex flex-column align-items-stretch">
+                        <div id="edit-vehicle-msg-box"></div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -451,9 +463,12 @@
                             <input type="text" class="form-control" id="edit-dealership-phone" name="phone" required>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
+                    <div class="modal-footer d-flex flex-column align-items-stretch">
+                        <div id="edit-dealership-msg-box"></div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary p-2 border-0" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-dark p-2 border-0">Guardar cambios</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -463,6 +478,28 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    // funcion helper para mostrar mensajes en contexto
+    function showMsgBox(containerId, message, type = 'danger') {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const icon = type === 'success' ? 'bi-check-circle-fill' :
+                     type === 'danger' ? 'bi-exclamation-triangle-fill' :
+                     type === 'warning' ? 'bi-exclamation-triangle-fill' :
+                     'bi-info-circle-fill';
+
+        container.innerHTML = `
+            <div class="alert alert-${type} mb-0" role="alert">
+                <i class="bi ${icon}"></i> ${message}
+            </div>
+        `;
+
+        // auto limpiar después de 10 segundos
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 10000);
+    }
 
     document.getElementById('altaUsuarios').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -505,22 +542,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${data.nombre}</td>
                 <td>${data.correo}</td>
                 <td>
-                    <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="${data.id}">
+                    <select name="rol" class="form-select form-select-sm update-rol-select" data-user-id="${data.id}" arial-label="Cambiar rol del usuario">
                         <option value="empleado" ${data.rol === 'empleado' ? 'selected' : ''}>Empleado</option>
                         <option value="admin" ${data.rol === 'admin' ? 'selected' : ''}>Administrador</option>
                     </select>
                 </td>
                 <td class="text-center">
                     <button class="btn btn-danger delete-user-btn" data-user-id="${data.id}">
-                        <i class="bi bi-trash-fill"></i>
+                        <i arial-label="Eliminar usuario" class="bi bi-trash-fill"></i>
                     </button>
                 </td>
             `;
             tbody.appendChild(newRow);
+            showMsgBox('user-msg-box', 'Usuario registrado correctamente', 'success');
         })
         .catch(error => {
             console.error(error);
-            alert(error.message);
+            showMsgBox('user-msg-box', error.message, 'danger');
         });
     });
 
@@ -542,7 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             }).catch(error => {
                 console.error(error);
-                alert('Error al actualizar rol');
+                showMsgBox('user-msg-box', 'Error al actualizar rol', 'danger');
                 location.reload();
             });
         }
@@ -571,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error(error);
-                alert('Error al eliminar usuario');
+                showMsgBox('user-msg-box', 'Error al eliminar usuario', 'danger');
                 location.reload();
             });
         }
@@ -608,20 +646,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td class="text-center">
                     <div class="d-flex justify-content-center gap-2">
                         <button class="btn btn-secondary edit-vehicle-btn">
-                            <i class="bi bi-pencil-fill"></i>
+                            <i arial-label="Modificar vehículo" class="bi bi-pencil-fill"></i>
                         </button>
                         <button class="btn btn-danger delete-vehicle-btn">
-                            <i class="bi bi-trash-fill"></i>
+                            <i arial-label="Eliminar vehículo" class="bi bi-trash-fill"></i>
                         </button>
                     </div>
                 </td>
             `;
             tbody.appendChild(newRow);
-            // TODO: mensaje de éxito
+            showMsgBox('vehicle-msg-box', 'Vehículo registrado correctamente', 'success');
         })
         .catch(error => {
             console.error(error);
-            // TODO: mensaje de error
+            showMsgBox('vehicle-msg-box', 'Error al crear vehículo', 'danger');
         });
     });
 
@@ -648,7 +686,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => {
                     console.error(error);
-                    alert('Error al eliminar el vehículo');
+                    showMsgBox('vehicle-msg-box', 'Error al eliminar el vehículo', 'danger');
                 });
             }
         });
@@ -683,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => {
                     console.error(error);
-                    alert('Error al cargar los datos del vehículo');
+                    showMsgBox('vehicle-msg-box', 'Error al cargar los datos del vehículo', 'danger');
                 });
         }
     });
@@ -718,10 +756,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('editVehicleModal'));
             modal.hide();
+            showMsgBox('vehicle-msg-box', 'Vehículo actualizado correctamente', 'success');
         })
         .catch(error => {
             console.error(error);
-            alert('Error al actualizar el vehículo');
+            showMsgBox('edit-vehicle-msg-box', 'Error al actualizar el vehículo', 'danger');
         });
     });
 
@@ -764,18 +803,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formData.get('phone')}</td>
                 <td class="text-center d-flex justify-content-center gap-2">
                     <button class="btn btn-secondary edit-dealership-btn">
-                        <i class="bi bi-pencil-fill"></i>
+                        <i arial-label="Modificar concesionario" class="bi bi-pencil-fill"></i>
                     </button>
                     <button class="btn btn-danger delete-dealership-btn">
-                        <i class="bi bi-trash-fill"></i>
+                        <i arial-label="Eliminar concesionario" class="bi bi-trash-fill"></i>
                     </button>
                 </td>
             `;
             tbody.appendChild(newRow);
+            showMsgBox('dealership-msg-box', 'Concesionario registrado correctamente', 'success');
         })
         .catch(error => {
             console.error(error);
-            alert('Error al crear concesionario');
+            showMsgBox('dealership-msg-box', 'Error al crear concesionario', 'danger');
         });
     });
 
@@ -802,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error(error);
-                alert('Error al eliminar el concesionario');
+                showMsgBox('dealership-msg-box', 'Error al eliminar el concesionario', 'danger');
             });
         }
     });
@@ -833,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => {
                     console.error(error);
-                    alert('Error al cargar los datos del concesionario');
+                    showMsgBox('dealership-msg-box', 'Error al cargar los datos del concesionario', 'danger');
                 });
         }
     });
@@ -869,10 +909,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('editDealershipModal'));
             modal.hide();
+            showMsgBox('dealership-msg-box', 'Concesionario actualizado correctamente', 'success');
         })
         .catch(error => {
             console.error(error);
-            alert('Error al actualizar el concesionario');
+            showMsgBox('edit-dealership-msg-box', 'Error al actualizar el concesionario', 'danger');
         });
     });
 })
@@ -889,7 +930,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Reservas por concesionario</h5>
+                    <h4 class="mb-0">Reservas por concesionario</h4>
                 </div>
                 <div class="card-body">
                     <% if (statsByDealership && statsByDealership.length > 0) { %>
@@ -910,7 +951,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tbody>
                         </table>
                     <% } else { %>
-                        <p class="text-muted text-center">No hay datos de reservas disponibles</p>
+                        <div class="alert alert-info text-center mb-0" role="alert">
+                            <i class="bi bi-info-circle-fill"></i> No hay datos de reservas disponibles
+                        </div>
                     <% } %>
                 </div>
             </div>
@@ -920,7 +963,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Top 5 vehículos más reservados</h5>
+                    <h4 class="mb-0">Top 5 vehículos más reservados</h4>
                 </div>
                 <div class="card-body">
                     <% if (mostUsedVehicles && mostUsedVehicles.length > 0) { %>
@@ -943,7 +986,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tbody>
                         </table>
                     <% } else { %>
-                        <p class="text-muted text-center">No hay datos de vehículos disponibles</p>
+                        <div class="alert alert-info text-center mb-0" role="alert">
+                            <i class="bi bi-info-circle-fill"></i> No hay datos de vehículos disponibles
+                        </div>
                     <% } %>
                 </div>
             </div>

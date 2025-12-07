@@ -2,57 +2,67 @@ document.addEventListener("DOMContentLoaded", function () {
     const root = document.documentElement;
     const btn = document.querySelector("#theme-toggle");
     const img = document.querySelector("#theme-img");
-    const saved = localStorage.getItem("zap-theme");
 
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // sincronizar UI con el tema actual
+    const currentTheme = window.currentPreferences ? window.currentPreferences.theme : "light";
 
-    let initialTheme;
-    if (saved) {
-        initialTheme = saved;
-    } else {
-        initialTheme = prefersDark ? "dark" : "light";
-    }
-
-    if (initialTheme === "dark") {
+    if (currentTheme === "dark") {
         img.style.transition = "none";
-        root.setAttribute("data-theme", "dark");
         btn.classList.add("is-right");
         img.innerHTML = "<i class='bi bi-moon-stars text-white'></i>";
     } else {
-        root.removeAttribute("data-theme");
         btn.classList.remove("is-right");
         img.innerHTML = "<i class='bi bi-brightness-high'></i>";
     }
 
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-        if (!localStorage.getItem("zap-theme")) {
-            const isDark = e.matches;
-            if (isDark) {
-                root.setAttribute("data-theme", "dark");
-                btn.classList.add("is-right");
-                img.innerHTML = "<i class='bi bi-moon-stars text-white'></i>";
-            } else {
-                root.removeAttribute("data-theme");
-                btn.classList.remove("is-right");
-                img.innerHTML = "<i class='bi bi-brightness-high'></i>";
-            }
-        }
-    });
+    // función para guardar preferencias (reutilizando la de footer)
+    async function savePreferences(preferences) {
+        window.currentPreferences = preferences;
 
-    function toggleTheme() {
+        if (window.userId) {
+            try {
+                const response = await fetch(`/api/usuarios/${window.userId}/preferences`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(preferences)
+                });
+
+                if (!response.ok) {
+                    console.error('Error al guardar preferencias en DB');
+                }
+            } catch (error) {
+                console.error('Error al guardar preferencias:', error);
+            }
+        } else {
+            localStorage.setItem("zap-theme", preferences.theme);
+            sessionStorage.setItem("fontSize", preferences.fontSize);
+            sessionStorage.setItem("contrastMode", preferences.contrastMode);
+        }
+    }
+
+    async function toggleTheme() {
         const isDark = root.getAttribute("data-theme") === "dark";
+        const newTheme = isDark ? "light" : "dark";
+
         if (isDark) {
             img.style.transition = "left 100ms ease";
             root.removeAttribute("data-theme");
-            localStorage.setItem("zap-theme", "light");
             btn.classList.remove("is-right");
             img.innerHTML = "<i class='bi bi-brightness-high '></i>";
         } else {
             root.setAttribute("data-theme", "dark");
-            localStorage.setItem("zap-theme", "dark");
             btn.classList.add("is-right");
             img.innerHTML = "<i class='bi bi-moon-stars text-white'></i>";
         }
+
+        // guardar
+        await savePreferences({
+            ...window.currentPreferences,
+            theme: newTheme
+        });
     }
+
     btn.addEventListener("click", toggleTheme);
 });

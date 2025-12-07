@@ -1,0 +1,144 @@
+{
+  "concesionarios": [
+    {
+      "nombre": "Zap Motors Madrid",
+      "ciudad": "Madrid",
+      "direccion": "Calle Principal 123",
+      "telefono_contacto": "912345678"
+    },
+    {
+      "nombre": "Zap Motors Barcelona",
+      "ciudad": "Barcelona",
+      "direccion": "Paseo de Gracia 456",
+      "telefono_contacto": "934567890"
+    },
+    {
+      "nombre": "Zap Motors Valencia",
+      "ciudad": "Valencia",
+      "direccion": "Avenida del Puerto 789",
+      "telefono_contacto": "963456789"
+    }
+  ],
+  "vehiculos": [
+    {
+      "matricula": "1234ABC",
+      "marca": "Tesla",
+      "modelo": "Model 3",
+      "ano_matriculacion": 2023,
+      "numero_plazas": 5,
+      "autonomia_km": 500,
+      "color": "Blanco",
+      "imagen": "tesla-model3.jpg",
+      "estado": "disponible",
+      "id_concesionario": 1
+    },
+    {
+      "matricula": "5678DEF",
+      "marca": "Tesla",
+      "modelo": "Model Y",
+      "ano_matriculacion": 2024,
+      "numero_plazas": 7,
+      "autonomia_km": 480,
+      "color": "Azul",
+      "imagen": "tesla-modely.jpg",
+      "estado": "disponible",
+      "id_concesionario": 1
+    },
+    {
+      "matricula": "9012GHI",
+      "marca": "BMW",
+      "modelo": "iX3",
+      "ano_matriculacion": 2023,
+      "numero_plazas": 5,
+      "autonomia_km": 460,
+      "color": "Negro",
+      "imagen": "bmw-ix3.jpg",
+      "estado": "disponible",
+      "id_concesionario": 1
+    },
+    {
+      "matricula": "3456JKL",
+      "marca": "Audi",
+      "modelo": "e-tron GT",
+      "ano_matriculacion": 2024,
+      "numero_plazas": 4,
+      "autonomia_km": 520,
+      "color": "Gris",
+      "imagen": "audi-etron-gt.jpg",
+      "estado": "disponible",
+      "id_concesionario": 2
+    },
+    {
+      "matricula": "7890MNO",
+      "marca": "Nissan",
+      "modelo": "Leaf",
+      "ano_matriculacion": 2022,
+      "numero_plazas": 5,
+      "autonomia_km": 385,
+      "color": "Rojo",
+      "imagen": "nissan-leaf.jpg",
+      "estado": "disponible",
+      "id_concesionario": 2
+    },
+    {
+      "matricula": "2345PQR",
+      "marca": "Volkswagen",
+      "modelo": "ID.4",
+      "ano_matriculacion": 2023,
+      "numero_plazas": 5,
+      "autonomia_km": 425,
+      "color": "Verde",
+      "imagen": "vw-id4.jpg",
+      "estado": "disponible",
+      "id_concesionario": 2
+    },
+    {
+      "matricula": "6789STU",
+      "marca": "Hyundai",
+      "modelo": "Ioniq 5",
+      "ano_matriculacion": 2024,
+      "numero_plazas": 5,
+      "autonomia_km": 481,
+      "color": "Plata",
+      "imagen": "hyundai-ioniq5.jpg",
+      "estado": "disponible",
+      "id_concesionario": 3
+    },
+    {
+      "matricula": "0123VWX",
+      "marca": "Polestar",
+      "modelo": "2",
+      "ano_matriculacion": 2023,
+      "numero_plazas": 5,
+      "autonomia_km": 470,
+      "color": "Blanco",
+      "imagen": "polestar-2.jpg",
+      "estado": "disponible",
+      "id_concesionario": 3
+    },
+    {
+      "matricula": "4567YZA",
+      "marca": "Kia",
+      "modelo": "EV6",
+      "ano_matriculacion": 2024,
+      "numero_plazas": 5,
+      "autonomia_km": 528,
+      "color": "Azul",
+      "imagen": "kia-ev6.jpg",
+      "estado": "disponible",
+      "id_concesionario": 3
+    },
+    {
+      "matricula": "8901BCD",
+      "marca": "Mercedes-Benz",
+      "modelo": "EQE",
+      "ano_matriculacion": 2024,
+      "numero_plazas": 5,
+      "autonomia_km": 590,
+      "color": "Negro",
+      "imagen": "mercedes-eqe.jpg",
+      "estado": "disponible",
+      "id_concesionario": 1
+    }
+  ]
+}

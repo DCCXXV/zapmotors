@@ -1,109 +1,110 @@
 <%- include('partials/header', { title: 'Inicio - Zap' , activePage: 'inicio' }) %>
 
-    <section class="border-bottom bg-zapgrey">
-        <div class="p-4">
-            <h2>Gestión de Flota de Vehículos Eléctricos</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod <strong>tempor</strong>
-                incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate
-                velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id
-                est laborum. Praesent euismod, neque ut malesuada efficitur, <em>sapien justo fringilla lectus</em>, nec
-                fermentum eros
-                magna vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat
-                libero nulla
-                in nunc.
-            </p>
-        </div>
-    </section>
-    <section class="d-flex flex-column flex-lg-row border-bottom">
-        <section class="col-12 col-lg-6 p-4 border-end">
-            <h3>Beneficios de los vehículos eléctricos: </h3>
-            <ol>
-                <li>Menor coste de uso y mantenimiento</li>
-                <li>Eficiencia energética y cero emisiones locales</li>
-                <li>Ventajas en normativas y uso urbano</li>
-            </ol>
+<section class="border-bottom bg-zapgrey">
+    <div class="p-4">
+        <h2>Gestión de Flota de Vehículos Eléctricos</h2>
+        <p>
+            Zap Motors Fleet es la plataforma inteligente de gestión de flotas eléctricas compartidas para organizaciones que priorizan la eficiencia
+            operativa y la movilidad sostenible.
 
-            <ul>
-                <li>Gestión de flotas de vehículos eléctricos</li>
-                <li>Gestión de concesionarios</li>
-                <li>Gestión de usuarios y roles</li>
-                <li>Reservas y devoluciones</li>
-                <li>Accesibilidad digital inclusiva</li>
-            </ul>
+        </p>
+        <p>
+            Centraliza el control completo del ciclo de vida de cada vehículo: desde la asignación territorial por concesionario y la gestión de
+            usuarios por centro de trabajo, hasta el monitoreo en tiempo real de estados y la generación de insightes estratégicos para la toma de
+            decisiones.
+        </p>
+        <p>
+            Los empleados disponen de un portal intuitivo para reservar y liberar vehículos, mientras que el administrador accede a un panel de mando
+            con métricas de utilización, predicción de mantenimiento y configuración de políticas de acceso inclusivas (WCAG). Optimice recursos,
+            reduzca costes de flota y escalde su compromiso ESG con datos accionables.
+        </p>
+    </div>
+</section>
+<section class="d-flex flex-column flex-lg-row border-bottom">
+    <section class="col-12 col-lg-6 p-4 border-end">
+        <h3>Beneficios de los vehículos eléctricos: </h3>
+        <ol>
+            <li>Menor coste de uso y mantenimiento</li>
+            <li>Eficiencia energética y cero emisiones locales</li>
+            <li>Ventajas en normativas y uso urbano</li>
+        </ol>
+
+        <ul>
+            <li>Gestión de flotas de vehículos eléctricos</li>
+            <li>Gestión de concesionarios</li>
+            <li>Gestión de usuarios y roles</li>
+            <li>Reservas y devoluciones</li>
+            <li>Accesibilidad digital inclusiva</li>
+        </ul>
+    </section>
+    <section class="col-12 col-lg-6 p-4">
+        <dl>
+            <dt>Vehículo Eléctrico</dt>
+            <dd>Unidad registrada con modelo, autonomía y ubicación asignada a un concesionario específico.</dd>
+            <dt>Estado</dt>
+            <dd>Condición actual: disponible, reservado o en mantenimiento. Determina si puede ser usado.</dd>
+            <dt>Reserva</dt>
+            <dd>Proceso por el que un empleado bloquea un vehículo disponible para un periodo concreto.</dd>
+        </dl>
+    </section>
+</section>
+
+<section id="vehiculos" class="d-flex flex-column flex-lg-row align-items-stretch border-bottom">
+    <div class="col-12 col-lg-6 p-5 d-flex flex-column justify-content-center">
+        <h2>Vehículos Eléctricos Premium</h2>
+        <p class="lead">Gestiona tu flota de vehículos eléctricos compartidos desde una única plataforma. Consulta disponibilidad, supervisa reservas
+            y toma decisiones basadas en datos reales.</p>
+
+        <p>Cada vehículo está asignado a un concesionario y cada empleado a su base de trabajo. El sistema muestra en tiempo real el estado de la
+            flota: disponible, reservado o en mantenimiento, sin necesidad de hojas de cálculo ni llamadas.</p>
+
+        <p>Los empleados reservan y liberan vehículos desde el portal corporativo. Los administradores acceden a métricas de uso, identifican cuellos
+            de botella y optimizan la asignación de recursos con información precisa.</p>
+
+        <p><strong>Optimiza tu flota. Reduce costes operativos. Mide el impacto de tu movilidad sostenible.</strong></p>
+
+        <p><strong>Empieza tu alquiler desde 10&euro;/día</strong></p>
+
+        <section id="vehiculos-disponibles" class="mt-4">
+            <h3>Vehículos disponibles</h3>
+            <table class="table border border-2">
+                <caption>Vehículos disponibles</caption>
+                <thead>
+                    <tr class="bg-zapgrey">
+                        <th scope="col">Matrícula</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Autonomía (km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12가 3456</td>
+                        <td>Kia</td>
+                        <td>528</td>
+                    </tr>
+                    <tr>
+                        <td>34나 7890</td>
+                        <td>Hyundai</td>
+                        <td>507</td>
+                    </tr>
+                    <tr>
+                        <td>56다 1122</td>
+                        <td>Tesla</td>
+                        <td>602</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
-        <section class="col-12 col-lg-6 p-4">
-            <dl>
-                <dt>HTML</dt>
-                <dd>Lenguaje de marcado para estructurar páginas web.</dd>
-                <dt>CSS</dt>
-                <dd>Lenguaje de estilos para dar formato al contenido.</dd>
-                <dt>JSON</dt>
-                <dd>Formato ligero de intercambio de datos basado en texto (clave–valor y listas), fácil de leer por
-                    humanos
-                    y
-                    procesar por máquinas.</dd>
-            </dl>
-        </section>
-    </section>
+    </div>
 
+    <a href="img/ev.jpg" aria-label="Enlace a la imagen de resolución completa" class="col-12 col-lg-6 d-block overflow-hidden position-relative">
+        <img src="img/ev_miniatura.png" id="imagen-ev" alt="Vehículo eléctrico"
+            title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"
+            class="w-100 h-100 object-fit-cover" />
+    </a>
+</section>
+<section class="video-banner border-bottom overflow-hidden">
+    <video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop muted playsinline></video>
+</section>
 
-    <section id="vehiculos" class="d-flex flex-column flex-lg-row align-items-stretch border-bottom">
-        <div class="col-12 col-lg-6 p-5 d-flex flex-column justify-content-center">
-            <h2>Vehículos Eléctricos Premium</h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            <p>Praesent euismod, neque ut malesuada efficitur, sapien justo fringilla lectus, nec fermentum eros magna vel justo. Donec faucibus, justo nec dapibus fermentum, sapien mauris pulvinar sem, ut feugiat libero nulla in nunc.</p>
-
-            <p><strong>Empieza tu alquiler desde 10&euro;/día</strong></p>
-
-            <section id="vehiculos-disponibles" class="mt-4">
-                <h3>Vehículos disponibles</h3>
-                <table class="table border border-2">
-                    <caption>Vehículos disponibles</caption>
-                    <thead>
-                        <tr class="bg-zapgrey">
-                            <th scope="col">Matrícula</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Autonomía (km)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>12가 3456</td>
-                            <td>Kia</td>
-                            <td>528</td>
-                        </tr>
-                        <tr>
-                            <td>34나 7890</td>
-                            <td>Hyundai</td>
-                            <td>507</td>
-                        </tr>
-                        <tr>
-                            <td>56다 1122</td>
-                            <td>Tesla</td>
-                            <td>602</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </div>
-
-        <a href="img/ev.jpg" aria-label="Enlace a la imagen de resolución completa" class="col-12 col-lg-6 d-block overflow-hidden position-relative">
-            <img src="img/ev_miniatura.png" id="imagen-ev" alt="Vehículo eléctrico"
-                title="Un vehículo eléctrico azul cian de la marca KIA en una carretera"
-                class="w-100 h-100 object-fit-cover" />
-        </a>
-    </section>
-    <section class="video-banner border-bottom overflow-hidden">
-        <video src="https://cdn.pixabay.com/video/2023/12/06/192282-892475135_large.mp4" autoplay loop muted playsinline></video>
-    </section>
-
-    <%- include('partials/footer') %>
+<%- include('partials/footer') %>

@@ -198,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
             input.classList.add("border-dark");
         });
 
-        progress = Array(6).fill(false);
         updateProgressBar();
 
         const formData = new FormData(e.target);
@@ -220,38 +219,76 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(data),
         })
-            .then((response) => {
-                if (!response.ok) {
-                    return response.json().then((err) => {
-                        throw new Error(err.error || "Error al crear reserva");
-                    });
-                }
-                return response.json();
-            })
-            .then((data) => {
-                form.reset();
+        .then((response) => {
+            if (!response.ok) {
+                return response.json().then((err) => {
+                    throw new Error(err.error || "Error al crear reserva");
+                });
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // obtener la matrícula del vehículo seleccionado ANTES de resetear el formulario
+            const selectedVehicleOption = vehicleInput.options[vehicleInput.selectedIndex];
+            const vehicleText = selectedVehicleOption.text;
+            // extraer la matrícula que está entre paréntesis
+            const matriculaMatch = vehicleText.match(/\(([^)]+)\)$/);
+            const matricula = matriculaMatch ? matriculaMatch[1] : formData.get("vehicleId");
 
-                // añadir fila a la tabla
-                const tbody = document.querySelector(
-                    "#reservation-container tbody"
-                );
-                const newRow = document.createElement("tr");
-                newRow.className = "text-center align-middle";
-                newRow.dataset.reservationId = data.id;
-                newRow.innerHTML = `
-        <td>${data.id}</td>
-        <td>${formData.get("fullName")}</td>
-        <td>${formData.get("email")}</td>
-        <td>${formData.get("vehicleId")}</td>
-        <td>${formData.get("startTime").replace("T", ",")}</td>
-        <td>${formData.get("endTime").replace("T", ",")}</td>
-    `;
-                tbody.appendChild(newRow);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert(error.message);
+            const startFormatted = new Date(formData.get("startTime")).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
             });
+
+            const endFormatted = new Date(formData.get("endTime")).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+            });
+
+            form.reset();
+
+            // añadir fila a la tabla
+            const tbody = document.querySelector(
+                "#reservation-container tbody"
+            );
+
+            // eliminar la fila de "No hay reservas" si existe
+            const noReservasRow = tbody.querySelector('td[colspan="7"]');
+            if (noReservasRow) {
+                noReservasRow.parentElement.remove();
+            }
+
+            const newRow = document.createElement("tr");
+            newRow.className = "text-center align-middle";
+            newRow.dataset.reservationId = data.id;
+            newRow.innerHTML = `
+                <td>${data.id}</td>
+                <td>${formData.get("fullName")}</td>
+                <td>${formData.get("email")}</td>
+                <td><a href="/vehiculos/${formData.get("vehicleId")}" class="text-decoration-none">${matricula}</a></td>
+                <td>${startFormatted}</td>
+                <td>${endFormatted}</td>
+                <td class="action-cell">
+                    <button class="btn btn-danger btn-sm update-status-btn"
+                        data-id="${data.id}" data-status="cancelada">
+                        <i aria-label="Cancelar reserva" class="bi bi-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+        })
+        .catch((error) => {
+            console.error(error);
+            alert(error.message);
+        });
     });
 
     resetBtn.addEventListener("click", function () {
@@ -273,7 +310,6 @@ document.addEventListener("DOMContentLoaded", function () {
             input.classList.add("border-dark");
         });
 
-        progress = Array(6).fill(false);
         updateProgressBar();
     });
 });

@@ -3,9 +3,14 @@
     <%- include("head", {title: title}) %>
 
     <body class="inter-regular w-100 zoom">
+        <script>
+            if (window.currentPreferences && window.currentPreferences.contrastMode !== "normal") {
+                document.body.classList.add(window.currentPreferences.contrastMode);
+            }
+        </script>
         <a href="#main-content" class="skip-to-main">Saltar al contenido principal</a>
-        <header class="py-0 sticky-top" role="banner">
-            <nav class="navbar navbar-expand-lg py-0" role="navigation" aria-label="Navegación principal">
+        <header class="py-0 sticky-top">
+            <nav class="navbar navbar-expand-lg py-0" aria-label="Navegación principal">
                 <div class="container-fluid">
                 <a href="/" class="text-decoration-none">
                     <p id="nav-title" class="brand-title mx-4 my-0 h2 mb-0">
@@ -40,10 +45,10 @@
                         <li class="nav-item">
                             <a
                                 class="nav-link px-4 py-3 <%= activePage === 'reservas' ? 'active' : '' %>"
-                                href="/reservar"
+                                href="/reservas"
                                 accesskey="r"
-                                title="Reservar (Alt+R)"
-                                >Reservar
+                                title="Reservas (Alt+R)"
+                                >Reservas
                             </a>
                         </li>
                     <% } %>
@@ -96,10 +101,10 @@
                     </a>
                     <% }else {%>
                     <a href="/empleado" class="btn btn-dark rounded-0 w-100 w-lg-auto">
-                        Panel
+                        Empleado
                     </a>
                         <%} %>
-                    <div class="rounded-0 mb-0 border p-2 border-dark text-center w-100 w-lg-auto">
+                    <div class="rounded-0 mb-0 border p-2 border-dark text-center w-100 w-lg-auto text-nowrap">
                         <%= user.nombre %>
                     </div>
                     <a href="/logout" class="btn btn-danger rounded-0 w-100 w-lg-auto text-nowrap">Cerrar sesión</a>
@@ -109,7 +114,7 @@
                 </div>
             </nav>
         </header>
-        <main id="main-content" role="main">
+        <main id="main-content">
 
         <div class="modal fade" id="accessibilityModal" tabindex="-1" aria-labelledby="accessibilityModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

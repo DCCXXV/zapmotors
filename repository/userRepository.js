@@ -191,7 +191,10 @@ function getReservesById(id, callback) {
                 `SELECT
                     id_reserva,
                     id_usuario,
+                    id_cliente,
                     id_vehiculo,
+                    fecha_inicio,
+                    fecha_fin,
                     DATE_FORMAT(fecha_inicio, '%d/%m/%Y %H:%i') AS fecha_inicio_fmt,
                     DATE_FORMAT(fecha_fin, '%d/%m/%Y %H:%i') AS fecha_fin_fmt,
                     estado FROM reservas WHERE id_usuario = ? AND activo = TRUE`,
@@ -200,10 +203,31 @@ function getReservesById(id, callback) {
                     connection.release();
                     if (err) {
                         callback(err);
-                    } else if (rows.length === 0) {
-                        callback(null, null);
                     } else {
                         callback(null, rows);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function updateAccessibilityPreferences(id, preferences, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            const preferencesJSON = JSON.stringify(preferences);
+
+            connection.query(
+                `UPDATE usuarios SET preferencias_accesibilidad = ? WHERE id_usuario = ? AND activo = TRUE`,
+                [preferencesJSON, id],
+                function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
                     }
                 }
             );
@@ -220,5 +244,6 @@ module.exports = {
     getUsersWithoutUser,
     deleteById,
     updateRolUser,
-    getReservesById
+    getReservesById,
+    updateAccessibilityPreferences
 };

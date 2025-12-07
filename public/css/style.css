@@ -28,6 +28,14 @@
     --accent-red-soft: #fee2e2;
     --accent-red-soft-hover: #fecaca;
 
+    --accent-info: #0ea5e9;
+    --accent-info-soft: #e0f2fe;
+    --accent-info-soft-hover: #bae6fd;
+
+    --accent-warning: #f59e0b;
+    --accent-warning-soft: #fef3c7;
+    --accent-warning-soft-hover: #fde68a;
+
     --nav-bg-hover: #f0f5f9;
     --nav-active-bg: #F6833B;
     --nav-active-text: #ffffff;
@@ -71,6 +79,14 @@
     --accent-red-soft: #3d1a1a;
     --accent-red-soft-hover: #4d2020;
 
+    --accent-info: #0ea5e9;
+    --accent-info-soft: #1a2d3d;
+    --accent-info-soft-hover: #234050;
+
+    --accent-warning: #f59e0b;
+    --accent-warning-soft: #3d2e1a;
+    --accent-warning-soft-hover: #503d20;
+
     --nav-bg-hover: #1a2428;
     --nav-active-bg: #F6833B;
     --nav-active-text: #091C1E;
@@ -112,6 +128,14 @@ body.high-contrast {
     --accent-red-soft: #330000;
     --accent-red-soft-hover: #4d0000;
 
+    --accent-info: #00ffff;
+    --accent-info-soft: #003333;
+    --accent-info-soft-hover: #004d4d;
+
+    --accent-warning: #ffff00;
+    --accent-warning-soft: #333300;
+    --accent-warning-soft-hover: #4d4d00;
+
     --nav-bg-hover: #333333;
     --nav-active-bg: #ffff00;
     --nav-active-text: #000000;
@@ -149,6 +173,14 @@ body.deuteranopia {
     --accent-red-soft: #ffe6cc;
     --accent-red-soft-hover: #ffd9b3;
 
+    --accent-info: #5500cc;
+    --accent-info-soft: #e6ccff;
+    --accent-info-soft-hover: #d9b3ff;
+
+    --accent-warning: #ddaa00;
+    --accent-warning-soft: #fff4cc;
+    --accent-warning-soft-hover: #ffe6b3;
+
     --button-bg: #0088cc;
     --button-hover: #0099dd;
     --button-soft-bg: #cce8f4;
@@ -172,6 +204,14 @@ body.deuteranopia {
     --accent-red: #ff8800;
     --accent-red-soft: #4d2600;
     --accent-red-soft-hover: #663300;
+
+    --accent-info: #8855ff;
+    --accent-info-soft: #2d1a4d;
+    --accent-info-soft-hover: #3d2666;
+
+    --accent-warning: #ffcc33;
+    --accent-warning-soft: #4d3d1a;
+    --accent-warning-soft-hover: #665026;
 
     --button-bg: #33aaff;
     --button-hover: #55bbff;
@@ -199,6 +239,14 @@ body.protanopia {
     --accent-red-soft: #fff0cc;
     --accent-red-soft-hover: #ffe6b3;
 
+    --accent-info: #6600cc;
+    --accent-info-soft: #f0ccff;
+    --accent-info-soft-hover: #e6b3ff;
+
+    --accent-warning: #ccaa00;
+    --accent-warning-soft: #fffacc;
+    --accent-warning-soft-hover: #fff4b3;
+
     --button-bg: #0066cc;
     --button-hover: #0077dd;
     --button-soft-bg: #cce0f4;
@@ -222,6 +270,14 @@ body.protanopia {
     --accent-red: #ffaa00;
     --accent-red-soft: #4d3300;
     --accent-red-soft-hover: #664400;
+
+    --accent-info: #9955ff;
+    --accent-info-soft: #331a4d;
+    --accent-info-soft-hover: #442666;
+
+    --accent-warning: #ffdd33;
+    --accent-warning-soft: #4d421a;
+    --accent-warning-soft-hover: #665626;
 
     --button-bg: #3399ff;
     --button-hover: #55aaff;
@@ -249,6 +305,14 @@ body.tritanopia {
     --accent-red-soft: #ffe6d9;
     --accent-red-soft-hover: #ffd4bf;
 
+    --accent-info: #00ccaa;
+    --accent-info-soft: #ccfff4;
+    --accent-info-soft-hover: #b3fff0;
+
+    --accent-warning: #ff6600;
+    --accent-warning-soft: #ffe0cc;
+    --accent-warning-soft-hover: #ffd4b3;
+
     --button-bg: #cc0066;
     --button-hover: #dd0077;
     --button-soft-bg: #f4cce0;
@@ -272,6 +336,14 @@ body.tritanopia {
     --accent-red: #ff6622;
     --accent-red-soft: #4d2210;
     --accent-red-soft-hover: #662d15;
+
+    --accent-info: #00ffcc;
+    --accent-info-soft: #1a4d42;
+    --accent-info-soft-hover: #26665a;
+
+    --accent-warning: #ff8833;
+    --accent-warning-soft: #4d2d1a;
+    --accent-warning-soft-hover: #663d26;
 
     --button-bg: #ff3399;
     --button-hover: #ff55aa;
@@ -666,6 +738,34 @@ select {
     color: var(--text) !important;
 }
 
+.btn-info {
+    background-color: var(--accent-info-soft) !important;
+    border-color: var(--accent-info-soft) !important;
+    color: var(--accent-info) !important;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: var(--accent-info-soft-hover) !important;
+    border-color: var(--accent-info-soft-hover) !important;
+    color: var(--accent-info) !important;
+}
+
+.btn-warning {
+    background-color: var(--accent-warning-soft) !important;
+    border-color: var(--accent-warning-soft) !important;
+    color: var(--accent-warning) !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active {
+    background-color: var(--accent-warning-soft-hover) !important;
+    border-color: var(--accent-warning-soft-hover) !important;
+    color: var(--accent-warning) !important;
+}
+
 a {
     color: var(--accent-primary);
     text-decoration: none;
@@ -708,7 +808,9 @@ a:hover {
 }
 
 .badge {
-    font-weight: 600;
+    color: var(--bg) !important;
+    border-radius: 0;
+    font-weight: 800;
 }
 
 .badge.bg-primary {
@@ -717,7 +819,27 @@ a:hover {
 
 .badge.bg-secondary {
     background-color: var(--muted) !important;
-    color: var(--text) !important;
+    color: var(--text-muted) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--accent-green) !important;
+    color: var(--bg) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--accent-red) !important;
+    color: var(--bg) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--accent-info) !important;
+    color: var(--bg) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--accent-warning) !important;
+    color: var(--bg) !important;
 }
 
 .alert {
@@ -726,14 +848,32 @@ a:hover {
 }
 
 .alert-primary {
-    background-color: var(--accent-primary-light) !important;
+    background-color: var(--accent-primary-soft) !important;
     border-color: var(--accent-primary) !important;
     color: var(--text) !important;
 }
 
 .alert-warning {
-    background-color: rgba(255, 167, 38, 0.15) !important;
-    border-color: var(--accent-secondary) !important;
+    background-color: var(--accent-warning-soft) !important;
+    border-color: var(--accent-warning) !important;
+    color: var(--text) !important;
+}
+
+.alert-info {
+    background-color: var(--accent-info-soft) !important;
+    border-color: var(--accent-info) !important;
+    color: var(--text) !important;
+}
+
+.alert-danger {
+    background-color: var(--accent-red-soft) !important;
+    border-color: var(--accent-red) !important;
+    color: var(--text) !important;
+}
+
+.alert-success {
+    background-color: var(--accent-green-soft) !important;
+    border-color: var(--accent-green) !important;
     color: var(--text) !important;
 }
 

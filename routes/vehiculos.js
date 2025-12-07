@@ -99,13 +99,29 @@ router.get("/filtrar", (req, res) => {
 
 router.get("/:id", (req, res) => {
     const id = parseInt(req.params.id);
+
     vehiculosRep.findById(id, function (err, row) {
         if (err) {
-            console.log("Error al buscar vehículo por Id");
-        } else {
-            const sol = row;
-            res.render("vehiculos", { sol });
+            console.log("Error al buscar vehículo por Id:", err);
+            return res.status(500).send("Error interno del servidor");
         }
+
+        if (!row || (Array.isArray(row) && row.length === 0)) {
+            return res.status(404).send("Vehículo no encontrado");
+        }
+
+        const sol = Array.isArray(row) ? row[0] : row;
+
+        dealershipRep.findById(sol.id_concesionario, (err, concesionario) => {
+            if (err || !concesionario) {
+                console.log("Error al obtener concesionario:", err);
+                sol.nombre_concesionario = "Desconocido";
+            } else {
+                sol.nombre_concesionario = concesionario.nombre;
+            }
+
+            res.render("vehiculo", { v: sol });
+        });
     });
 });
 

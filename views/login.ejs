@@ -44,7 +44,9 @@
                     </div>
                 </div>
                 <% if (typeof error !=='undefined' && error) { %>
-                <p class="text-danger mt-1"><%= error %></p>
+                <div class="alert alert-danger mb-0" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+                </div>
                 <% } %>
             </div>
             <button class="btn btn-dark rounded-0 mt-auto" type="submit">

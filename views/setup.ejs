@@ -3,14 +3,30 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Carga inicial de datos</h3>
+            <h3>Carga de datos</h3>
         </div>
         <div class="card-body">
-            <p>La base de datos está vacía. Selecciona un archivo JSON con concesionarios y vehículos.</p>
+            <p>Selecciona un archivo JSON con concesionarios y vehículos para cargar.</p>
 
-            <input class="form-control mb-3 border-0 id="jsonFile" type="file" accept=".json">
+            <input class="form-control mb-3 border-0" id="jsonFile" type="file" accept=".json">
 
             <div id="message" class="alert d-none"></div>
+
+            <div id="duplicatesWarning" class="alert alert-warning d-none mb-3">
+                <h5>Vehículos duplicados encontrados</h5>
+                <p>Los siguientes vehículos ya existen en la base de datos:</p>
+                <ul id="duplicatesList"></ul>
+                <p>¿Deseas actualizar los vehículos existentes con los datos del archivo?</p>
+                <div class="mt-3">
+                    <button id="updateBtn" class="btn btn-warning me-2">Actualizar existentes</button>
+                    <button id="skipBtn" class="btn btn-secondary">Solo añadir nuevos</button>
+                </div>
+            </div>
+
+            <div id="logsDiv" class="d-none mb-3">
+                <h5>Resultados de la carga:</h5>
+                <div id="logsContent"></div>
+            </div>
 
             <button id="uploadBtn" class="btn btn-primary" disabled>Cargar datos</button>
         </div>
@@ -21,48 +37,189 @@
     const fileInput = document.getElementById('jsonFile');
     const uploadBtn = document.getElementById('uploadBtn');
     const messageDiv = document.getElementById('message');
+    const duplicatesWarning = document.getElementById('duplicatesWarning');
+    const duplicatesList = document.getElementById('duplicatesList');
+    const updateBtn = document.getElementById('updateBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const logsDiv = document.getElementById('logsDiv');
+    const logsContent = document.getElementById('logsContent');
+
+    let currentJsonData = null;
 
     fileInput.addEventListener('change', () => {
         uploadBtn.disabled = !fileInput.files.length;
+        duplicatesWarning.classList.add('d-none');
+        messageDiv.classList.add('d-none');
+        logsDiv.classList.add('d-none');
     });
 
-    uploadBtn.addEventListener('click', () => {
+    uploadBtn.addEventListener('click', async () => {
         const file = fileInput.files[0];
         if (!file) return;
 
         const reader = new FileReader();
+
+        reader.onerror = (e) => {
+            messageDiv.className = 'alert alert-danger';
+            messageDiv.textContent = 'Error al leer el archivo.';
+            messageDiv.classList.remove('d-none');
+            console.error('FileReader error:', e);
+        };
+
         reader.onload = async (e) => {
             try {
-                const jsonData = JSON.parse(e.target.result);
+                const content = e.target.result;
+                console.log('Contenido del archivo leído, intentando parsear...');
+
+                currentJsonData = JSON.parse(content);
+                console.log('JSON parseado correctamente:', currentJsonData);
 
                 uploadBtn.disabled = true;
-                uploadBtn.textContent = 'Cargando...';
+                uploadBtn.textContent = 'Verificando...';
 
-                const response = await fetch('/setup/load', {
+                // Verificar duplicados
+                const checkResponse = await fetch('/setup/check', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(jsonData)
+                    body: JSON.stringify({ vehiculos: currentJsonData.vehiculos || [] })
                 });
 
-                if (response.ok) {
-                    messageDiv.className = 'alert alert-success';
-                    messageDiv.textContent = 'Datos cargados correctamente';
+                let duplicates = [];
+                let warning = null;
+
+                if (checkResponse.ok) {
+                    const data = await checkResponse.json();
+                    duplicates = data.duplicates || [];
+                    warning = data.warning;
+                }
+
+                // Mostrar advertencia si no se pudo verificar
+                if (warning) {
+                    messageDiv.className = 'alert alert-warning';
+                    messageDiv.textContent = warning + '. Los datos se cargarán sin verificar duplicados.';
                     messageDiv.classList.remove('d-none');
-                    setTimeout(() => window.location.href = '/', 1500);
+                }
+
+                if (duplicates.length > 0) {
+                    // Mostrar advertencia de duplicados
+                    duplicatesList.innerHTML = duplicates.map(v =>
+                        `<li>${v.marca} ${v.modelo} (${v.matricula})</li>`
+                    ).join('');
+                    duplicatesWarning.classList.remove('d-none');
+                    uploadBtn.disabled = false;
+                    uploadBtn.textContent = 'Cargar datos';
                 } else {
-                    throw new Error('Error al cargar datos');
+                    // No hay duplicados, cargar directamente
+                    await loadData(false);
                 }
             } catch (error) {
                 messageDiv.className = 'alert alert-danger';
-                messageDiv.textContent = 'Error: ' + error.message;
+                messageDiv.textContent = 'Error al parsear JSON: ' + error.message;
                 messageDiv.classList.remove('d-none');
                 uploadBtn.disabled = false;
                 uploadBtn.textContent = 'Cargar datos';
+                console.error('Error parseando JSON:', error);
             }
         };
 
-        reader.readAsText(file);
+        reader.readAsText(file, 'UTF-8');
     });
+
+    updateBtn.addEventListener('click', () => loadData(true));
+    skipBtn.addEventListener('click', () => loadData(false));
+
+    async function loadData(updateExisting) {
+        try {
+            uploadBtn.disabled = true;
+            updateBtn.disabled = true;
+            skipBtn.disabled = true;
+            uploadBtn.textContent = 'Cargando...';
+            duplicatesWarning.classList.add('d-none');
+
+            const response = await fetch('/setup/load', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    data: currentJsonData,
+                    updateExisting: updateExisting
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                // mostrar logs parciales si existen aunque haya error
+                if (result.logs) {
+                    displayLogs(result.logs);
+                }
+                throw new Error(result.error || 'Error al cargar datos');
+            }
+
+            // mostrar logs
+            displayLogs(result.logs);
+
+            messageDiv.className = 'alert alert-success';
+            messageDiv.textContent = result.message;
+            messageDiv.classList.remove('d-none');
+
+            setTimeout(() => window.location.href = '/', 2000);
+        } catch (error) {
+            messageDiv.className = 'alert alert-danger';
+            messageDiv.textContent = 'Error: ' + error.message;
+            messageDiv.classList.remove('d-none');
+            uploadBtn.disabled = false;
+            updateBtn.disabled = false;
+            skipBtn.disabled = false;
+            uploadBtn.textContent = 'Cargar datos';
+        }
+    }
+
+    function displayLogs(logs) {
+        if (!logs) {
+            return;
+        }
+
+        let html = '';
+
+        if (logs.admin) {
+            html += `<div class="alert alert-info mb-2"><strong>Admin:</strong> ${logs.admin}</div>`;
+        }
+
+        if (logs.concesionarios && logs.concesionarios.added && logs.concesionarios.added.length > 0) {
+            html += '<div class="alert alert-success mb-2"><strong>Concesionarios añadidos:</strong><ul>';
+            logs.concesionarios.added.forEach(c => html += `<li>${c}</li>`);
+            html += '</ul></div>';
+        }
+
+        if (logs.concesionarios && logs.concesionarios.skipped && logs.concesionarios.skipped.length > 0) {
+            html += '<div class="alert alert-secondary mb-2"><strong>Concesionarios omitidos (ya existían):</strong><ul>';
+            logs.concesionarios.skipped.forEach(c => html += `<li>${c}</li>`);
+            html += '</ul></div>';
+        }
+
+        if (logs.vehiculos && logs.vehiculos.added && logs.vehiculos.added.length > 0) {
+            html += '<div class="alert alert-success mb-2"><strong>Vehículos añadidos:</strong><ul>';
+            logs.vehiculos.added.forEach(v => html += `<li>${v}</li>`);
+            html += '</ul></div>';
+        }
+
+        if (logs.vehiculos && logs.vehiculos.updated && logs.vehiculos.updated.length > 0) {
+            html += '<div class="alert alert-warning mb-2"><strong>Vehículos actualizados:</strong><ul>';
+            logs.vehiculos.updated.forEach(v => html += `<li>${v}</li>`);
+            html += '</ul></div>';
+        }
+
+        if (logs.vehiculos && logs.vehiculos.skipped && logs.vehiculos.skipped.length > 0) {
+            html += '<div class="alert alert-secondary mb-2"><strong>Vehículos omitidos (ya existían):</strong><ul>';
+            logs.vehiculos.skipped.forEach(v => html += `<li>${v}</li>`);
+            html += '</ul></div>';
+        }
+
+        if (html) {
+            logsContent.innerHTML = html;
+            logsDiv.classList.remove('d-none');
+        }
+    }
 </script>
 
 <%- include('partials/footer') %>

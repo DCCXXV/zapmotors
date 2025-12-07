@@ -1,19 +1,52 @@
     <script>
+        // función para guardar preferencias
+        async function savePreferences(preferences) {
+            window.currentPreferences = preferences;
+
+            if (window.userId) {
+                // usuario logueado: guardar en DB
+                try {
+                    const response = await fetch(`/api/usuarios/${window.userId}/preferences`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(preferences)
+                    });
+
+                    if (!response.ok) {
+                        console.error('Error al guardar preferencias en DB');
+                    }
+                } catch (error) {
+                    console.error('Error al guardar preferencias:', error);
+                }
+            } else {
+                // usuario no logueado: guardar en localStorage
+                localStorage.setItem("zap-theme", preferences.theme);
+                sessionStorage.setItem("fontSize", preferences.fontSize);
+                sessionStorage.setItem("contrastMode", preferences.contrastMode);
+            }
+        }
+
         // tamaño de fuente
-        document.getElementById("font-size").addEventListener("change", () => {
+        document.getElementById("font-size").addEventListener("change", async () => {
             const fontSize = document.getElementById("font-size").value;
             document.documentElement.style.setProperty("--zoom", fontSize);
-            sessionStorage.setItem("fontSize", fontSize);
+
+            // guardar
+            await savePreferences({
+                ...window.currentPreferences,
+                fontSize: fontSize
+            });
         });
 
         // sincronizar select con valor ya aplicado en head
-        const savedFontSize = sessionStorage.getItem("fontSize");
-        if (savedFontSize) {
-            document.getElementById("font-size").value = savedFontSize;
+        if (window.currentPreferences && window.currentPreferences.fontSize) {
+            document.getElementById("font-size").value = window.currentPreferences.fontSize;
         }
 
         // contraste y paleta
-        document.getElementById("contrast-mode").addEventListener("change", () => {
+        document.getElementById("contrast-mode").addEventListener("change", async () => {
             const mode = document.getElementById("contrast-mode").value;
 
             // remover todas las clases de contraste previas
@@ -24,13 +57,16 @@
                 document.body.classList.add(mode);
             }
 
-            sessionStorage.setItem("contrastMode", mode);
+            // guardar
+            await savePreferences({
+                ...window.currentPreferences,
+                contrastMode: mode
+            });
         });
 
         // sincronizar select con valor ya aplicado en head
-        const savedContrastMode = sessionStorage.getItem("contrastMode");
-        if (savedContrastMode) {
-            document.getElementById("contrast-mode").value = savedContrastMode;
+        if (window.currentPreferences && window.currentPreferences.contrastMode) {
+            document.getElementById("contrast-mode").value = window.currentPreferences.contrastMode;
         }
     </script>
     </main>

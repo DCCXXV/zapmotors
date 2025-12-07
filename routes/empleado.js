@@ -4,8 +4,8 @@ const userRep = require("../repository/userRepository");
 const vehicleRep = require("../repository/vehicleRepository");
 
 router.get("/", (req, res) => {
-    let reservas = null;
-    let vehiculos = null;
+    let reservas = [];
+    let vehiculos = [];
 
     userRep.getReservesById(req.session.user.id, (err, rows) => {
         if (err) {
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
                 errorMessage: "Error interno del servidor"
             });
         }
-        reservas = rows;
+        reservas = rows || [];
         console.log(reservas);
 
         vehicleRep.findAllByIdDealership(
@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
                         errorMessage: "Error interno del servidor"
                     });
                 }
-                vehiculos = rows;
+                vehiculos = rows || [];
                 console.log(vehiculos);
 
                 return res.render("empleado", {

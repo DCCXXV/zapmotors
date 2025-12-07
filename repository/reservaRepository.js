@@ -284,6 +284,88 @@ function checkVehicleAvailability(vehicleId, startTime, endTime, callback) {
     });
 }
 
+function updateStatus(id, estado, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `UPDATE reservas
+                 SET estado = ?
+                 WHERE id_reserva = ? AND activo = TRUE`,
+                [estado, id],
+                function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function updateReservaConDetalles(id, data, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `UPDATE reservas
+                 SET estado = ?, kilometros_recorridos = ?, incidencias_reportadas = ?
+                 WHERE id_reserva = ? AND activo = TRUE`,
+                [data.estado, data.kilometros_recorridos, data.incidencias_reportadas, id],
+                function (err, result) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function getDetalleReserva(id, callback) {
+    pool.getConnection(function (err, connection) {
+        if (err) {
+            callback(err);
+        } else {
+            connection.query(
+                `SELECT
+                    r.id_reserva,
+                    r.estado,
+                    r.kilometros_recorridos,
+                    r.incidencias_reportadas,
+                    DATE_FORMAT(r.fecha_inicio, '%d/%m/%Y %H:%i') AS fecha_inicio,
+                    DATE_FORMAT(r.fecha_fin, '%d/%m/%Y %H:%i') AS fecha_fin,
+                    c.nombre,
+                    c.correo,
+                    v.matricula
+                FROM reservas r
+                LEFT JOIN clientes c ON r.id_cliente = c.id_cliente
+                LEFT JOIN vehiculos v ON r.id_vehiculo = v.id_vehiculo
+                WHERE r.id_reserva = ? AND r.activo = TRUE`,
+                [id],
+                function (err, rows) {
+                    connection.release();
+                    if (err) {
+                        callback(err);
+                    } else if (rows.length === 0) {
+                        callback(null, null);
+                    } else {
+                        callback(null, rows[0]);
+                    }
+                }
+            );
+        }
+    });
+}
+
 module.exports = {
     findById,
     getAll,
@@ -295,4 +377,7 @@ module.exports = {
     getStatsByDealership,
     getMostUsedVehicles,
     checkVehicleAvailability,
+    updateStatus,
+    updateReservaConDetalles,
+    getDetalleReserva
 };

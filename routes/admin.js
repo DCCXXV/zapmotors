@@ -7,11 +7,11 @@ const reservaRep = require("../repository/reservaRepository");
 
 
 router.get("/", (req, res) => {
-    let users;
-    let vehicles;
-    let dealerships;
-    let statsByDealership;
-    let mostUsedVehicles;
+    let users = [];
+    let vehicles = [];
+    let dealerships = [];
+    let statsByDealership = [];
+    let mostUsedVehicles = [];
 
     userRep.getUsersWithoutUser(req.session.user.id, (err, rows) => {
         if (err) {
@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
                 errorMessage: "Error interno del servidor"
             });
         }
-        users = rows;
+        users = rows || [];
         vehicleRep.getAll((err, rows) => {
             if (err) {
                 console.log("Error al mostrar los vehículos");
@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
                     errorMessage: "Error interno del servidor"
                 });
             }
-            vehicles = rows;
+            vehicles = rows || [];
 
             dealershipRep.getDealerships((err, rows) => {
                 if (err) {
@@ -40,7 +40,7 @@ router.get("/", (req, res) => {
                         errorMessage: "Error interno del servidor"
                     });
                 }
-                dealerships = rows;
+                dealerships = rows || [];
 
                 // obtener stats
                 reservaRep.getStatsByDealership((err, rows) => {

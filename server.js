@@ -55,7 +55,7 @@ const authMiddleware = (req, res, next) => {
 };
 
 const jsonMiddleware = (req, res, next) => {
-    if (req.path === '/setup' || req.path === '/setup/load') {
+    if (req.path === '/setup' || req.path === '/setup/load' || req.path === '/setup/check') {
         return next();
     }
 
@@ -84,7 +84,7 @@ app.use(jsonMiddleware);
 
 app.use("/admin", authMiddleware, require("./routes/admin"));
 app.use("/empleado", authMiddleware, require("./routes/empleado"));
-app.use("/reservar", authMiddleware, require("./routes/reservar"));
+app.use("/reservas", authMiddleware, require("./routes/reservas"));
 app.use("/vehiculos", require("./routes/vehiculos"));
 
 app.use("/api/vehiculos", require("./routes/api/vehiculos"));

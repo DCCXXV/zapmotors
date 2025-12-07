@@ -1,0 +1,335 @@
+<%- include('partials/header', { title: 'Reservas - Zap', activePage: 'reservas' }) %>
+
+<section id="reservations" class="m-4" aria-labelledby="titulo-reservas">
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <div class="bg-zapgrey p-4 border border-dark h-100">
+            <h2 id="titulo-reservas">Reservar</h2>
+            <fieldset class="mx-auto">
+                <legend>Formulario para reservar</legend>
+                <div class="progress rounded-0 mb-2 bg-zapgrey">
+                    <div id="progressBar" class="progress-bar progress-bar-striped rounded-0" role="progressbar"
+                        style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+                <form id="reservationForm" method="POST" action="/reservas" aria-label="Formulario de la reserva" class="d-flex flex-column gap-3">
+                    <div class="row">
+                        <h3 class="my-3">Datos del cliente</h3>
+                        <div class="col-12 col-md-6 mb-2">
+                            <label for="fullName">Nombre y Apellidos: </label>
+                            <input type="text" id="fullName" name="fullName" required class="form-text border-1 border-dark rounded-0 p-2 w-100">
+                            <span id="fullNameError" class="error text-danger" aria-live="polite"></span>
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <label for="email">Correo electrónico: </label>
+                            <input type="email" id="email" name="email" required class="form-text border-1 border-dark rounded-0 p-2 w-100">
+                            <span id="emailError" class="error text-danger" aria-live="polite"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Vehículo</h3>
+                        <label for="selectedVehicle">Vehículo: </label>
+                        <select id="selectedVehicle" name="vehicleId" required
+                            class="form-select border-dark border-1 rounded-0">
+                            <option value="" disabled selected hidden>Elige un vehículo</option>
+                            <% for (let v of vehicles) { %>
+                                <option value="<%= v.id_vehiculo %>">
+                                    <%= v.marca %> <%= v.modelo %> - <%= v.color %> (<%= v.matricula %>)
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <h3>Duración</h3>
+                        <div class="col-12 col-md-6 mb-2">
+                            <label for="startTime">Fecha de inicio: </label>
+                            <input type="datetime-local" id="startTime" name="startTime" class="form-control border border-1 p-2 rounded-0" required>
+                            <span id="startTimeError" class="error text-danger" aria-live="polite"></span>
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <label for="endTime">Fecha fin: </label>
+                            <input type="datetime-local" id="endTime" name="endTime" class="form-control border border-1 p-2 rounded-0" required>
+                            <span id="endTimeError" class="error text-danger" aria-live="polite"></span>
+                        </div>
+                    </div>
+                    <!--<div>
+                        <input id="checkboxInput" type="checkbox" name="conditions" required>
+                        <span>Acepta las condiciones</span>
+                    </div>-->
+                    <div>
+                        <button id="submitBtn" type="submit" aria-label="Enviar"
+                            class="btn btn-dark rounded-0 px-4"><i class="bi bi-send-fill me-2"></i>Enviar</button>
+                        <button id="resetBtn" type="reset" aria-label="Borrar" class="btn btn-danger rounded-0 px-4">
+                            <i class="bi bi-trash-fill me-1"></i> Borrar formulario
+                        </button>
+                    </div>
+                </form>
+            </fieldset>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="overflow-auto">
+                <table id="reservation-container" class="table bg-white" aria-label="Lista de reservas realizadas">
+                    <thead>
+                        <tr class="bg-zapgrey text-center">
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Final</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% if (listareservas.length === 0) { %>
+                            <tr>
+                                <td colspan="7" class="text-center py-3 text-secondary">
+                                    No hay reservas aún.
+                                </td>
+                            </tr>
+                        <% } %>
+
+                        <% for(let reserva of listareservas) { %>
+                            <tr class="text-center align-middle" data-reservation-id="<%= reserva.id_reserva %>">
+                                <td><%= reserva.id_reserva %></td>
+                                <td><%= reserva.nombre %></td>
+                                <td><%= reserva.correo %></td>
+                                <td><a href="/vehiculos/<%= reserva.id_vehiculo %>" class="text-decoration-none"><%= reserva.matricula %></a></td>
+                                <td><%= reserva.fecha_inicio %></td>
+                                <td><%= reserva.fecha_fin %></td>
+                                <td class="action-cell">
+                                    <% if (reserva.estado === 'finalizada') { %>
+                                        <span class="badge bg-success me-1" title="Finalizada">Finalizada</span>
+                                        <button class="btn btn-info btn-sm info-btn"
+                                                data-id="<%= reserva.id_reserva %>">
+                                            <i class="bi bi-info-circle"></i>
+                                        </button>
+                                    <% } else if (reserva.estado === 'cancelada') { %>
+                                        <span class="badge bg-danger" title="Cancelada">Cancelada</span>
+                                    <% } else if (reserva.puede_cancelar) { %>
+                                        <button class="btn btn-danger btn-sm update-status-btn"
+                                                data-id="<%= reserva.id_reserva %>"
+                                                data-status="cancelada">
+                                            <i aria-label="Cancelar reserva" class="bi bi-trash"></i>
+                                        </button>
+                                    <% } else if (reserva.puede_finalizar) { %>
+                                        <button class="btn btn-primary btn-sm fw-bold update-status-btn"
+                                                data-id="<%= reserva.id_reserva %>"
+                                                data-status="finalizada">
+                                            <i class="bi bi-check-lg"></i> Finalizar
+                                        </button>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary" title="Activa">Activa</span>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- modal de finalización -->
+<div class="modal fade" id="finalizarModal" tabindex="-1" aria-labelledby="finalizarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <div class="modal-header bg-zapgrey">
+                <h5 class="modal-title" id="finalizarModalLabel">Finalizar Reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="finalizarForm">
+                    <div class="mb-3">
+                        <label for="kilometros" class="form-label">Kilómetros recorridos</label>
+                        <input type="number" class="form-control rounded-0" id="kilometros" min="0" step="10" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="incidencias" class="form-label">Incidencias reportadas (opcional)</label>
+                        <textarea class="form-control rounded-0" id="incidencias" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-zapgrey">
+                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-dark rounded-0" id="confirmarFinalizar">Finalizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de información de reserva -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-0">
+            <div class="modal-header bg-zapgrey">
+                <h5 class="modal-title" id="infoModalLabel">Detalles de la Reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="infoModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer bg-zapgrey">
+                <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/reservationForm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+<script>
+    let reservaIdPendiente = null;
+    const finalizarModal = new bootstrap.Modal(document.getElementById('finalizarModal'));
+    const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+
+    // manejar clics en botones de acción
+    document.querySelector('#reservation-container').addEventListener('click', (e) => {
+        const actionBtn = e.target.closest('.update-status-btn');
+        const infoBtn = e.target.closest('.info-btn');
+
+        if (actionBtn) {
+            const id = actionBtn.dataset.id;
+            const newStatus = actionBtn.dataset.status;
+
+            if (newStatus === 'finalizada') {
+                // abrir modal para finalizar
+                reservaIdPendiente = id;
+                document.getElementById('kilometros').value = '';
+                document.getElementById('incidencias').value = '';
+                finalizarModal.show();
+            } else if (newStatus === 'cancelada') {
+                // cancelar directamente
+                actualizarReserva(id, newStatus);
+            }
+        } else if (infoBtn) {
+            const id = infoBtn.dataset.id;
+            mostrarInfoReserva(id);
+        }
+    });
+
+    // confirmar finalización
+    document.getElementById('confirmarFinalizar').addEventListener('click', () => {
+        if (!reservaIdPendiente) return;
+
+        const kilometros = document.getElementById('kilometros').value;
+        const incidencias = document.getElementById('incidencias').value;
+
+        const data = {
+            estado: 'finalizada',
+            kilometros_recorridos: kilometros ? parseFloat(kilometros) : null,
+            incidencias_reportadas: incidencias ? incidencias : null
+        };
+
+        fetch(`/api/reservas/${reservaIdPendiente}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error();
+            return response.json();
+        })
+        .then(() => {
+            const row = document.querySelector(`#reservation-container tr[data-reservation-id="${reservaIdPendiente}"]`);
+            const actionCell = row.querySelector('.action-cell');
+
+            actionCell.innerHTML = `
+                <span class="badge bg-success me-1" title="Finalizada">Finalizada</span>
+                <button class="btn btn-info btn-sm info-btn" data-id="${reservaIdPendiente}">
+                    <i class="bi bi-info-circle"></i>
+                </button>
+            `;
+
+            finalizarModal.hide();
+            reservaIdPendiente = null;
+        })
+        .catch(() => {
+            alert("Error al finalizar la reserva");
+        });
+    });
+
+    // función para actualizar estado (cancelar)
+    function actualizarReserva(id, newStatus) {
+        fetch(`/api/reservas/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: newStatus })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error();
+            return response.json();
+        })
+        .then(() => {
+            const row = document.querySelector(`#reservation-container tr[data-reservation-id="${id}"]`);
+            const actionCell = row.querySelector('.action-cell');
+
+            if (newStatus === "cancelada") {
+                actionCell.innerHTML = `<span class="badge bg-danger" title="Cancelada">Cancelada</span>`;
+            }
+        })
+        .catch(() => {
+            alert("Error al actualizar la reserva");
+        });
+    }
+
+    // función para mostrar información de reserva
+    function mostrarInfoReserva(id) {
+        fetch(`/api/reservas/${id}/detalle`)
+        .then(response => {
+            if (!response.ok) throw new Error();
+            return response.json();
+        })
+        .then(data => {
+            const modalBody = document.getElementById('infoModalBody');
+            modalBody.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <strong>ID Reserva:</strong> ${data.id_reserva}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Estado:</strong>
+                        <span class="badge bg-${data.estado === 'finalizada' ? 'success' : 'danger'}">${data.estado}</span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Cliente:</strong> ${data.nombre}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Correo:</strong> ${data.correo}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Vehículo:</strong> ${data.matricula}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Fecha inicio:</strong> ${data.fecha_inicio}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Fecha fin:</strong> ${data.fecha_fin}
+                    </div>
+                    ${data.kilometros_recorridos ? `
+                    <div class="col-md-6 mb-3">
+                        <strong>Kilómetros recorridos:</strong> ${data.kilometros_recorridos} km
+                    </div>
+                    ` : ''}
+                    ${data.incidencias_reportadas ? `
+                    <div class="col-12 mb-3">
+                        <strong>Incidencias reportadas:</strong>
+                        <p class="mt-2 p-3 bg-light border">${data.incidencias_reportadas}</p>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            infoModal.show();
+        })
+        .catch(() => {
+            alert("Error al cargar la información de la reserva");
+        });
+    }
+
+</script>
+
+<%- include('partials/footer') %>

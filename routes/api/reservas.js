@@ -137,4 +137,76 @@ router.post("/", (req, res) => {
     });
 });
 
+router.patch("/:id", (req, res)=>{
+    const idReserva = req.params.id;
+    const { estado, kilometros_recorridos, incidencias_reportadas } = req.body;
+
+    if (!idReserva || !estado) {
+        return res.status(400).json({ error: "Faltan datos (id o estado)" });
+    }
+
+    // Si solo se actualiza el estado (cancelar), usar updateStatus
+    if (!kilometros_recorridos && !incidencias_reportadas) {
+        reservaRep.updateStatus(idReserva, estado, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Error al actualizar la reserva" });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Reserva no encontrada" });
+            }
+
+            res.status(200).json({
+                message: `Reserva ${estado} correctamente`,
+                id: idReserva,
+                estado
+            });
+        });
+    } else {
+        // Si se actualiza con datos adicionales (finalizar con km e incidencias)
+        const updateData = {
+            estado,
+            kilometros_recorridos: kilometros_recorridos || null,
+            incidencias_reportadas: incidencias_reportadas || null
+        };
+
+        reservaRep.updateReservaConDetalles(idReserva, updateData, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Error al actualizar la reserva" });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Reserva no encontrada" });
+            }
+
+            res.status(200).json({
+                message: `Reserva ${estado} correctamente`,
+                id: idReserva,
+                estado,
+                kilometros_recorridos: updateData.kilometros_recorridos,
+                incidencias_reportadas: updateData.incidencias_reportadas
+            });
+        });
+    }
+});
+
+router.get("/:id/detalle", (req, res) => {
+    const idReserva = req.params.id;
+
+    reservaRep.getDetalleReserva(idReserva, (err, reserva) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error al obtener los detalles de la reserva" });
+        }
+
+        if (!reserva) {
+            return res.status(404).json({ error: "Reserva no encontrada" });
+        }
+
+        res.status(200).json(reserva);
+    });
+});
+
 module.exports = router;

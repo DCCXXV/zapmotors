@@ -46,7 +46,9 @@
                     />
                 </div>
                 <% if (typeof errMsg !=='undefined' && errMsg) { %>
-                <p class="text-danger mt-1"><%= errMsg %></p>
+                <div class="alert alert-danger mb-0" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <%= errMsg %>
+                </div>
                 <% } %>
             </div>
             <button class="btn btn-dark rounded-0 mt-auto" type="submit">

@@ -24,6 +24,26 @@ router.post("/", async (req, res) => {
         });
     }
 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            error:"La contraseña debe tener mínimo 8 caracteres, " + "al menos 1 mayúscula, 1 número y 1 carácter especial.",
+        });
+    }
+
+    if (telephone) {
+        if (!/^[0-9]+$/.test(telephone)) {
+            return res.status(400).json({ 
+                error: 'El teléfono solo puede contener números' 
+            });
+        }
+        if (telephone.length !== 9) {
+            return res.status(400).json({ 
+                error: 'El teléfono debe tener exactamente 9 dígitos' 
+            });
+        }
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -76,6 +96,34 @@ router.post("/", async (req, res) => {
             error: "Error al procesar la contraseña. Inténtalo de nuevo.",
         });
     }
+});
+
+router.put("/:id/preferences", (req, res) => {
+    const id = parseInt(req.params.id);
+    const preferences = req.body;
+
+    userRep.updateAccessibilityPreferences(id, preferences, (err, result) => {
+        if (err) {
+            console.error("Error al actualizar las preferencias:", err);
+            return res.status(500).json({ error: "Error al actualizar las preferencias" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        // Update session if the logged-in user is the one being updated
+        if (req.session && req.session.user && req.session.user.id === id) {
+            req.session.user.preferences = preferences;
+            req.session.save(err => {
+                if (err) {
+                    console.error("Error saving session:", err);
+                }
+                res.json({ message: "Preferencias actualizadas correctamente", id });
+            });
+        } else {
+            res.json({ message: "Preferencias actualizadas correctamente", id });
+        }
+    });
 });
 
 router.get("/:id", (req, res) => {

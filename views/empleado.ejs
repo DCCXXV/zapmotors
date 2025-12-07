@@ -1,81 +1,100 @@
-<%- include('partials/header', { title: 'Admin - Zap', activePage: 'none' }) %>
+<%- include('partials/header', { title: 'Empleado - Zap', activePage: 'none' }) %>
 
-<section id="contacto">
-    <h3 class="m-4">Panel de empleado</h1>
-    <div class="d-flex flex-column m-4">
-    <div>
-        <% if (listaReservas.length === 0) { %>
-            <div class="w-full border border-dark p-2 bg-zapgrey">
-                <p class="text-center text-muted pt-3">No hay reservas aún.</p>
-            </div>
-        <% } else { %>
-            <div class="overflow-auto">
-            <table class="table bg-white">
-                <thead>
-                    <tr class="bg-zapgrey">
-                        <th>Id usuario</th>
-                        <th>Id vehiculo</th>
-                        <th>Fecha inicio</th>
-                        <th>Fecha fin</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% listaReservas.forEach(reserva => { %>
-                        <tr>
-                            <td><%= reserva.id_usuario %></td>
-                            <td><%= reserva.id_vehiculo %></td>
-                            <td><%= reserva.fecha_inicio_fmt %></td>
-                            <td><%= reserva.fecha_fin_fmt %></td>
-                            <td><%= reserva.estado %>
-                            <% if (reserva.durationInput == 1) { %>
-                                hora
-                            <% } else { %>
-                                horas
-                            <% } %>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-            </div>
-        <% } %>
-    </div>
+<section id="panel-empleado">
+    <h3 class="m-4">Panel de empleado</h3>
 
-    <div class="overflow-auto">
-    <table class="table table-striped border border-2 w-100">
-        <caption>
-            Vehículos disponibles
-        </caption>
-        <thead>
-            <tr class="bg-zapgrey">
-                <th scope="col"></th>
-                <th scope="col">Matrícula</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Modelo</th>
-                <th scope="col">Año matriculación</th>
-                <th scope="col">Autonomía (km)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% listaVehiculos.forEach(v=> { %>
-            <tr>
-                <td>
-                    <img
-                        src="/<%=v.imagen %>"
-                        style="width: 150px; height: auto"
-                    />
-                </td>
-                <td><%= v.matricula %></td>
-                <td><%= v.marca %></td>
-                <td><%= v.modelo %></td>
-                <td><%= v.ano_matriculacion %></td>
-                <td><%= v.autonomia_km %> km</td>
-            </tr>
-            <% }) %>
-        </tbody>
-    </table>
-    </div>
+    <div class="d-flex flex-column flex-lg-row gap-4 m-4">
+        <!-- sus reservas -->
+        <div class="d-flex flex-column col-12 col-lg-6">
+            <h4>Mis Reservas</h4>
+            <div class="w-100 border p-2">
+                <% if (listaReservas.length === 0) { %>
+                    <div class="alert alert-info text-center mb-0" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> No tienes reservas activas.
+                    </div>
+                <% } else { %>
+                    <div class="overflow-auto">
+                        <table class="table table-striped border border-2 w-100">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Vehículo</th>
+                                    <th scope="col">Inicio</th>
+                                    <th scope="col">Fin</th>
+                                    <th scope="col">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% listaReservas.forEach(reserva => { %>
+                                    <tr class="text-center align-middle">
+                                        <td><%= reserva.id_reserva %></td>
+                                        <td><%= reserva.id_vehiculo %></td>
+                                        <td><%= reserva.fecha_inicio_fmt %></td>
+                                        <td><%= reserva.fecha_fin_fmt %></td>
+                                        <td>
+                                            <% if (reserva.estado === 'activa') { %>
+                                                <span class="badge bg-success">Activa</span>
+                                            <% } else if (reserva.estado === 'finalizada') { %>
+                                                <span class="badge bg-secondary">Finalizada</span>
+                                            <% } else if (reserva.estado === 'cancelada') { %>
+                                                <span class="badge bg-danger">Cancelada</span>
+                                            <% } else { %>
+                                                <span class="badge bg-secondary"><%= reserva.estado %></span>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- vehículos de su base -->
+        <div class="d-flex flex-column col-12 col-lg-6">
+            <h4>Vehículos de mi base</h4>
+            <div class="w-100 border p-2">
+                <% if (listaVehiculos.length === 0) { %>
+                    <div class="alert alert-warning text-center mb-0" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i> No hay vehículos disponibles en tu concesionario.
+                    </div>
+                <% } else { %>
+                    <div class="overflow-auto">
+                        <table class="table table-striped border border-2 w-100">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Matrícula</th>
+                                    <th scope="col">Marca</th>
+                                    <th scope="col">Modelo</th>
+                                    <th scope="col">Año</th>
+                                    <th scope="col">Autonomía</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% listaVehiculos.forEach(v => { %>
+                                    <tr class="text-center align-middle">
+                                        <td>
+                                            <img
+                                                src="img/uploads/<%= v.imagen %>"
+                                                alt="<%= v.marca %> <%= v.modelo %>"
+                                                style="width: 100px; height: auto"
+                                            />
+                                        </td>
+                                        <td><%= v.matricula %></td>
+                                        <td><%= v.marca %></td>
+                                        <td><%= v.modelo %></td>
+                                        <td><%= v.ano_matriculacion %></td>
+                                        <td><%= v.autonomia_km %> km</td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </div>
     </div>
 </section>
 

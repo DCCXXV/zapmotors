@@ -1,4 +1,13 @@
 <head>
+    <!-- el rojo es falso positivo, no hacer caso -->
+    <script> 
+        <% if (user) { %>
+            window.userId = <%= user.id %>;
+            <% if (user.preferences) { %>
+                window.userPreferences = <%- JSON.stringify(user.preferences) %>;
+            <% } %>
+        <% } %>
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
@@ -6,29 +15,37 @@
     </title>
     <script>
         (function() {
-            // restaurar tema
-            const saved = localStorage.getItem("zap-theme");
-            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            const theme = saved || (prefersDark ? "dark" : "light");
+            // inicializar preferencias desde DB o localStorage
+            if (window.userId && window.userPreferences) {
+                // usuario logueado: usar DB
+                window.currentPreferences = {
+                    theme: window.userPreferences.theme || "light",
+                    fontSize: window.userPreferences.fontSize || "1",
+                    contrastMode: window.userPreferences.contrastMode || "normal"
+                };
+            } else {
+                // usuario NO logueado: usar localStorage
+                window.currentPreferences = {
+                    theme: localStorage.getItem("zap-theme") || null,
+                    fontSize: sessionStorage.getItem("fontSize") || "1",
+                    contrastMode: sessionStorage.getItem("contrastMode") || "normal"
+                };
+            }
 
-            if (theme === "dark") {
+            // aplicar preferencias
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const finalTheme = window.currentPreferences.theme || (prefersDark ? "dark" : "light");
+
+            if (finalTheme === "dark") {
                 document.documentElement.setAttribute("data-theme", "dark");
             }
 
-            // restaurar tamaño de fuente
-            const savedFontSize = sessionStorage.getItem("fontSize");
-            if (savedFontSize) {
-                document.documentElement.style.setProperty("--zoom", savedFontSize);
+            if (window.currentPreferences.fontSize) {
+                document.documentElement.style.setProperty("--zoom", window.currentPreferences.fontSize);
             }
 
-            // restaurar modo de contraste
-            const savedContrastMode = sessionStorage.getItem("contrastMode");
-            if (savedContrastMode && savedContrastMode !== "normal") {
-                // añadir clase al body cuando se cargue
-                document.addEventListener("DOMContentLoaded", function() {
-                    document.body.classList.add(savedContrastMode);
-                });
-            }
+            // actualizar currentPreferences con el tema final
+            window.currentPreferences.theme = finalTheme;
         })();
     </script>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -36,7 +53,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/bootstrap-icons/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600;700;800;900&family=Instrument+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@100..900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;600;700;800;900&family=Instrument+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@100..900&display=swap"
         rel="stylesheet">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">-->
 </head>

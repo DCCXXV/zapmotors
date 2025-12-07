@@ -96,9 +96,9 @@
                             <p class="text-muted mb-3">
                                 <i class="bi bi-geo-alt-fill"></i> <%= v.nombre_concesionario %>
                             </p>
-                            <button class="btn btn-primary w-100 p-2" type="button" aria-label="Ver detalles de <%= v.marca %> <%= v.modelo %>">
+                            <a href="/vehiculos/<%= v.id_vehiculo %>" class="btn btn-primary w-100 p-2" aria-label="Ver detalles de <%= v.marca %> <%= v.modelo %>">
                                 <i class="bi bi-info-circle-fill"></i> Ver detalles
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </article>
@@ -231,9 +231,9 @@
                                             <p class="text-muted mb-3">
                                                 <i class="bi bi-geo-alt-fill"></i> ${v.nombre_concesionario}
                                             </p>
-                                            <button class="btn btn-primary w-100 p-2" type="button" aria-label="Ver detalles de ${v.marca} ${v.modelo}">
+                                            <a href="/vehiculos/${v.id_vehiculo}" class="btn btn-primary w-100 p-2" aria-label="Ver detalles de ${v.marca} ${v.modelo}">
                                                 <i class="bi bi-info-circle-fill"></i> Ver detalles
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </article>

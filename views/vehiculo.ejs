@@ -1,0 +1,96 @@
+<%- include('partials/header', { title: 'Vehículos - Zap' , activePage:
+'vehiculos' }) %>
+
+<section class="p-4" aria-labelledby="titulo-vehiculo">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <article>
+                    <div class="mb-4">
+                        <a href="/vehiculos" class="btn btn-primary">
+                            Ver todos los vehículos
+                        </a>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <div class="vehicle-image-wrapper" style="height: 500px; overflow: hidden; border-radius: 8px;">
+                                <img
+                                    src="/img/uploads/<%= v.imagen %>"
+                                    alt="<%= v.marca %> <%= v.modelo %> <%= v.color %>"
+                                    style="width: 100%; height: 100%; object-fit: cover;"
+                                    loading="lazy">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <div class="p-4">
+                                <h1 id="titulo-vehiculo" class="display-4 mb-3"><%= v.marca %> <%= v.modelo %></h1>
+                                <p class="badge bg-secondary fs-5 mb-4"><%= v.matricula %></p>
+
+                                <div class="vehicle-specs mb-4">
+                                    <div class="spec-item py-3 border-bottom">
+                                        <span class="spec-label fs-5 fw-bold">Color</span>
+                                        <span class="spec-value fs-5"><%= v.color %></span>
+                                    </div>
+                                    <div class="spec-item py-3 border-bottom">
+                                        <span class="spec-label fs-5 fw-bold">Autonomía</span>
+                                        <span class="spec-value fs-5"><%= v.autonomia_km %> km</span>
+                                    </div>
+                                    <div class="spec-item py-3 border-bottom">
+                                        <span class="spec-label fs-5 fw-bold">Plazas</span>
+                                        <span class="spec-value fs-5"><%= v.numero_plazas %></span>
+                                    </div>
+                                    <div class="spec-item py-3 border-bottom">
+                                        <span class="spec-label fs-5 fw-bold">Año de matriculación</span>
+                                        <span class="spec-value fs-5"><%= v.ano_matriculacion %></span>
+                                    </div>
+                                    <p id="dealershipName" class="text-muted h4 mt-4">
+                                        <i class="bi bi-geo-alt-fill"></i> <%= v.nombre_concesionario %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const vehicleId = v.id_vehiculo;
+
+        fetch(`/api/vehiculos/${vehicleId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener datos del vehículo');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const dealershipName = document.getElementById('dealershipName');
+            if (!dealershipName) return;
+
+            if (data.nombre_concesionario) {
+                dealershipName.innerHTML = `
+                    <i class="bi bi-geo-alt-fill"></i> ${data.nombre_concesionario}
+                `;
+            } else {
+                dealerSpan.textContent = 'Concesionario no disponible';
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            const dealerSpan = document.getElementById('dealer-name');
+            if (dealerSpan) {
+                dealerSpan.textContent = 'Error cargando concesionario';
+            }
+        });
+    });
+
+</script>
+
+<%- include('partials/footer') %>
